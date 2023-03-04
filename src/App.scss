@@ -1,16 +1,3 @@
-@font-face {
-    font-family: Stratos;
-    src: url("Stratos-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-body {
-    font-family: Stratos, Arial;
-}
-
-
 * {
     margin: 0;
     padding: 0;
@@ -43,8 +30,8 @@ ul li {
 // ========== fonts ========
 @font-face {
     font-family: "StratosSkyeng";
-    src: local("StratosSkyeng"), local("StratosSkyeng"), url("../fonts/StratosSkyeng.woff2") format("woff2"),
-        url("../fonts/StratosSkyeng.woff") format("woff"), url("../fonts/StratosSkyeng.ttf") format("truetype");
+    src: local("StratosSkyeng"), local("StratosSkyeng"), url("../public/fonts/StratosSkyeng.woff2") format("woff2");
+
     font-weight: 400;
     font-style: normal;
 }
