@@ -1,6 +1,10 @@
 import logo from './logo.svg'
 import './App.css'
 
+function Welcome(props) {
+  return <h1>Привет, {props.name}</h1>
+}
+
 function App() {
   return (
     <div className="App">
@@ -9,6 +13,13 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <div className='First-code'>
+          <p>
+            <Welcome name="Levis" />
+            <Welcome name="Miduway" />
+            Первый самостоятельный кусочек кода в React
+          </p>
+        </div>
         <a
           className="App-link"
           href="https://reactjs.org"

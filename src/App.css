@@ -1,3 +1,15 @@
+@font-face {
+  font-family: Stratos;
+  src: url('Stratos-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: Stratos, Arial;
+}
+
 .App {
   text-align: center;
 }
@@ -32,7 +44,13 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+/* first-code */
+.First-code {
+  color: darkkhaki;
 }
