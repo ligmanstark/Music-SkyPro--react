@@ -136,6 +136,7 @@ body {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        cursor: pointer;
     }
 
     &__menu {
@@ -715,4 +716,8 @@ body {
     &__progress-line {
         width: 109px;
     }
+}
+
+.menu {
+    transform: translateX(-100%);
 }

@@ -120,6 +120,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
 }
 .nav__menu {
   display: block;
@@ -604,4 +605,8 @@ body {
 }
 .volume__progress-line {
   width: 109px;
+}
+
+.menu {
+  transform: translateX(-100%);
 }/*# sourceMappingURL=App.css.map */
