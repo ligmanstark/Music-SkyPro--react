@@ -587,7 +587,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: end;
 }
 .volume__image {
   width: 13px;
