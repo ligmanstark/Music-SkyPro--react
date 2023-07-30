@@ -1,4 +1,3 @@
-import logo from './logo.png'
 import './App.css'
 import Navigation from './app-src/Navigation'
 import MiddleContent from './app-src/MiddleContent'

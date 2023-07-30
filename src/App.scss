@@ -30,7 +30,10 @@ ul li {
 // ========== fonts ========
 @font-face {
     font-family: "StratosSkyeng";
-    src: local("StratosSkyeng"), local("StratosSkyeng"), url("../public/fonts/StratosSkyeng.woff2") format("woff2");
+    src:
+        local("StratosSkyeng"),
+        local("StratosSkyeng"),
+        url("../public/fonts/StratosSkyeng.woff2") format("woff2");
 
     font-weight: 400;
     font-style: normal;
@@ -55,7 +58,7 @@ body {
 
 .container {
     max-width: 1920px;
-    height: 100vh;
+    // height: 100vh;
     margin: 0 auto;
     position: relative;
     background-color: #181818;
@@ -99,7 +102,6 @@ body {
 .main {
     flex: 1 1 auto;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
 
     &__nav {
@@ -485,7 +487,7 @@ body {
 // =================== bar-player ====================//
 
 .bar {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;

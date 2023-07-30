@@ -48,7 +48,6 @@ body {
 
 .container {
   max-width: 1920px;
-  height: 100vh;
   margin: 0 auto;
   position: relative;
   background-color: #181818;
@@ -88,7 +87,6 @@ body {
 .main {
   flex: 1 1 auto;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
 }
 .main__nav {
@@ -418,7 +416,7 @@ body {
 }
 
 .bar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
