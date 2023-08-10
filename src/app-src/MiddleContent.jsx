@@ -1,18 +1,27 @@
-import React, { useState } from 'react'
-import { Content } from './components/Content'
+import React, { useState, useEffect } from 'react'
+import { ListContent } from './components/ListContent'
 import { Filter } from './components/Filter'
 import { Search } from './components/Search'
+import { getAllTracks } from './function/response'
+import { useSearchParams } from 'react-router-dom'
 
 function MiddleContent() {
+  const [music, setMusic] = useState([])
+
+  useEffect(() => {
+    getAllTracks().then((data) => {
+      setMusic(data.data)
+    })
+  }, [])
+
   return (
     <div className="main__centerblock centerblock">
-      <Search />
+      <Search searchTrack={searchTrack} />
       <h2 className="centerblock__h2">Треки</h2>
-      <Filter/>
-      <Content />
+      <Filter />
+      <ListContent music={music} />
     </div>
   )
 }
-//MiddleContent
 
 export default MiddleContent
