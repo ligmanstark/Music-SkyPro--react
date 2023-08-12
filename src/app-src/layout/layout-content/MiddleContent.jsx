@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ListContent } from './components/ListContent'
-import { Filter } from './components/Filter'
-import { Search } from './components/Search'
-import { getAllTracks } from './function/response'
+import { ListContent } from '../../components/ListContent'
+import { Filter } from '../../components/Filter'
+import { Search } from '../../components/Search'
+import { getAllTracks } from '../../function/response'
 
 function MiddleContent() {
   const [music, setMusic] = useState([])

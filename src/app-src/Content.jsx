@@ -1,10 +1,9 @@
-import './App.css'
-import Navigation from './app-src/Navigation'
-import MiddleContent from './app-src/MiddleContent'
-import Sidebar from './app-src/Sidebar'
-import PlayerBar from './app-src/PlayBar'
+import Navigation from './layout/layout-content/Navigation'
+import MiddleContent from './layout/layout-content/MiddleContent'
+import Sidebar from './layout/layout-content/Sidebar'
+import PlayerBar from './layout/layout-content/PlayBar'
 
-function App() {
+function Content() {
   return (
     <div className="wrapper">
       <div className="container">
@@ -20,4 +19,4 @@ function App() {
   )
 }
 
-export default App
+export { Content }
