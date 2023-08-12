@@ -3,7 +3,6 @@ import { ListContent } from './components/ListContent'
 import { Filter } from './components/Filter'
 import { Search } from './components/Search'
 import { getAllTracks } from './function/response'
-import { useSearchParams } from 'react-router-dom'
 
 function MiddleContent() {
   const [music, setMusic] = useState([])
@@ -16,7 +15,7 @@ function MiddleContent() {
 
   return (
     <div className="main__centerblock centerblock">
-      <Search searchTrack={searchTrack} />
+      <Search />
       <h2 className="centerblock__h2">Треки</h2>
       <Filter />
       <ListContent music={music} />
