@@ -48,6 +48,7 @@ body {
 
 .container {
   max-width: 1920px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   background-color: #181818;
@@ -94,6 +95,7 @@ body {
   width: 244px;
   background-color: #181818;
   padding: 20px 0 20px 36px;
+  box-shadow: none;
 }
 .main__centerblock {
   width: auto;
@@ -603,4 +605,10 @@ body {
 }
 .volume__progress-line {
   width: 109px;
+}
+
+.search__text {
+  outline-color: #181818 !important;
+  border-color: #181818 !important;
+  box-shadow: none !important;
 }/*# sourceMappingURL=App.css.map */

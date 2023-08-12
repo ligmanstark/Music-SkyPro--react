@@ -2,25 +2,17 @@ import '../layout-login.css'
 import '../App.css'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Toast } from './function/Toast'
 
-const LoginContent = () => {
-  const [isActiveFirstButton, setActiveFirstButton] = useState(false)
+const RegisterContent = () => {
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
+  const [isActiveThreeInput, setActiveThreeInput] = useState(false)
 
-  
   const handleActive = (event) => {
     const target = event.target
     switch (target.id) {
-      case 'colbBtn1':
-        setActiveFirstButton(!isActiveFirstButton)
-        if (!target.id == '') {
-          target.id = ''
-        } else {
-          target.id = 'colbBtn1'
-        }
-        break
       case 'colbBtn2':
         setActiveSecondButton(!isActiveSecondButton)
         if (!target.id == '') {
@@ -38,6 +30,10 @@ const LoginContent = () => {
         setActiveSecondInput(!isActiveSecondInput)
 
         break
+      case 'colbInp3':
+        setActiveThreeInput(!isActiveThreeInput)
+
+        break
 
       default:
         if (!target.id) {
@@ -49,7 +45,6 @@ const LoginContent = () => {
   }
 
   return (
-    
     <div className="window-login">
       <div className="layout-logo">
         <div className="div-logo">
@@ -92,29 +87,31 @@ const LoginContent = () => {
               onClick={handleActive}
             />
           </div>
+          <div className="div-input-password-repeat">
+            <input
+              type="password"
+              placeholder="Repeat password"
+              id="colbInp3"
+              className="active"
+              style={{
+                borderColor: isActiveThreeInput
+                  ? 'rgba(39, 26, 88, 1)'
+                  : 'rgba(88, 14, 162, 1)',
+                outlineColor: isActiveThreeInput
+                  ? 'rgba(39, 26, 88, 1)'
+                  : 'rgba(88, 14, 162, 1)',
+                boxShadow: 'none',
+              }}
+              onClick={handleActive}
+            />
+          </div>
         </div>
         <div className="div-buttons-login ">
-          <div className="div-button-login">
-            <Link to="/sky-music">
-              <button
-                id="colbBtn1"
-                className="button-login active  btn"
-                style={{
-                  backgroundColor: isActiveFirstButton
-                    ? 'rgba(39, 26, 88, 1)'
-                    : 'rgba(88, 14, 162, 1)',
-                }}
-                onClick={handleActive}
-              >
-                Войти
-              </button>
-            </Link>
-          </div>
-          <div className="div-button-signup">
-            <Link to="/register">
+          <Link to="/login">
+            <div className="div-button-signup">
               <button
                 id="colbBtn2"
-                className="button-signup active  btn "
+                className="button-signup active register  btn "
                 style={{
                   backgroundColor: isActiveSecondButton
                     ? 'rgba(208, 206, 206, 1)'
@@ -124,11 +121,11 @@ const LoginContent = () => {
               >
                 Зарегистрироваться
               </button>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
   )
 }
-export { LoginContent }
+export { RegisterContent }

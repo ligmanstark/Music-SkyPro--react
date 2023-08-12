@@ -58,6 +58,7 @@ body {
 
 .container {
     max-width: 1920px;
+    width: 100%;
     // height: 100vh;
     margin: 0 auto;
     position: relative;
@@ -109,6 +110,7 @@ body {
         width: 244px;
         background-color: #181818;
         padding: 20px 0 20px 36px;
+        box-shadow: none;
     }
 
     &__centerblock {
@@ -718,4 +720,10 @@ body {
     &__progress-line {
         width: 109px;
     }
+}
+
+.search__text {
+    outline-color: #181818 !important;
+    border-color: #181818 !important;
+    box-shadow: none !important;
 }

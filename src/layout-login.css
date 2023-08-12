@@ -88,20 +88,27 @@ input {
   padding-right: 114px;
   margin-left: -24px;
   transition: all 0.3s linear;
+  background-color: rgb(88, 14, 162);
 }
 
 .button-signup {
   margin-left: -26px;
   padding-left: 56px;
   padding-right: 56px;
+  background-color: white;
+  color: black;
 }
 
-.btn {
-  background-color: rgb(88, 14, 162);
-}
-
-#colbBtn1.active:hover,
-#colbBtn2.active:hover {
+#colbBtn1.active:hover {
   background-color: rgb(63, 0, 125) !important;
   transition: background 0.3s linear;
+}
+
+#colbBtn2.active:hover {
+  background-color: rgb(217, 217, 217) !important;
+  transition: background 0.3s linear;
+}
+
+.register {
+  margin-top: 80px;
 }/*# sourceMappingURL=layout-login.css.map */

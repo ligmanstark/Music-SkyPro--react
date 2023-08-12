@@ -29,7 +29,7 @@ input {
     border-radius: 8px;
     border-color: white;
     box-sizing: border-box;
-    
+
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -37,10 +37,8 @@ input {
 
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%) 
+    transform: translate(-50%, -50%);
 }
-
-
 
 .div-logo {
     top: 43px;
@@ -90,20 +88,26 @@ input {
     padding-right: 114px;
     margin-left: -24px;
     transition: all 0.3s linear;
+    background-color: rgba(88, 14, 162, 1);
 }
 
 .button-signup {
     margin-left: -26px;
     padding-left: 56px;
     padding-right: 56px;
+    background-color: white;
+    color: black;
 }
 
-.btn {
-    background-color: rgba(88, 14, 162, 1);
-}
-
-#colbBtn1.active:hover,
-#colbBtn2.active:hover {
+#colbBtn1.active:hover {
     background-color: rgba(63, 0, 125, 1) !important;
     transition: background 0.3s linear;
+}
+#colbBtn2.active:hover {
+    background-color: rgba(217, 217, 217, 1) !important;
+    transition: background 0.3s linear;
+}
+
+.register{
+    margin-top: 80px;
 }
