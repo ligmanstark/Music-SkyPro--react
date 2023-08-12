@@ -9,7 +9,6 @@ const LoginContent = () => {
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
 
-  
   const handleActive = (event) => {
     const target = event.target
     switch (target.id) {
@@ -49,7 +48,6 @@ const LoginContent = () => {
   }
 
   return (
-    
     <div className="window-login">
       <div className="layout-logo">
         <div className="div-logo">

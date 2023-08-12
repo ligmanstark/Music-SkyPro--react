@@ -1,2 +1,2 @@
 const API_URL = 'https://painassasin.online/'
-export {API_URL}
+export { API_URL }

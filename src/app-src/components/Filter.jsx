@@ -4,7 +4,7 @@ function Filter() {
 
   function handleOpenFilter() {
     setOpenCart(!isOpenCart)
-    console.log(isOpenCart);
+    console.log(isOpenCart)
   }
 
   return (
