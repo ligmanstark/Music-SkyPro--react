@@ -19,7 +19,9 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "prepare": "husky install",
-    "prettier": "prettier --write --ignore-unknown"
+    "prettier": "prettier --write --ignore-unknown",
+    "prettier-check": "npx prettier . --check",
+    "prettier-write": "npx prettier . --write"
   },
   "eslintConfig": {
     "extends": [
