@@ -6,7 +6,7 @@ import { RegisterContent } from './app-src/RegisterContent'
 
 function App() {
   return (
-    <Router>
+    <Router basename="/skymusic">
       <main>
         <Routes>
           <Route path="/" element={<LoginContent />}>

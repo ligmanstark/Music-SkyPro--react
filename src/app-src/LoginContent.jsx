@@ -63,7 +63,7 @@ const LoginContent = () => {
     <div className="window-login">
       <div className="layout-logo">
         <div className="div-logo">
-          <img src="img/logo.svg" alt="logo-skypro" />
+          <img src="/skymusic/img/logo.svg" alt="logo-skypro" />
         </div>
         <div className="div-inputs-login">
           <div className="div-input-email">
