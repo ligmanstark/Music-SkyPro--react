@@ -1,13 +1,25 @@
 import '../layout-login.css'
 import '../App.css'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const LoginContent = () => {
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
+
+  const navigate = useNavigate()
+
+  if (isActiveSecondButton) {
+    setTimeout(() => {
+      navigate('/register')
+    }, 1500)
+  } else if (isActiveFirstButton) {
+    setTimeout(() => {
+      navigate('/sky-music')
+    }, 1500)
+  }
 
   const handleActive = (event) => {
     const target = event.target
@@ -93,36 +105,32 @@ const LoginContent = () => {
         </div>
         <div className="div-buttons-login ">
           <div className="div-button-login">
-            <Link to="/sky-music">
-              <button
-                id="colbBtn1"
-                className="button-login active  btn"
-                style={{
-                  backgroundColor: isActiveFirstButton
-                    ? 'rgba(39, 26, 88, 1)'
-                    : 'rgba(88, 14, 162, 1)',
-                }}
-                onClick={handleActive}
-              >
-                Войти
-              </button>
-            </Link>
+            <button
+              id="colbBtn1"
+              className="button-login active  btn"
+              style={{
+                backgroundColor: isActiveFirstButton
+                  ? 'rgba(39, 26, 88, 1)'
+                  : 'rgba(88, 14, 162, 1)',
+              }}
+              onClick={handleActive}
+            >
+              Войти
+            </button>
           </div>
           <div className="div-button-signup">
-            <Link to="/register">
-              <button
-                id="colbBtn2"
-                className="button-signup active  btn "
-                style={{
-                  backgroundColor: isActiveSecondButton
-                    ? 'rgba(208, 206, 206, 1)'
-                    : 'white',
-                }}
-                onClick={handleActive}
-              >
-                Зарегистрироваться
-              </button>
-            </Link>
+            <button
+              id="colbBtn2"
+              className="button-signup active  btn "
+              style={{
+                backgroundColor: isActiveSecondButton
+                  ? 'rgba(208, 206, 206, 1)'
+                  : 'white',
+              }}
+              onClick={handleActive}
+            >
+              Зарегистрироваться
+            </button>
           </div>
         </div>
       </div>

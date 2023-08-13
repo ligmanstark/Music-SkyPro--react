@@ -1,14 +1,20 @@
 import '../layout-login.css'
 import '../App.css'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Toast } from './function/Toast'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterContent = () => {
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
   const [isActiveThreeInput, setActiveThreeInput] = useState(false)
+
+  const navigate = useNavigate()
+  if (isActiveSecondButton) {
+    setTimeout(() => {
+      navigate('/login')
+    }, 1500)
+  }
 
   const handleActive = (event) => {
     const target = event.target
@@ -17,10 +23,10 @@ const RegisterContent = () => {
         setActiveSecondButton(!isActiveSecondButton)
         if (!target.id == '') {
           target.id = ''
+          setActive(!isActive)
         } else {
           target.id = 'colbBtn2'
         }
-
         break
       case 'colbInp1':
         setActiveFirstInput(!isActiveFirstInput)
@@ -107,22 +113,23 @@ const RegisterContent = () => {
           </div>
         </div>
         <div className="div-buttons-login ">
-          <Link to="/login">
-            <div className="div-button-signup">
-              <button
-                id="colbBtn2"
-                className="button-signup active register  btn "
-                style={{
-                  backgroundColor: isActiveSecondButton
-                    ? 'rgba(208, 206, 206, 1)'
-                    : 'white',
-                }}
-                onClick={handleActive}
-              >
-                Зарегистрироваться
-              </button>
-            </div>
-          </Link>
+          <div className="div-button-signup">
+            {/* <Link to="/login">
+
+            </Link> */}
+            <button
+              id="colbBtn2"
+              className="button-signup active register  btn "
+              style={{
+                backgroundColor: isActiveSecondButton
+                  ? 'rgba(208, 206, 206, 1)'
+                  : 'white',
+              }}
+              onClick={handleActive}
+            >
+              Зарегистрироваться
+            </button>
+          </div>
         </div>
       </div>
     </div>
