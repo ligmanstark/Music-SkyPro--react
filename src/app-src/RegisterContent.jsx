@@ -114,9 +114,6 @@ const RegisterContent = () => {
         </div>
         <div className="div-buttons-login ">
           <div className="div-button-signup">
-            {/* <Link to="/login">
-
-            </Link> */}
             <button
               id="colbBtn2"
               className="button-signup active register  btn "
