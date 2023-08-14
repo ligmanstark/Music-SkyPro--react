@@ -23,7 +23,6 @@ const RegisterContent = () => {
         setActiveSecondButton(!isActiveSecondButton)
         if (!target.id == '') {
           target.id = ''
-          setActive(!isActive)
         } else {
           target.id = 'colbBtn2'
         }
