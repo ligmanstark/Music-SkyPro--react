@@ -3,6 +3,7 @@ import { ListContent } from '../../components/ListContent'
 import { Filter } from '../../components/Filter'
 import { Search } from '../../components/Search'
 import { getAllTracks } from '../../function/response'
+import { Preloader } from '../../components/Preloader'
 
 function MiddleContent() {
   const [music, setMusic] = useState([])
@@ -18,7 +19,7 @@ function MiddleContent() {
       <Search />
       <h2 className="centerblock__h2">Треки</h2>
       <Filter />
-      <ListContent music={music} />
+      {!music.length ? (<Preloader />) : (<ListContent music={music} />)}
     </div>
   )
 }
