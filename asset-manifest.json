@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Music-SkyPro--react/static/css/main.46352ca5.css",
-    "main.js": "/Music-SkyPro--react/static/js/main.6e6c4877.js",
+    "main.js": "/Music-SkyPro--react/static/js/main.f2aa9671.js",
     "static/media/StratosSkyeng.woff2": "/Music-SkyPro--react/static/media/StratosSkyeng.9d0d5d6bb68d9ac9d811.woff2",
     "index.html": "/Music-SkyPro--react/index.html",
     "main.46352ca5.css.map": "/Music-SkyPro--react/static/css/main.46352ca5.css.map",
-    "main.6e6c4877.js.map": "/Music-SkyPro--react/static/js/main.6e6c4877.js.map"
+    "main.f2aa9671.js.map": "/Music-SkyPro--react/static/js/main.f2aa9671.js.map"
   },
   "entrypoints": [
     "static/css/main.46352ca5.css",
-    "static/js/main.6e6c4877.js"
+    "static/js/main.f2aa9671.js"
   ]
 }
