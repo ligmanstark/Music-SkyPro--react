@@ -495,6 +495,10 @@ body {
   background: rgba(28, 28, 28, 0.5);
 }
 
+.track-play__album {
+  min-width: 220px !important;
+}
+
 .bar {
   &__content {
     display: flex;
@@ -729,12 +733,12 @@ body {
 //PRELOAD//////////////////////
 /////////////////////////////
 /// /////////////////////////
-.preload{
+.preload {
   margin-top: 200px;
   left: 50%;
   color: black;
 }
 
-.spinner-layer{
+.spinner-layer {
   border-color: #ad61ff;
 }

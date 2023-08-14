@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react'
-function Search(props) {
-  const { searchTrack = Function.prototype } = props
+import { searchID } from '../function/searchID'
 
-  const setValueSearch = () => {
-    const userValueSearch = localStorage.getItem('valueSearch')
-    return userValueSearch ? userValueSearch : ''
-  }
+
+function Search(props) {
+  const { searchTrack = Function.prototype, music = [] } = props
 
   const [search, setSearch] = useState('')
   const handleClick = (event) => {
     if (event.key === 'Enter') {
-      searchTrack(search)
+      searchTrack(searchID(music,search).id+'/')
     }
   }
 
   useEffect(() => {
-    localStorage.setItem('valueSearch', search)
+    console.log(searchID(music, search))
     return () => {}
   }, [search])
   return (

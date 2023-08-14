@@ -1,13 +1,11 @@
+import { convertTime } from '../function/convertTime'
+
 function ItemContent(props) {
   const { id, name, author, album, duration_in_seconds } = props
-  const convertTime = (sec) => {
-    const second = sec % 60
-    const minutes = (sec / 60) % 60
-    return Math.trunc(minutes) + ':' + second
-  }
+
   return (
-    <div className="playlist__item">
-      <div className="playlist__track track" key={id}>
+    <div className="playlist__item" key={id}>
+      <div className="playlist__track track" >
         <div className="track__title">
           <div className="track__title-image">
             <svg className="track__title-svg" alt="music">

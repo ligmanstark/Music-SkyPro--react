@@ -1,25 +1,19 @@
-import React, { useState, useEffect } from 'react'
 import { ListContent } from '../../components/ListContent'
 import { Filter } from '../../components/Filter'
 import { Search } from '../../components/Search'
-import { getAllTracks } from '../../function/response'
+
 import { Preloader } from '../../components/Preloader'
 
-function MiddleContent() {
-  const [music, setMusic] = useState([])
-
-  useEffect(() => {
-    getAllTracks().then((data) => {
-      setMusic(data.data)
-    })
-  }, [])
+function MiddleContent(props) {
+  const { music = [], searchTrack = Function.prototype } = props
+  console.log(music);
 
   return (
     <div className="main__centerblock centerblock">
-      <Search />
+      <Search searchTrack={searchTrack} music={music} />
       <h2 className="centerblock__h2">Треки</h2>
       <Filter />
-      {!music.length ? (<Preloader />) : (<ListContent music={music} />)}
+      {!music.length ? <Preloader /> : <ListContent music={music} />}
     </div>
   )
 }
