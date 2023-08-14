@@ -11,10 +11,7 @@ function Search(props) {
     }
   }
 
-  useEffect(() => {
-    console.log(searchID(music, search))
-    return () => {}
-  }, [search])
+
   return (
     <div className="centerblock__search search">
       <svg className="search__svg">
