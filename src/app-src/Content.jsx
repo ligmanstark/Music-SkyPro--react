@@ -9,14 +9,13 @@ import { Search } from './components/Search'
 function Content() {
   const [music, setMusic] = useState([])
 
-
   useEffect(() => {
     getAllTracks().then((data) => {
       setMusic(data.data)
     })
   }, [])
 
-  const searchTrack = (id='all') => {
+  const searchTrack = (id = 'all') => {
     getTrackById(id).then((data) => {
       setMusic(data.data)
       console.log(data.data)

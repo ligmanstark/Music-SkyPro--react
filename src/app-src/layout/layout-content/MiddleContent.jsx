@@ -6,7 +6,7 @@ import { Preloader } from '../../components/Preloader'
 
 function MiddleContent(props) {
   const { music = [], searchTrack = Function.prototype } = props
-  console.log(music);
+  console.log(music)
 
   return (
     <div className="main__centerblock centerblock">

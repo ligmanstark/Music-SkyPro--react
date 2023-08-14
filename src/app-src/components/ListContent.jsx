@@ -2,7 +2,7 @@ import { ItemContent } from './ItemContent'
 
 function ListContent(props) {
   const { music = [] } = props
-  console.log(music);
+  console.log(music)
   return (
     <div className="centerblock__content">
       <div className="content__title playlist-title">

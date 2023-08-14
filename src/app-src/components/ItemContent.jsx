@@ -5,7 +5,7 @@ function ItemContent(props) {
 
   return (
     <div className="playlist__item" key={id}>
-      <div className="playlist__track track" >
+      <div className="playlist__track track">
         <div className="track__title">
           <div className="track__title-image">
             <svg className="track__title-svg" alt="music">

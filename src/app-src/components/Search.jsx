@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { searchID } from '../function/searchID'
 
-
 function Search(props) {
   const { searchTrack = Function.prototype, music = [] } = props
 
   const [search, setSearch] = useState('')
   const handleClick = (event) => {
     if (event.key === 'Enter') {
-      searchTrack(searchID(music,search).id+'/')
+      searchTrack(searchID(music, search).id + '/')
     }
   }
 
