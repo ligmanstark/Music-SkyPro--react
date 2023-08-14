@@ -12,17 +12,17 @@ const getTrackByName = async (name) => {
 
 const getTrackById = async (Id) => {
   const response = await axios.get(API_URL + 'catalog/track/' + Id)
-  return await response
+  return response
 }
 
 const getTrackSelection = async () => {
   const response = await axios.get(API_URL + 'catalog/selection/')
-  return await response
+  return response
 }
 
 const getTrackSelectionById = async (Id) => {
   const response = await axios.get(API_URL + 'catalog/selection/' + Id)
-  return await response
+  return response
 }
 
 export {
