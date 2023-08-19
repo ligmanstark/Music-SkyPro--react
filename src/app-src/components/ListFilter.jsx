@@ -17,7 +17,7 @@ const ListFilter = (props) => {
     >
       {filteredMusic.map((el) => (
         <ItemFilter
-          key={el}
+          key={el.el}
           author={el}
           image="img/icon/sprite.svg#icon-note"
           tackTimeIcon="img/icon/sprite.svg#icon-like"

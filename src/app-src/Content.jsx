@@ -23,7 +23,6 @@ function Content() {
       const arr = [...new Set(music.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
-      // arr.filter((word) => word !== null).map(e=>e.slice(0,4))
       setFilteredMusic(arr)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
