@@ -1,6 +1,10 @@
-const searchID = (data, searchName = '') => {
+const searchID = (data, searchName = '', attr) => {
   const found = data.find((e) => e.name === searchName)
-  return found
+
+  if (!found) {
+    const found = data.find((e) => e.author === searchName)
+    return found
+  } else return found
 }
 
 export { searchID }

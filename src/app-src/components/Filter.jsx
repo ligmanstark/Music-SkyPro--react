@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
-function Filter() {
-  const [isOpenCart, setOpenCart] = useState(false)
 
-  function handleOpenFilter() {
-    setOpenCart(!isOpenCart)
-    console.log(isOpenCart)
-  }
+function Filter(props) {
+  const { music = [], handleOpenFilter = Function.prototype } = props
 
   return (
     <div className="centerblock__filter filter">

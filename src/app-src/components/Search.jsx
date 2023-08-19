@@ -7,10 +7,14 @@ function Search(props) {
   const [search, setSearch] = useState('')
   const handleClick = (event) => {
     if (event.key === 'Enter') {
-      searchTrack(searchID(music, search).id + '/')
+      if (search === '') {
+        searchTrack('all/')
+      } else {
+        searchTrack(searchID(music, search).id + '/')
+        setSearch('')
+      }
     }
   }
-
 
   return (
     <div className="centerblock__search search">

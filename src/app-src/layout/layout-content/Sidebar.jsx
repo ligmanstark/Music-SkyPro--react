@@ -1,4 +1,6 @@
-function Sidebar() {
+function Sidebar(props) {
+  const { music = [] } = props
+
   return (
     <div className="main__sidebar sidebar">
       <div className="sidebar__personal">
