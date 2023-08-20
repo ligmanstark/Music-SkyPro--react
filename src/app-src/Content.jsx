@@ -55,7 +55,7 @@ function Content() {
   }
 
   const handleChangeMenu = () => {
-    setOpen(!isOpen)
+    setOpen((prev)=>!prev)
   }
 
   return (
