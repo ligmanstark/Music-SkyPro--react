@@ -7,12 +7,12 @@ const ListFilter = (props) => {
       className="window-filtered"
       style={
         nameFilter === 'исполнителю'
-          ? { left: '250px' }
+          ? { left: '450px' }
           : nameFilter === 'году выпуска'
-          ? { left: '400px' }
+          ? { left: '560px' }
           : nameFilter === 'жанру'
-          ? { left: '670px' }
-          : console.warn('Ошибка!')
+          ? { left: '600px' }
+          : { left: '' }
       }
     >
       {filteredMusic.map((el) => (

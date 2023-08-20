@@ -12,25 +12,30 @@ function Content() {
   const [isOpenFilter, setOpenFilter] = useState(false)
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
+  const [lengthFilter, setLengthFilter] = useState(null)
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
       setFilteredMusic([...new Set(music.map((e) => e.author))])
+      setLengthFilter([...new Set(music.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
       const arr = [...new Set(music.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
       setFilteredMusic(arr)
+      setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
       setFilteredMusic([...new Set(music.map((e) => e.genre))])
+      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
       setOpenFilter(false)
+      setLengthFilter(null)
       setNameFilter('')
     }
   }
@@ -65,6 +70,7 @@ function Content() {
             isOpenFilter={isOpenFilter}
             filteredMusic={filteredMusic}
             nameFilter={nameFilter}
+            lengthFilter={lengthFilter}
           />
           {!music.length ? <PreloaderSideBar /> : <Sidebar />}
         </main>

@@ -3,7 +3,7 @@ const ItemFilter = (props) => {
 
   return (
     <div className="">
-      <a className="track__author-link" href="http://">
+      <a className="track__author-link filter-list" href="http://">
         {author}
       </a>
     </div>

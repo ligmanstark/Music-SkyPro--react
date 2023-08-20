@@ -12,13 +12,19 @@ function MiddleContent(props) {
     handleOpenFilter = Function.prototype,
     filteredMusic = [],
     nameFilter,
+    lengthFilter,
   } = props
 
   return (
     <div className="main__centerblock centerblock">
       <Search searchTrack={searchTrack} music={music} />
       <h2 className="centerblock__h2">Треки</h2>
-      <Filter music={music} handleOpenFilter={handleOpenFilter} />
+      <Filter
+        music={music}
+        handleOpenFilter={handleOpenFilter}
+        nameFilter={nameFilter}
+        lengthFilter={lengthFilter}
+      />
       {isOpenFilter && (
         <ListFilter
           music={music}

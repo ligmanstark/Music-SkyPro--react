@@ -668,6 +668,7 @@ body {
 .window-filtered::-webkit-scrollbar {
   width: 6px;
   background-color: #a58cd4;
+  color: #6b3ebe;
 }
 
 .window-filtered::-webkit-scrollbar-thumb {
@@ -679,4 +680,9 @@ body {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   background-color: #383636;
+}
+
+.filter-list:hover {
+  color: #6b3ebe;
+  text-decoration: underline;
 } /*# sourceMappingURL=App.css.map */
