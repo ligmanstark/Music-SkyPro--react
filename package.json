@@ -1,5 +1,6 @@
 {
   "name": "my-app",
+  "homepage": "https://ligmanstark.github.io/Music-SkyPro--react/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,7 +18,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "prepare": "husky install",
+    "prettier": "prettier --write --ignore-unknown",
+    "prettier-check": "npx prettier . --check",
+    "prettier-write": "npx prettier . --write"
   },
   "eslintConfig": {
     "extends": [
@@ -45,5 +50,8 @@
     "gh-pages": "^5.0.0",
     "prettier": "2.8.4",
     "react-router-dom": "^6.14.2"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

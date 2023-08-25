@@ -1,24 +1,42 @@
-import React, { useState, useEffect } from 'react'
 import { ListContent } from '../../components/ListContent'
 import { Filter } from '../../components/Filter'
 import { Search } from '../../components/Search'
-import { getAllTracks } from '../../function/response'
+import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
+import { ListFilter } from '../../components/ListFilter'
 
-function MiddleContent() {
-  const [music, setMusic] = useState([])
-
-  useEffect(() => {
-    getAllTracks().then((data) => {
-      setMusic(data.data)
-    })
-  }, [])
+function MiddleContent(props) {
+  const {
+    music = [],
+    isOpenFilter,
+    searchTrack = Function.prototype,
+    handleOpenFilter = Function.prototype,
+    filteredMusic = [],
+    nameFilter,
+    lengthFilter,
+  } = props
 
   return (
     <div className="main__centerblock centerblock">
-      <Search />
+      <Search searchTrack={searchTrack} music={music} />
       <h2 className="centerblock__h2">Треки</h2>
-      <Filter />
-      <ListContent music={music} />
+      <Filter
+        music={music}
+        handleOpenFilter={handleOpenFilter}
+        nameFilter={nameFilter}
+        lengthFilter={lengthFilter}
+      />
+      {isOpenFilter && (
+        <ListFilter
+          music={music}
+          filteredMusic={filteredMusic}
+          nameFilter={nameFilter}
+        />
+      )}
+      {!music.length ? (
+        <PreloaderMiddleContent />
+      ) : (
+        <ListContent music={music} />
+      )}
     </div>
   )
 }
