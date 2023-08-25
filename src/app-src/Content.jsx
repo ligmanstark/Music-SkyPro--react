@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { getAllTracks, getTrackById } from './function/response'
 import { PlayerBar } from './layout/layout-content/PlayBar'
 import { PreloaderSideBar } from './components/PreloaderSideBar'
+import * as S from './styles/style'
 
 function Content() {
   const [music, setMusic] = useState([])
@@ -55,13 +56,13 @@ function Content() {
   }
 
   const handleChangeMenu = () => {
-    setOpen((prev)=>!prev)
+    setOpen((prev) => !prev)
   }
 
   return (
-    <div className="wrapper">
-      <div className="container">
-        <main className="main">
+    <S.Wrapper className="wrapper">
+      <S.Container className="container">
+        <S.Main className="main">
           <Navigation handleChangeMenu={handleChangeMenu} isOpen={isOpen} />
           <MiddleContent
             music={music}
@@ -73,11 +74,11 @@ function Content() {
             lengthFilter={lengthFilter}
           />
           {!music.length ? <PreloaderSideBar /> : <Sidebar />}
-        </main>
+        </S.Main>
         <PlayerBar music={music} />
         <footer className="footer"></footer>
-      </div>
-    </div>
+      </S.Container>
+    </S.Wrapper>
   )
 }
 

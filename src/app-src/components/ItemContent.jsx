@@ -1,43 +1,43 @@
 import { convertTime } from '../function/convertTime'
-
+import * as S from '../styles/style'
 function ItemContent(props) {
   const { id, name, author, album, duration_in_seconds } = props
 
   return (
-    <div className="playlist__item" key={id}>
-      <div className="playlist__track track">
-        <div className="track__title">
-          <div className="track__title-image">
-            <svg className="track__title-svg" alt="music">
+    <S.PlaylistItem className="playlist__item" key={id}>
+      <S.PlaylistTrack className="playlist__track track">
+        <S.TrackTittle className="track__title">
+          <S.TrackTittleImage className="track__title-image">
+            <S.TrackTittleSVG className="track__title-svg" alt="music">
               <use xlinkHref={props.image}></use>
-            </svg>
-          </div>
+            </S.TrackTittleSVG>
+          </S.TrackTittleImage>
           <div className="track__title-text">
-            <a className="track__title-link" href="http://">
+            <S.TrackTittleLink className="track__title-link" href="http://">
               {name}{' '}
-            </a>
+            </S.TrackTittleLink>
           </div>
-        </div>
-        <div className="track__author">
-          <a className="track__author-link" href="http://">
+        </S.TrackTittle>
+        <S.TackAuthor className="track__author">
+          <S.TackAuthorLink className="track__author-link" href="http://">
             {author}
-          </a>
-        </div>
-        <div className="track__album">
-          <a className="track__album-link" href="http://">
+          </S.TackAuthorLink>
+        </S.TackAuthor>
+        <S.TrackAlbum className="track__album">
+          <S.TrackAlbumLink className="track__album-link" href="http://">
             {album}
-          </a>
-        </div>
+          </S.TrackAlbumLink>
+        </S.TrackAlbum>
         <div className="track__time">
-          <svg className="track__time-svg" alt="time">
-            <use xlinkHref={props.tackTimeIcon}></use>
-          </svg>
-          <span className="track__time-text">
+          <S.TrackTimeSVG className="track__time-svg" alt="time">
+            <S.Likelee xlinkHref={props.tackTimeIcon}></S.Likelee>
+          </S.TrackTimeSVG>
+          <S.TrackTimeText className="track__time-text">
             {convertTime(duration_in_seconds)}
-          </span>
+          </S.TrackTimeText>
         </div>
-      </div>
-    </div>
+      </S.PlaylistTrack>
+    </S.PlaylistItem>
   )
 }
 export { ItemContent }

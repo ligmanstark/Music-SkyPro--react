@@ -1,9 +1,9 @@
 import { ItemFilter } from './ItemFilter'
-
+import * as S from '../styles/style'
 const ListFilter = (props) => {
   const { music = [], filteredMusic = [], nameFilter } = props
   return (
-    <div
+    <S.WindowFiltered
       className="window-filtered"
       style={
         nameFilter === 'исполнителю'
@@ -23,7 +23,7 @@ const ListFilter = (props) => {
           tackTimeIcon="img/icon/sprite.svg#icon-like"
         />
       ))}
-    </div>
+    </S.WindowFiltered>
   )
 }
 

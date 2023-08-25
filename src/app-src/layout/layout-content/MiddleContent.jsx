@@ -3,6 +3,7 @@ import { Filter } from '../../components/Filter'
 import { Search } from '../../components/Search'
 import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
+import * as S from '../../styles/style'
 
 function MiddleContent(props) {
   const {
@@ -16,9 +17,9 @@ function MiddleContent(props) {
   } = props
 
   return (
-    <div className="main__centerblock centerblock">
+    <S.MainCenterblock className="main__centerblock ">
       <Search searchTrack={searchTrack} music={music} />
-      <h2 className="centerblock__h2">Треки</h2>
+      <S.CenterblockH2 className="centerblock__h2">Треки</S.CenterblockH2>
       <Filter
         music={music}
         handleOpenFilter={handleOpenFilter}
@@ -37,7 +38,7 @@ function MiddleContent(props) {
       ) : (
         <ListContent music={music} />
       )}
-    </div>
+    </S.MainCenterblock>
   )
 }
 

@@ -1,7 +1,6 @@
-import '../layout-login.css'
-import '../App.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import * as S from './styles/style'
 
 const LoginContent = () => {
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
@@ -60,14 +59,14 @@ const LoginContent = () => {
   }
 
   return (
-    <div className="window-login">
-      <div className="layout-logo">
-        <div className="div-logo">
+    <S.WindowLogin className="window-login">
+      <S.LayoutLogo className="layout-logo">
+        <S.DivLogo className="div-logo">
           <img src="/Music-SkyPro--react/img/logo.svg" alt="logo-skypro" />
-        </div>
-        <div className="div-inputs-login">
-          <div className="div-input-email">
-            <input
+        </S.DivLogo>
+        <S.DivInputsLogin className="div-inputs-login">
+          <S.DivInputEmailandPassword className="div-input-email">
+            <S.InputActive
               type="email"
               placeholder="Email"
               id="colbInp1"
@@ -83,16 +82,16 @@ const LoginContent = () => {
               }}
               onClick={handleActive}
             />
-          </div>
-          <div className="div-input-password">
-            <input
+          </S.DivInputEmailandPassword>
+          <S.DivInputEmailandPassword className="div-input-password">
+            <S.InputActive
               type="password"
               placeholder="Password"
               id="colbInp2"
               className="active"
               style={{
                 borderColor: isActiveSecondInput
-                  ? 'rgba(39, 26, 88, 1)'
+                  ? 'rgba(39, 26, 88, 1) '
                   : 'rgba(88, 14, 162, 1)',
                 outlineColor: isActiveSecondInput
                   ? 'rgba(39, 26, 88, 1)'
@@ -101,40 +100,40 @@ const LoginContent = () => {
               }}
               onClick={handleActive}
             />
-          </div>
-        </div>
-        <div className="div-buttons-login ">
-          <div className="div-button-login">
-            <button
+          </S.DivInputEmailandPassword>
+        </S.DivInputsLogin>
+        <S.DivButtonsLogin className="div-buttons-login ">
+          <S.DivButtonLogin className="div-button-login">
+            <S.ButtonActiveLogin
               id="colbBtn1"
-              className="button-login active  btn"
+              className="button-login active  "
               style={{
                 backgroundColor: isActiveFirstButton
                   ? 'rgba(39, 26, 88, 1)'
-                  : 'rgba(88, 14, 162, 1)',
+                  : '',
               }}
               onClick={handleActive}
             >
               Войти
-            </button>
-          </div>
-          <div className="div-button-signup">
-            <button
+            </S.ButtonActiveLogin>
+          </S.DivButtonLogin>
+          <S.DivButtonSignUp className="div-button-signup">
+            <S.ButtonActiveRegistration
               id="colbBtn2"
-              className="button-signup active  btn "
+              className="button-signup active  "
               style={{
                 backgroundColor: isActiveSecondButton
                   ? 'rgba(208, 206, 206, 1)'
-                  : 'white',
+                  : '',
               }}
               onClick={handleActive}
             >
               Зарегистрироваться
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </S.ButtonActiveRegistration>
+          </S.DivButtonSignUp>
+        </S.DivButtonsLogin>
+      </S.LayoutLogo>
+    </S.WindowLogin>
   )
 }
 export { LoginContent }

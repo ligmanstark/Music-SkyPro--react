@@ -1,24 +1,25 @@
+import * as S from '../styles/style'
 const BurgerMenu = () => {
   return (
-    <div className="nav__menu menu">
-      <ul className="menu__list">
-        <li className="menu__item">
-          <a href="http://" className="menu__link">
+    <S.NavMenu className="nav__menu menu">
+      <S.MenuList className="menu__list">
+        <S.MenuItem className="menu__item">
+          <S.MenuLink href="http://" className="menu__link">
             Главное
-          </a>
-        </li>
-        <li className="menu__item">
-          <a href="http://" className="menu__link">
+          </S.MenuLink>
+        </S.MenuItem>
+        <S.MenuItem className="menu__item">
+          <S.MenuLink href="http://" className="menu__link">
             Мой плейлист
-          </a>
-        </li>
-        <li className="menu__item">
-          <a href="http://" className="menu__link">
+          </S.MenuLink>
+        </S.MenuItem>
+        <S.MenuItem className="menu__item">
+          <S.MenuLink href="http://" className="menu__link">
             Войти
-          </a>
-        </li>
-      </ul>
-    </div>
+          </S.MenuLink>
+        </S.MenuItem>
+      </S.MenuList>
+    </S.NavMenu>
   )
 }
 export { BurgerMenu }
