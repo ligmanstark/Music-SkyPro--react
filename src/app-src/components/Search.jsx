@@ -29,9 +29,7 @@ function Search(props) {
         value={search}
         onChange={(event) => setSearch(event.target.value)}
         onKeyDown={handleClick}
-        style={{
-          borderColor: '#181818',
-        }}
+
       ></S.SearchText>
     </S.CenterblockSearch>
   )
