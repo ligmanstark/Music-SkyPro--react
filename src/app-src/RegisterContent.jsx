@@ -1,7 +1,6 @@
-import '../layout-login.css'
-import '../App.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import * as S from './styles/style'
 
 const RegisterContent = () => {
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
@@ -50,14 +49,14 @@ const RegisterContent = () => {
   }
 
   return (
-    <div className="window-login">
-      <div className="layout-logo">
-        <div className="div-logo">
+    <S.WindowLogin className="window-login">
+      <S.LayoutLogo className="layout-logo">
+        <S.DivLogo className="div-logo">
           <img src="img/logo.svg" alt="logo-skypro" />
-        </div>
-        <div className="div-inputs-login">
-          <div className="div-input-email">
-            <input
+        </S.DivLogo>
+        <S.DivInputsLogin className="div-inputs-login">
+          <S.DivInputEmailandPassword className="div-input-email">
+            <S.InputActive
               type="email"
               placeholder="Email"
               id="colbInp1"
@@ -73,9 +72,9 @@ const RegisterContent = () => {
               }}
               onClick={handleActive}
             />
-          </div>
-          <div className="div-input-password">
-            <input
+          </S.DivInputEmailandPassword>
+          <S.DivInputEmailandPassword className="div-input-password">
+            <S.InputActive
               type="password"
               placeholder="Password"
               id="colbInp2"
@@ -91,9 +90,9 @@ const RegisterContent = () => {
               }}
               onClick={handleActive}
             />
-          </div>
-          <div className="div-input-password-repeat">
-            <input
+          </S.DivInputEmailandPassword>
+          <S.DivInputEmailandPassword className="div-input-password-repeat">
+            <S.InputActive
               type="password"
               placeholder="Repeat password"
               id="colbInp3"
@@ -109,26 +108,26 @@ const RegisterContent = () => {
               }}
               onClick={handleActive}
             />
-          </div>
-        </div>
-        <div className="div-buttons-login ">
-          <div className="div-button-signup">
-            <button
+          </S.DivInputEmailandPassword>
+        </S.DivInputsLogin>
+        <S.DivButtonsLogin className="div-buttons-login ">
+          <S.DivButtonSignUp className="div-button-signup">
+            <S.ButtonActiveRegistrationOnReg
               id="colbBtn2"
-              className="button-signup active register  btn "
+              className="button-signup active register  "
               style={{
                 backgroundColor: isActiveSecondButton
                   ? 'rgba(208, 206, 206, 1)'
-                  : 'white',
+                  : '',
               }}
               onClick={handleActive}
             >
               Зарегистрироваться
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </S.ButtonActiveRegistrationOnReg>
+          </S.DivButtonSignUp>
+        </S.DivButtonsLogin>
+      </S.LayoutLogo>
+    </S.WindowLogin>
   )
 }
 export { RegisterContent }

@@ -1,18 +1,21 @@
+import * as S from '../styles/style'
 function PreloaderSideBar(props) {
   return (
-    <div className="main__sidebar sidebar">
-      <div className="sidebar__personal">
-        <p className="sidebar__personal-name">Sergey.Ivanov</p>
-        <div className="sidebar__avatar"></div>
-      </div>
-      <div className="sidebar__block">
-        <div className="sidebar__list">
-          <div className="sidebar__item sidebar__item-preloader"></div>
-          <div className="sidebar__item sidebar__item-preloader"></div>
-          <div className="sidebar__item sidebar__item-preloader"></div>
-        </div>
-      </div>
-    </div>
+    <S.MainSideBar className="main__sidebar sidebar">
+      <S.SideBarPersonal className="sidebar__personal">
+        <S.SideBarPersonalName className="sidebar__personal-name">
+          Sergey.Ivanov
+        </S.SideBarPersonalName>
+        <S.SideBarAvatar className="sidebar__avatar"></S.SideBarAvatar>
+      </S.SideBarPersonal>
+      <S.SideBarBlock className="sidebar__block">
+        <S.SideBarList className="sidebar__list">
+          <S.SideBarItemPreloader className="sidebar__item sidebar__item-preloader"></S.SideBarItemPreloader>
+          <S.SideBarItemPreloader className="sidebar__item sidebar__item-preloader"></S.SideBarItemPreloader>
+          <S.SideBarItemPreloader className="sidebar__item sidebar__item-preloader"></S.SideBarItemPreloader>
+        </S.SideBarList>
+      </S.SideBarBlock>
+    </S.MainSideBar>
   )
 }
 

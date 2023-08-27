@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { QuantitySongsInFilter } from './QuantitySongsInFilter'
-
+import * as S from '../styles/style'
 function Filter(props) {
   const {
     music = [],
@@ -10,9 +10,9 @@ function Filter(props) {
   } = props
 
   return (
-    <div className="centerblock__filter filter">
-      <div className="filter__title">Искать по:</div>
-      <div
+    <S.CenterblockFilter className="centerblock__filter filter">
+      <S.FilterTittle className="filter__title">Искать по:</S.FilterTittle>
+      <S.FilterButton
         className="filter__button button-author _btn-text"
         onClick={handleOpenFilter}
         style={
@@ -22,8 +22,8 @@ function Filter(props) {
         }
       >
         исполнителю
-      </div>
-      <div
+      </S.FilterButton>
+      <S.FilterButton
         className="filter__button button-year _btn-text"
         onClick={handleOpenFilter}
         style={
@@ -33,8 +33,8 @@ function Filter(props) {
         }
       >
         году выпуска
-      </div>
-      <div
+      </S.FilterButton>
+      <S.FilterButton
         className="filter__button button-genre _btn-text"
         onClick={handleOpenFilter}
         style={
@@ -44,12 +44,12 @@ function Filter(props) {
         }
       >
         жанру
-      </div>
+      </S.FilterButton>
       <QuantitySongsInFilter
         lengthFilter={lengthFilter}
         nameFilter={nameFilter}
       />
-    </div>
+    </S.CenterblockFilter>
   )
 }
 

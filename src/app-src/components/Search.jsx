@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { searchID } from '../function/searchID'
-
+import * as S from '../styles/style'
 function Search(props) {
   const { searchTrack = Function.prototype, music = [] } = props
 
@@ -17,11 +17,11 @@ function Search(props) {
   }
 
   return (
-    <div className="centerblock__search search">
-      <svg className="search__svg">
+    <S.CenterblockSearch className="centerblock__search search">
+      <S.SearchSVG className="search__svg">
         <use xlinkHref="img/icon/sprite.svg#icon-search"></use>
-      </svg>
-      <input
+      </S.SearchSVG>
+      <S.SearchText
         className="search__text"
         type="search"
         placeholder="Поиск"
@@ -29,8 +29,9 @@ function Search(props) {
         value={search}
         onChange={(event) => setSearch(event.target.value)}
         onKeyDown={handleClick}
-      ></input>
-    </div>
+
+      ></S.SearchText>
+    </S.CenterblockSearch>
   )
 }
 

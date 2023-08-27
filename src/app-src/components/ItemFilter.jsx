@@ -1,11 +1,16 @@
+import * as S from '../styles/style'
+
 const ItemFilter = (props) => {
   const { author } = props
 
   return (
     <div className="">
-      <a className="track__author-link filter-list" href="http://">
+      <S.FilterAuthorList
+        className="track__author-link filter-list"
+        href="http://"
+      >
         {author}
-      </a>
+      </S.FilterAuthorList>
     </div>
   )
 }

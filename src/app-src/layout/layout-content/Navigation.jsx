@@ -1,19 +1,24 @@
 import { BurgerMenu } from '../../components/BurgerMenu'
+import * as S from '../../styles/style'
 
 function Navigation(props) {
   const { handleChangeMenu = Function.prototype, isOpen } = props
   return (
-    <nav className="main__nav nav">
-      <div className="nav__logo logo">
-        <img className="logo__image" src="img/logo.png" alt="logo"></img>
-      </div>
-      <div className="nav__burger burger" onClick={handleChangeMenu}>
-        <span className="burger__line"></span>
-        <span className="burger__line"></span>
-        <span className="burger__line"></span>
-      </div>
+    <S.MainNav className="main__nav">
+      <S.NavLogo className="nav__logo">
+        <S.LogoImage
+          className="logo__image"
+          src="img/logo.png"
+          alt="logo"
+        ></S.LogoImage>
+      </S.NavLogo>
+      <S.NavBurger className="nav__burger" onClick={handleChangeMenu}>
+        <S.BurgerLine className="burger__line"></S.BurgerLine>
+        <S.BurgerLine className="burger__line"></S.BurgerLine>
+        <S.BurgerLine className="burger__line"></S.BurgerLine>
+      </S.NavBurger>
       {!isOpen ? '' : <BurgerMenu />}
-    </nav>
+    </S.MainNav>
   )
 }
 
