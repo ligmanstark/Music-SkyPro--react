@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as S from './styles/style'
-
+import * as S from '../app-src/styles/style'
+import { postLogin } from '../app-src/function/response'
 const LoginContent = () => {
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
@@ -9,6 +9,9 @@ const LoginContent = () => {
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
 
   const navigate = useNavigate()
+
+  const inpEmailRef = useRef('')
+  const inpPasswordRef = useRef('')
 
   if (isActiveSecondButton) {
     setTimeout(() => {
@@ -24,15 +27,29 @@ const LoginContent = () => {
     const target = event.target
     switch (target.id) {
       case 'colbBtn1':
-        setActiveFirstButton(!isActiveFirstButton)
-        if (!target.id == '') {
-          target.id = ''
-        } else {
-          target.id = 'colbBtn1'
-        }
+        postLogin(inpEmailRef.current.value, inpPasswordRef.current.value)
+          .then((response) => {
+            if (response.status === 200) {
+              console.log(response.data)
+              setActiveFirstButton((prev) => !prev)
+              if (!target.id == '') {
+                target.id = ''
+              } else {
+                target.id = 'colbBtn1'
+              }
+            }
+          })
+          .catch((warning) => {
+            if (warning.response.status === 400) {
+              alert('Введены неверные данные пользователя')
+            } else {
+              alert('Пользователя с таким email или паролем не найден')
+            }
+          })
+
         break
       case 'colbBtn2':
-        setActiveSecondButton(!isActiveSecondButton)
+        setActiveSecondButton((prev) => !prev)
         if (!target.id == '') {
           target.id = ''
         } else {
@@ -80,6 +97,7 @@ const LoginContent = () => {
                   : 'rgba(88, 14, 162, 1)',
                 boxShadow: 'none',
               }}
+              ref={inpEmailRef}
               onClick={handleActive}
             />
           </S.DivInputEmailandPassword>
@@ -98,6 +116,7 @@ const LoginContent = () => {
                   : 'rgba(88, 14, 162, 1)',
                 boxShadow: 'none',
               }}
+              ref={inpPasswordRef}
               onClick={handleActive}
             />
           </S.DivInputEmailandPassword>

@@ -1,19 +1,26 @@
-import Navigation from './layout/layout-content/Navigation'
-import MiddleContent from './layout/layout-content/MiddleContent'
-import Sidebar from './layout/layout-content/Sidebar'
+import NavigationCategory from '../app-src/layout/layout-category/NavigationCategory'
+import MiddleContentCategory from '../app-src/layout/layout-category/MiddleContentCategory'
+import SidebarCategory from '../app-src/layout/layout-category/SidebarCategory'
 import React, { useEffect, useState } from 'react'
-import { getAllTracks, getTrackById } from './function/response'
-import { PlayerBar } from './layout/layout-content/PlayBar'
-import { PreloaderSideBar } from './components/PreloaderSideBar'
-import * as S from './styles/style'
+import {
+  getAllTracks,
+  getTrackById,
+  getTrackSelectionById,
+} from '../app-src/function/response'
+import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
+import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
+import * as S from '../app-src/styles/style'
+import { useParams } from 'react-router-dom'
 
-function Content() {
+function Category() {
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
   const [isOpenFilter, setOpenFilter] = useState(false)
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
+  const [url, setUrl] = useState('')
+  const categoryId = useParams()
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -42,11 +49,20 @@ function Content() {
   }
 
   useEffect(() => {
-    getAllTracks().then((data) => {
-      setMusic(data.data)
-      setFilteredMusic([...new Set(data.data.map((e) => e.author))])
+    getTrackSelectionById(categoryId.id).then((data) => {
+      setMusic(data.data.items)
+      setFilteredMusic([...new Set(data.data.items.map((e) => e.author))])
+      console.log(data.data.items)
+      switch (categoryId.id) {
+        case '1':
+          return setUrl('Плейлист дня')
+        case '2':
+          return setUrl('100 танцевальных хитов')
+        case '3':
+          return setUrl('Инди-заряд')
+      }
     })
-  }, [])
+  }, [categoryId.id])
 
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {
@@ -63,8 +79,11 @@ function Content() {
     <S.Wrapper className="wrapper">
       <S.Container className="container">
         <S.Main className="main">
-          <Navigation handleChangeMenu={handleChangeMenu} isOpen={isOpen} />
-          <MiddleContent
+          <NavigationCategory
+            handleChangeMenu={handleChangeMenu}
+            isOpen={isOpen}
+          />
+          <MiddleContentCategory
             music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
@@ -72,8 +91,9 @@ function Content() {
             filteredMusic={filteredMusic}
             nameFilter={nameFilter}
             lengthFilter={lengthFilter}
+            url={url}
           />
-          {!music.length ? <PreloaderSideBar /> : <Sidebar />}
+          {!music.length ? <PreloaderSideBar /> : <SidebarCategory />}
         </S.Main>
         <PlayerBar music={music} />
         <footer className="footer"></footer>
@@ -82,4 +102,4 @@ function Content() {
   )
 }
 
-export { Content }
+export { Category }

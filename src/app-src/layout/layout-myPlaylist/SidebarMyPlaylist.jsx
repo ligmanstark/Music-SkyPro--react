@@ -1,6 +1,6 @@
 import * as S from '../../styles/style'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
-function Sidebar(props) {
+function SidebarMyPlaylist(props) {
   const { music = [] } = props
 
   return (
@@ -11,7 +11,7 @@ function Sidebar(props) {
         </S.SideBarPersonalName>
         <S.SideBarAvatar
           className="sidebar__avatar"
-          src="img/icon/logup.svg"
+          src="./img/icon/logup.svg"
           alt="login"
         ></S.SideBarAvatar>
       </S.SideBarPersonal>
@@ -22,7 +22,7 @@ function Sidebar(props) {
               <NavLink to={`/category/1`}>
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="img/playlist01.png"
+                  src="./img/playlist01.png"
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -34,7 +34,7 @@ function Sidebar(props) {
                 {' '}
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="img/playlist02.png"
+                  src="./img/playlist02.png"
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -45,7 +45,7 @@ function Sidebar(props) {
             <NavLink to={`/category/3`}>
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="img/playlist03.png"
+                  src="./img/playlist03.png"
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -57,4 +57,4 @@ function Sidebar(props) {
   )
 }
 
-export default Sidebar
+export default SidebarMyPlaylist

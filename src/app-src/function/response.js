@@ -21,4 +21,28 @@ const getTrackSelectionById = async (Id) => {
   return response
 }
 
-export { getAllTracks, getTrackById, getTrackSelection, getTrackSelectionById }
+const postRegistration = async (email, password, username) => {
+  const response = await axios.post('https://painassasin.online/user/signup/', {
+    email: email,
+    password: password,
+    username: username,
+  })
+  return response
+}
+
+const postLogin = async (email, password) => {
+  const response = await axios.post('https://painassasin.online/user/login/', {
+    email: email,
+    password: password,
+  })
+  return response
+}
+
+export {
+  getAllTracks,
+  getTrackById,
+  getTrackSelection,
+  getTrackSelectionById,
+  postRegistration,
+  postLogin,
+}

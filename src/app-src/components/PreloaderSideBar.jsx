@@ -4,7 +4,7 @@ function PreloaderSideBar(props) {
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
         <S.SideBarPersonalName className="sidebar__personal-name">
-          Sergey.Ivanov
+          {/* Sergey.Ivanov */}
         </S.SideBarPersonalName>
         <S.SideBarAvatar className="sidebar__avatar"></S.SideBarAvatar>
       </S.SideBarPersonal>

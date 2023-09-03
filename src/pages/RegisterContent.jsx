@@ -1,12 +1,16 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as S from './styles/style'
-
+import * as S from '../app-src/styles/style'
+import { postRegistration } from '../app-src/function/response'
 const RegisterContent = () => {
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
   const [isActiveThreeInput, setActiveThreeInput] = useState(false)
+
+  const inpLoginRef = useRef('')
+  const inpEmailRef = useRef('')
+  const inpPasswordRef = useRef('')
 
   const navigate = useNavigate()
   if (isActiveSecondButton) {
@@ -17,18 +21,36 @@ const RegisterContent = () => {
 
   const handleActive = (event) => {
     const target = event.target
+
     switch (target.id) {
       case 'colbBtn2':
-        setActiveSecondButton(!isActiveSecondButton)
-        if (!target.id == '') {
-          target.id = ''
-        } else {
-          target.id = 'colbBtn2'
-        }
+        postRegistration(
+          inpEmailRef.current.value,
+          inpPasswordRef.current.value,
+          inpLoginRef.current.value
+        )
+          .then((response) => {
+            if (response.status === 201) {
+              setActiveSecondButton((prev) => !prev)
+              if (!target.id == '') {
+                target.id = ''
+              } else {
+                target.id = 'colbBtn2'
+              }
+            }
+          })
+          .catch((warning) => {
+            if (warning.response.status === 400) {
+              alert('Введены неверные данные')
+            } else {
+              alert('Сервер не работает')
+            }
+          })
+
         break
+
       case 'colbInp1':
         setActiveFirstInput(!isActiveFirstInput)
-
         break
       case 'colbInp2':
         setActiveSecondInput(!isActiveSecondInput)
@@ -70,6 +92,7 @@ const RegisterContent = () => {
                   : 'rgba(88, 14, 162, 1)',
                 boxShadow: 'none',
               }}
+              ref={inpEmailRef}
               onClick={handleActive}
             />
           </S.DivInputEmailandPassword>
@@ -88,13 +111,14 @@ const RegisterContent = () => {
                   : 'rgba(88, 14, 162, 1)',
                 boxShadow: 'none',
               }}
+              ref={inpPasswordRef}
               onClick={handleActive}
             />
           </S.DivInputEmailandPassword>
           <S.DivInputEmailandPassword className="div-input-password-repeat">
             <S.InputActive
-              type="password"
-              placeholder="Repeat password"
+              type="text"
+              placeholder="Username"
               id="colbInp3"
               className="active"
               style={{
@@ -106,6 +130,7 @@ const RegisterContent = () => {
                   : 'rgba(88, 14, 162, 1)',
                 boxShadow: 'none',
               }}
+              ref={inpLoginRef}
               onClick={handleActive}
             />
           </S.DivInputEmailandPassword>

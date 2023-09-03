@@ -50,6 +50,9 @@ input {
     border: none;
     outline: none;
     transition: all 0.3s linear;
+
+    // border-bottom: 2px solid;
+    // width: 265px;
   }
 
 `
@@ -129,7 +132,7 @@ export const ButtonClassic = styled.button`
   transition: all 0.3s linear;
   background-color: rgba(88, 14, 162, 1);
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: 10px;
   display: inline-block;
   height: 36px;
   line-height: 36px;
@@ -146,6 +149,9 @@ export const ButtonActiveLogin = styled(ButtonClassic)`
     background-color: rgba(63, 0, 125, 1);
     transition: background 0.3s linear;
   }
+  &:focus {
+    background-color: rgba(88, 14, 162, 1);
+  }
 `
 export const ButtonActiveRegistration = styled(ButtonClassic)`
   display: flex;
@@ -156,6 +162,9 @@ export const ButtonActiveRegistration = styled(ButtonClassic)`
   margin-left: 0px;
   background-color: white;
   color: black;
+  &:focus {
+    background-color: white;
+  }
   &:hover {
     background-color: rgba(217, 217, 217, 1);
     transition: background 0.3s linear;
@@ -383,7 +392,7 @@ export const SideBarPersonalName = styled.p`
   margin-right: 16px;
 `
 
-export const SideBarAvatar = styled.div`
+export const SideBarAvatar = styled.img`
   width: 43px;
   height: 43px;
   background-color: #313131;
@@ -662,6 +671,7 @@ export const FilterButton = styled.div`
   border: 1px solid #ffffff;
   border-radius: 60px;
   padding: 6px 20px;
+  cursor: pointer;
 `
 export const FilterAuthorList = styled.a`
   font-style: normal;
@@ -769,4 +779,55 @@ export const TrackAlbumLinkPreloader = styled(TrackAlbumLink)`
 `
 export const Likelee = styled.use`
   cursor: pointer;
+`
+export const WrapperError = styled(Wrapper)`
+  width: 100vw;
+  height: 100vh;
+  background-color: #181818;
+`
+export const ContainerError = styled(Container)``
+export const MainError = styled(Main)`
+  flex-direction: column;
+`
+
+export const SearchError = styled.div`
+  margin-top: -161px;
+  margin-left: 200px;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 117px;
+`
+export const SideBarAvatarError = styled(SideBarAvatar)``
+
+export const ErrorDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+`
+export const ButtonErrorBack = styled(ButtonClassic)`
+  padding-left: 80px;
+  padding-right: 80px;
+  margin-left: 4px;
+  &:hover {
+    background-color: rgba(63, 0, 125, 1);
+    transition: background 0.3s linear;
+  }
+`
+export const H1Error = styled.h1`
+  font-size: 168px;
+`
+export const H4Error = styled.h4`
+  font-size: 52px;
+`
+
+export const PError = styled.p`
+  color: #4e4e4e;
+  font-size: 24px;
+  width: 431px;
+  text-align: center;
 `
