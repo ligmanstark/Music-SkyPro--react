@@ -52,7 +52,6 @@ function MyPlaylist() {
       setMusic(data.data.items)
       setFilteredMusic([...new Set(data.data.items.map((e) => e.author))])
       console.log(data.data.items)
-      
     })
   }, [categoryId.id])
 

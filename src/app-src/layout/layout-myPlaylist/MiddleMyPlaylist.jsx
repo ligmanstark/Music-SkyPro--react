@@ -16,14 +16,12 @@ function MiddleContentMyPlaylist(props) {
     lengthFilter,
   } = props
 
-
-   
-
-
   return (
     <S.MainCenterblock className="main__centerblock ">
       <Search searchTrack={searchTrack} music={music} />
-      <S.CenterblockH2 className="centerblock__h2">Мой плейлист</S.CenterblockH2>
+      <S.CenterblockH2 className="centerblock__h2">
+        Мой плейлист
+      </S.CenterblockH2>
       <Filter
         music={music}
         handleOpenFilter={handleOpenFilter}

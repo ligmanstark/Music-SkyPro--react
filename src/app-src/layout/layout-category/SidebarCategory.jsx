@@ -42,7 +42,7 @@ function SidebarCategory(props) {
           </S.SideBarItem>
           <S.SideBarItem className="sidebar__item">
             <S.SideBarLink className="sidebar__link" href="#">
-            <NavLink to={`/category/3`}>
+              <NavLink to={`/category/3`}>
                 <S.SideBarImg
                   className="sidebar__img"
                   src="../img/playlist03.png"

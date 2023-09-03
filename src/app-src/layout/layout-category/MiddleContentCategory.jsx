@@ -14,12 +14,10 @@ function MiddleContentCategory(props) {
     filteredMusic = [],
     nameFilter,
     lengthFilter,
-    url
+    url,
   } = props
 
-  console.log(url);
-   
-
+  console.log(url)
 
   return (
     <S.MainCenterblock className="main__centerblock ">
