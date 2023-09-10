@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from '../app-src/styles/style'
 import { postLogin } from '../app-src/function/response'
-const LoginContent = () => {
+const LoginContent = ({ setToken }) => {
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
@@ -19,7 +19,7 @@ const LoginContent = () => {
     }, 1500)
   } else if (isActiveFirstButton) {
     setTimeout(() => {
-      navigate('/sky-music')
+      navigate('/sky-music', { replace: true })
     }, 1500)
   }
 
@@ -32,6 +32,7 @@ const LoginContent = () => {
             if (response.status === 200) {
               console.log(response.data)
               setActiveFirstButton((prev) => !prev)
+              setToken(true)
               if (!target.id == '') {
                 target.id = ''
               } else {
