@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/Music-SkyPro--react/static/js/main.9eb79c5a.js",
+    "main.js": "/Music-SkyPro--react/static/js/main.aad2aecb.js",
     "index.html": "/Music-SkyPro--react/index.html",
-    "main.9eb79c5a.js.map": "/Music-SkyPro--react/static/js/main.9eb79c5a.js.map"
+    "main.aad2aecb.js.map": "/Music-SkyPro--react/static/js/main.aad2aecb.js.map"
   },
   "entrypoints": [
-    "static/js/main.9eb79c5a.js"
+    "static/js/main.aad2aecb.js"
   ]
 }
