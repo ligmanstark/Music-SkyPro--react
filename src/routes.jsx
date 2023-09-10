@@ -14,7 +14,7 @@ const AppRoutes = (token, setToken) => {
           <Route path="/login" element={<LoginContent setToken={setToken} />} />
         </Route>
         <Route path="/register" element={<RegisterContent />} />
-        <Route element={<ProtectedRoute isAllowed={Boolean(token)} />}>
+        <Route element={<ProtectedRoute token={Boolean(token)} />}>
           <Route path="/sky-music" element={<Content />} />
           <Route path="/category/:id" element={<Category />} />
           <Route path="/my-playlist" element={<MyPlaylist />} />
