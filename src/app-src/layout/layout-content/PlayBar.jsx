@@ -1,4 +1,6 @@
 import { ActiveTrack } from '../../components/ActiveTrack'
+import useSound from 'use-sound'
+import { useState } from 'react'
 import * as S from '../../styles/style'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
@@ -8,7 +10,20 @@ import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 
 const PlayerBar = (props) => {
-  const { music = [] } = props
+  const { music = [], selectSong = [] } = props
+  const track = selectSong[0].track_file
+
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [play, { pause }] = useSound(track)
+  const playingButton = () => {
+    if (isPlaying) {
+      pause()
+      setIsPlaying(false)
+    } else {
+      play()
+      setIsPlaying(true)
+    }
+  }
   return (
     <S.Bar className="bar">
       <S.BarContent className="bar__content">
@@ -28,6 +43,7 @@ const PlayerBar = (props) => {
                   src={playB}
                   className="player__btn-play-svg"
                   alt="play"
+                  onClick={playingButton}
                 ></S.ButtonPlaySVG>
               </S.PlayerButtonPlay>
               <S.PlayerButonNext className="player__btn-next">
@@ -53,13 +69,14 @@ const PlayerBar = (props) => {
               </S.PlayerButtonShuffle>
             </S.PlayerControls>
 
-            {!music.length ? (
+            {!selectSong.length ? (
               ''
             ) : (
               <ActiveTrack
-                key={music[0].id}
-                name={music[0].name}
-                author={music[0].author}
+                key={selectSong[0].id}
+                name={selectSong[0].name}
+                author={selectSong[0].author}
+                track_file={selectSong[0].track_file}
               />
             )}
           </S.BarPlayer>

@@ -14,6 +14,7 @@ function MiddleContentMyPlaylist(props) {
     filteredMusic = [],
     nameFilter,
     lengthFilter,
+    handleSelectSong = Function.prototype,
   } = props
 
   return (
@@ -38,7 +39,7 @@ function MiddleContentMyPlaylist(props) {
       {!music.length ? (
         <PreloaderMiddleContent />
       ) : (
-        <ListContent music={music} />
+        <ListContent music={music} handleSelectSong={handleSelectSong} />
       )}
     </S.MainCenterblock>
   )

@@ -4,10 +4,17 @@ import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
 
 function ItemContent(props) {
-  const { id, name, author, album, duration_in_seconds } = props
+  const {
+    id,
+    name,
+    author,
+    album,
+    duration_in_seconds,
+    handleSelectSong = Function.prototype,
+  } = props
 
   return (
-    <S.PlaylistItem className="playlist__item" key={id}>
+    <S.PlaylistItem className="playlist__item" key={id} onClick={handleSelectSong}>
       <S.PlaylistTrack className="playlist__track track">
         <S.TrackTittle className="track__title">
           <S.TrackTittleImage className="track__title-image">
@@ -18,18 +25,21 @@ function ItemContent(props) {
             ></S.TrackTittleSVG>
           </S.TrackTittleImage>
           <div className="track__title-text">
-            <S.TrackTittleLink className="track__title-link" href="http://">
-              {name}{' '}
+            <S.TrackTittleLink
+              className="track__title-link"
+              
+            >
+              {name}
             </S.TrackTittleLink>
           </div>
         </S.TrackTittle>
         <S.TackAuthor className="track__author">
-          <S.TackAuthorLink className="track__author-link" href="http://">
+          <S.TackAuthorLink className="track__author-link">
             {author}
           </S.TackAuthorLink>
         </S.TackAuthor>
         <S.TrackAlbum className="track__album">
-          <S.TrackAlbumLink className="track__album-link" href="http://">
+          <S.TrackAlbumLink className="track__album-link">
             {album}
           </S.TrackAlbumLink>
         </S.TrackAlbum>

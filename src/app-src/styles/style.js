@@ -397,6 +397,7 @@ export const SideBarAvatar = styled.img`
   height: 43px;
   background-color: #313131;
   border-radius: 50%;
+  cursor: pointer;
 `
 export const SideBarBlock = styled.div`
   height: 100%;
@@ -459,7 +460,7 @@ export const PlaylistTittleFour = styled(PlaylistTittle)`
   text-align: end;
 `
 
-export const PlaylistTittleSVG = styled.svg`
+export const PlaylistTittleSVG = styled.img`
   width: 12px;
   height: 12px;
   fill: transparent;
@@ -503,19 +504,20 @@ export const TrackTittleSVG = styled.img`
   fill: transparent;
   stroke: #4e4e4e;
 `
-export const TrackTittleLink = styled.a`
+export const TrackTittleLink = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #ffffff;
+  cursor: pointer;
 `
 export const TackAuthor = styled.div`
   width: 321px;
   display: flex;
   justify-content: flex-start;
 `
-export const TackAuthorLink = styled.a`
+export const TackAuthorLink = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -527,7 +529,7 @@ export const TrackAlbum = styled.div`
   width: 245px;
 `
 
-export const TrackAlbumLink = styled.a`
+export const TrackAlbumLink = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -711,7 +713,7 @@ export const CenterblockSearch = styled.div`
   flex-direction: row;
   align-items: center;
 `
-export const SearchSVG = styled.svg`
+export const SearchSVG = styled.img`
   width: 17px;
   height: 17px;
   margin-right: 5px;

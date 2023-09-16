@@ -7,16 +7,19 @@ import { Category } from './pages/Category'
 import { MyPlaylist } from './pages/MyPlaylist'
 import { ProtectedRoute } from './app-src/components/ProtectedRoute'
 const AppRoutes = (props) => {
-  const { token, setToken } = props
+  const { token, setToken, user, setUser } = props
   return (
     <>
       <Routes>
-        <Route path="/login" element={<LoginContent setToken={setToken} />} />
+        <Route
+          path="/login"
+          element={<LoginContent setToken={setToken} setUser={setUser} />}
+        />
         <Route path="/register" element={<RegisterContent />} />
         <Route element={<ProtectedRoute token={Boolean(token)} />}>
-          <Route path="/" element={<Content />} />
-          <Route path="/category/:id" element={<Category />} />
-          <Route path="/favorites" element={<MyPlaylist />} />
+          <Route path="/" element={<Content user={user} />} />
+          <Route path="/category/:id" element={<Category user={user} />} />
+          <Route path="/favorites" element={<MyPlaylist user={user} />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

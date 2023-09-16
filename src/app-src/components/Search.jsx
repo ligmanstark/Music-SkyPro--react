@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { searchID } from '../function/searchID'
 import * as S from '../styles/style'
+import searchimg from '../../img/icon/search.svg'
 function Search(props) {
   const { searchTrack = Function.prototype, music = [] } = props
 
@@ -18,9 +19,7 @@ function Search(props) {
 
   return (
     <S.CenterblockSearch className="centerblock__search search">
-      <S.SearchSVG className="search__svg">
-        <use xlinkHref="img/icon/sprite.svg#icon-search"></use>
-      </S.SearchSVG>
+      <S.SearchSVG src={searchimg} className="search__svg"></S.SearchSVG>
       <S.SearchText
         className="search__text"
         type="search"

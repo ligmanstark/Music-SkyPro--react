@@ -3,7 +3,8 @@ import like from '../../img/icon/like.svg'
 import dislike from '../../img/icon/dislike.svg'
 import note from '../../img/icon/note.svg'
 const ActiveTrack = (props) => {
-  const { id, name, author } = props
+  const { id, name, author, track_file } = props
+  console.log(name)
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>
       <S.TrackPlayContain className="track-play__contain">

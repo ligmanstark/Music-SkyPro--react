@@ -4,7 +4,7 @@ import * as S from '../app-src/styles/style'
 import { postLogin } from '../app-src/function/response'
 import logo from '../img/logo.svg'
 const LoginContent = (props) => {
-  const { setToken } = props
+  const { setToken, setUser } = props
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
@@ -35,6 +35,7 @@ const LoginContent = (props) => {
               console.log(response.data)
               setActiveFirstButton((prev) => !prev)
               setToken(true)
+              setUser(response.data.username)
               console.log(setToken)
               if (!target.id == '') {
                 target.id = ''

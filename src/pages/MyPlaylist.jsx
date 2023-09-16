@@ -11,14 +11,18 @@ import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/styles/style'
 import { useParams } from 'react-router-dom'
+import { searchID } from '../app-src/function/searchID'
+import { searchFunc } from '../app-src/function/searchFunc'
 
-function MyPlaylist() {
+function MyPlaylist(props) {
+  const { user } = props
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
   const [isOpenFilter, setOpenFilter] = useState(false)
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
+  const [selectSong, setSelecSong] = useState([])
   const categoryId = useParams()
 
   const handleOpenFilter = (event) => {
@@ -45,6 +49,15 @@ function MyPlaylist() {
       setLengthFilter(null)
       setNameFilter('')
     }
+  }
+
+  const handleSelectSong = (event) => {
+    const target = event.target
+    const valueName = target.innerHTML
+    console.log(typeof valueName)
+
+    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    console.log(selectSong)
   }
 
   useEffect(() => {
@@ -82,10 +95,19 @@ function MyPlaylist() {
             filteredMusic={filteredMusic}
             nameFilter={nameFilter}
             lengthFilter={lengthFilter}
+            handleSelectSong={handleSelectSong}
           />
-          {!music.length ? <PreloaderSideBar /> : <SidebarMyPlaylist />}
+          {!music.length ? (
+            <PreloaderSideBar />
+          ) : (
+            <SidebarMyPlaylist user={user} />
+          )}
         </S.Main>
-        <PlayerBar music={music} />
+        {!selectSong.length ? (
+          ''
+        ) : (
+          <PlayerBar music={music} selectSong={selectSong} />
+        )}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>
