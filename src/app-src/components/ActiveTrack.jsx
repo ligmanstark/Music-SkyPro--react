@@ -1,4 +1,7 @@
 import * as S from '../styles/style'
+import like from '../../img/icon/like.svg'
+import dislike from '../../img/icon/dislike.svg'
+
 const ActiveTrack = (props) => {
   const { id, name, author } = props
   return (
@@ -29,17 +32,18 @@ const ActiveTrack = (props) => {
 
       <S.TrackPlayLikeDis className="track-play__like-dis">
         <S.TrackPlayLikeAndDis className="track-play__like _btn-icon">
-          <S.TrackPlayLikeSVG className="track-play__like-svg" alt="like">
-            <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
-          </S.TrackPlayLikeSVG>
+          <S.TrackPlayLikeSVG
+            src={like}
+            className="track-play__like-svg"
+            alt="like"
+          ></S.TrackPlayLikeSVG>
         </S.TrackPlayLikeAndDis>
         <S.TrackPlayLikeAndDis className="track-play__dislike _btn-icon">
           <S.TrackPlayDislikeSVG
+            src={dislike}
             className="track-play__dislike-svg"
             alt="dislike"
-          >
-            <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
-          </S.TrackPlayDislikeSVG>
+          ></S.TrackPlayDislikeSVG>
         </S.TrackPlayLikeAndDis>
       </S.TrackPlayLikeDis>
     </S.PlayerTrackPlay>

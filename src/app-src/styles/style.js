@@ -603,7 +603,7 @@ export const TrackPlayAlbumLink = styled.a`
   line-height: 24px;
   color: #ffffff;
 `
-export const TrackPlayLikeSVG = styled.svg`
+export const TrackPlayLikeSVG = styled.img`
   fill: #696969;
   stroke: #ffffff;
   cursor: pointer;
@@ -622,7 +622,7 @@ export const TrackPlayLikeDis = styled.div`
   margin-left: 26%;
 `
 
-export const TrackPlayDislikeSVG = styled.svg`
+export const TrackPlayDislikeSVG = styled.img`
   fill: #696969;
   stroke: #ffffff;
   cursor: pointer;
