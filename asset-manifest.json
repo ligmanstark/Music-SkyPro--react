@@ -1,10 +1,21 @@
 {
   "files": {
-    "main.js": "/Music-SkyPro--react/static/js/main.aad2aecb.js",
-    "index.html": "/Music-SkyPro--react/index.html",
-    "main.aad2aecb.js.map": "/Music-SkyPro--react/static/js/main.aad2aecb.js.map"
+    "main.js": "/Music-SkyPro--react/login/static/js/main.254e4f52.js",
+    "static/media/playlist01.png": "/Music-SkyPro--react/login/static/media/playlist01.1f0f03b6028fe76c9c24.png",
+    "static/media/playlist03.png": "/Music-SkyPro--react/login/static/media/playlist03.09e115ca5326c4224eb5.png",
+    "static/media/playlist02.png": "/Music-SkyPro--react/login/static/media/playlist02.1ebc1a93e700376dd918.png",
+    "static/media/logo.svg": "/Music-SkyPro--react/login/static/media/logo.92902531c200b485f8c34db57f318de7.svg",
+    "static/media/shuffle.svg": "/Music-SkyPro--react/login/static/media/shuffle.ac652bea2a29fb4c9393e5d9ee440460.svg",
+    "static/media/volume.svg": "/Music-SkyPro--react/login/static/media/volume.fbde54cb4d7a2578c0578206901e7f84.svg",
+    "index.html": "/Music-SkyPro--react/login/index.html",
+    "static/media/repeat.svg": "/Music-SkyPro--react/login/static/media/repeat.89cf5e5e63e155909307e7b040431dc9.svg",
+    "static/media/logup.svg": "/Music-SkyPro--react/login/static/media/logup.63261365c638e438dee82af3dd69d491.svg",
+    "static/media/next.svg": "/Music-SkyPro--react/login/static/media/next.021d029223253ec8c34660683aa328ca.svg",
+    "static/media/prev.svg": "/Music-SkyPro--react/login/static/media/prev.82e4249f10b3a62002dea5474bf05f31.svg",
+    "static/media/play.svg": "/Music-SkyPro--react/login/static/media/play.6c8520a0bbe83b0907164be9d1f01518.svg",
+    "main.254e4f52.js.map": "/Music-SkyPro--react/login/static/js/main.254e4f52.js.map"
   },
   "entrypoints": [
-    "static/js/main.aad2aecb.js"
+    "static/js/main.254e4f52.js"
   ]
 }
