@@ -1,12 +1,5 @@
 import { ActiveTrack } from '../../components/ActiveTrack'
 import * as S from '../../styles/style'
-import prevB from '../../../img/icon/prev.svg'
-import nextB from '../../../img/icon/next.svg'
-import playB from '../../../img/icon/play.svg'
-import repeatB from '../../../img/icon/repeat.svg'
-import shuffleB from '../../../img/icon/shuffle.svg'
-import volumeB from '../../../img/icon/volume.svg'
-
 const PlayerBar = (props) => {
   const { music = [] } = props
   return (
@@ -17,39 +10,38 @@ const PlayerBar = (props) => {
           <S.BarPlayer className="bar__player player">
             <S.PlayerControls className="player__controls">
               <S.PlayerPrev className="player__btn-prev">
-                <S.PlayerPrevSVG
-                  src={prevB}
-                  className="player__btn-prev-svg"
-                  alt="prev"
-                ></S.PlayerPrevSVG>
+                <S.PlayerPrevSVG className="player__btn-prev-svg" alt="prev">
+                  <use xlinkHref="../img/icon/sprite.svg#icon-prev"></use>
+                </S.PlayerPrevSVG>
               </S.PlayerPrev>
               <S.PlayerButtonPlay className="player__btn-play _btn">
-                <S.ButtonPlaySVG
-                  src={playB}
-                  className="player__btn-play-svg"
-                  alt="play"
-                ></S.ButtonPlaySVG>
+                <S.ButtonPlaySVG className="player__btn-play-svg" alt="play">
+                  <use xlinkHref="../img/icon/sprite.svg#icon-play"></use>
+                </S.ButtonPlaySVG>
               </S.PlayerButtonPlay>
               <S.PlayerButonNext className="player__btn-next">
                 <S.PlayerButtonNextSVG
-                  src={nextB}
                   className="player__btn-next-svg"
                   alt="next"
-                ></S.PlayerButtonNextSVG>
+                >
+                  <use xlinkHref="../img/icon/sprite.svg#icon-next"></use>
+                </S.PlayerButtonNextSVG>
               </S.PlayerButonNext>
               <S.PlayerButtonRepeat className="player__btn-repeat _btn-icon">
                 <S.PlayerButtonRepeatSVG
-                  src={repeatB}
                   className="player__btn-repeat-svg"
                   alt="repeat"
-                ></S.PlayerButtonRepeatSVG>
+                >
+                  <use xlinkHref="../img/icon/sprite.svg#icon-repeat"></use>
+                </S.PlayerButtonRepeatSVG>
               </S.PlayerButtonRepeat>
               <S.PlayerButtonShuffle className="player__btn-shuffle _btn-icon">
                 <S.PlayerButtonShuffleSVG
-                  src={shuffleB}
                   className="player__btn-shuffle-svg"
                   alt="shuffle"
-                ></S.PlayerButtonShuffleSVG>
+                >
+                  <use xlinkHref="../img/icon/sprite.svg#icon-shuffle"></use>
+                </S.PlayerButtonShuffleSVG>
               </S.PlayerButtonShuffle>
             </S.PlayerControls>
 
@@ -66,11 +58,9 @@ const PlayerBar = (props) => {
           <S.BarVolumeBlock className="bar__volume-block volume">
             <S.VolumeContent className="volume__content">
               <S.VolumeImage className="volume__image">
-                <S.VolumeSVG
-                  src={volumeB}
-                  className="volume__svg"
-                  alt="volume"
-                ></S.VolumeSVG>
+                <S.VolumeSVG className="volume__svg" alt="volume">
+                  <use xlinkHref="img/icon/sprite.svg#icon-volume"></use>
+                </S.VolumeSVG>
               </S.VolumeImage>
               <S.VolumeProgress className="volume__progress _btn">
                 <S.VolumeProgressLine

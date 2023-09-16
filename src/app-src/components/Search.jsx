@@ -29,7 +29,6 @@ function Search(props) {
         value={search}
         onChange={(event) => setSearch(event.target.value)}
         onKeyDown={handleClick}
-
       ></S.SearchText>
     </S.CenterblockSearch>
   )

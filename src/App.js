@@ -1,19 +1,12 @@
-import { Content } from './app-src/Content'
-import { LoginContent } from './app-src/LoginContent'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { RegisterContent } from './app-src/RegisterContent'
-
+import { useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { AppRoutes } from './routes'
 function App() {
+  const [token, setToken] = useState(false)
   return (
     <Router basename="/Music-SkyPro--react">
       <main>
-        <Routes>
-          <Route path="/" element={<LoginContent />}>
-            <Route path="/login" element={<LoginContent />} />
-          </Route>
-          <Route path="/register" element={<RegisterContent />} />
-          <Route path="/sky-music" element={<Content />} />
-        </Routes>
+        <AppRoutes token={token} setToken={setToken} />
       </main>
     </Router>
   )

@@ -1,14 +1,14 @@
 import { BurgerMenu } from '../../components/BurgerMenu'
 import * as S from '../../styles/style'
-import logo from '../../../img/logo.png'
-function Navigation(props) {
+
+function NavigationCategory(props) {
   const { handleChangeMenu = Function.prototype, isOpen } = props
   return (
     <S.MainNav className="main__nav">
       <S.NavLogo className="nav__logo">
         <S.LogoImage
           className="logo__image"
-          src={logo}
+          src="../img/logo.png"
           alt="logo"
         ></S.LogoImage>
       </S.NavLogo>
@@ -22,4 +22,4 @@ function Navigation(props) {
   )
 }
 
-export default Navigation
+export default NavigationCategory
