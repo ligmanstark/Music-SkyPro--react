@@ -1,5 +1,8 @@
 import { convertTime } from '../function/convertTime'
 import * as S from '../styles/style'
+import like from '../../img/icon/like.svg'
+import note from '../../img/icon/note.svg'
+
 function ItemContent(props) {
   const { id, name, author, album, duration_in_seconds } = props
 
@@ -8,9 +11,11 @@ function ItemContent(props) {
       <S.PlaylistTrack className="playlist__track track">
         <S.TrackTittle className="track__title">
           <S.TrackTittleImage className="track__title-image">
-            <S.TrackTittleSVG className="track__title-svg" alt="music">
-              <use xlinkHref={props.image}></use>
-            </S.TrackTittleSVG>
+            <S.TrackTittleSVG
+              src={note}
+              className="track__title-svg"
+              alt="music"
+            ></S.TrackTittleSVG>
           </S.TrackTittleImage>
           <div className="track__title-text">
             <S.TrackTittleLink className="track__title-link" href="http://">
@@ -29,9 +34,11 @@ function ItemContent(props) {
           </S.TrackAlbumLink>
         </S.TrackAlbum>
         <div className="track__time">
-          <S.TrackTimeSVG className="track__time-svg" alt="time">
-            <S.Likelee xlinkHref={props.tackTimeIcon}></S.Likelee>
-          </S.TrackTimeSVG>
+          <S.TrackTimeSVG
+            src={like}
+            className="track__time-svg"
+            alt="time"
+          ></S.TrackTimeSVG>
           <S.TrackTimeText className="track__time-text">
             {convertTime(duration_in_seconds)}
           </S.TrackTimeText>

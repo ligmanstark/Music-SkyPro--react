@@ -13,13 +13,13 @@ const BurgerMenu = () => {
 
   const handleBackToMainPage = () => {
     setTimeout(() => {
-      navigate('/sky-music')
+      navigate('/')
     }, 500)
   }
 
   const handleMyPlaylist = () => {
     setTimeout(() => {
-      navigate('/my-playlist')
+      navigate('/favorites')
     }, 500)
   }
   return (

@@ -1,16 +1,18 @@
 import * as S from '../styles/style'
 import like from '../../img/icon/like.svg'
 import dislike from '../../img/icon/dislike.svg'
-
+import note from '../../img/icon/note.svg'
 const ActiveTrack = (props) => {
   const { id, name, author } = props
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>
       <S.TrackPlayContain className="track-play__contain">
         <S.TrackPlayImage className="track-play__image">
-          <S.TrackPlaySVG className="track-play__svg" alt="music">
-            <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-          </S.TrackPlaySVG>
+          <S.TrackPlaySVG
+            src={note}
+            className="track-play__svg"
+            alt="music"
+          ></S.TrackPlaySVG>
         </S.TrackPlayImage>
         <S.TrackPlayAuthor className="track-play__author">
           <S.TrackPlayAuthorLink

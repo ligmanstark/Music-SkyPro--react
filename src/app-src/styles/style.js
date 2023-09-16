@@ -497,7 +497,7 @@ export const TrackTittleImage = styled.div`
   justify-content: center;
   margin-right: 17px;
 `
-export const TrackTittleSVG = styled.svg`
+export const TrackTittleSVG = styled.img`
   width: 18px;
   height: 17px;
   fill: transparent;
@@ -534,11 +534,12 @@ export const TrackAlbumLink = styled.a`
   line-height: 24px;
   color: #696969;
 `
-export const TrackTimeSVG = styled.svg`
+export const TrackTimeSVG = styled.img`
   width: 14px;
   height: 12px;
   margin-right: 17px;
   fill: transparent;
+  cursor: pointer;
   stroke: #696969;
 `
 export const TrackTimeText = styled.span`
@@ -572,7 +573,7 @@ export const TrackPlayImage = styled.div`
   grid-area: image;
 `
 
-export const TrackPlaySVG = styled.svg`
+export const TrackPlaySVG = styled.img`
   width: 18px;
   height: 17px;
   fill: transparent;

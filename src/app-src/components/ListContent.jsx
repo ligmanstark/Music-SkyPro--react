@@ -1,5 +1,7 @@
 import { ItemContent } from './ItemContent'
 import * as S from '../styles/style'
+import iconMusic from '../../img/icon/sprite.svg#icon-watch'
+// src/img/icon/sprite.svg
 function ListContent(props) {
   const { music = [] } = props
   return (
@@ -17,6 +19,8 @@ function ListContent(props) {
         <S.PlaylistTittleFour className="playlist-title__col col04">
           <S.PlaylistTittleSVG className="playlist-title__svg" alt="time">
             <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
+          </S.PlaylistTittleSVG>
+          <S.PlaylistTittleSVG src={iconMusic} className="playlist-title__svg" alt="time">
           </S.PlaylistTittleSVG>
         </S.PlaylistTittleFour>
       </S.ContentTittle>

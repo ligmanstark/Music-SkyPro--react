@@ -1,6 +1,6 @@
 import { BurgerMenu } from '../../components/BurgerMenu'
 import * as S from '../../styles/style'
-
+import logo from '../../../img/logo.png'
 function NavigationMyPlaylist(props) {
   const { handleChangeMenu = Function.prototype, isOpen } = props
   return (
@@ -8,7 +8,7 @@ function NavigationMyPlaylist(props) {
       <S.NavLogo className="nav__logo">
         <S.LogoImage
           className="logo__image"
-          src="./img/logo.png"
+          src={logo}
           alt="logo"
         ></S.LogoImage>
       </S.NavLogo>

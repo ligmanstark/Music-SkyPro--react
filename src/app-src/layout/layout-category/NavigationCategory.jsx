@@ -1,5 +1,6 @@
 import { BurgerMenu } from '../../components/BurgerMenu'
 import * as S from '../../styles/style'
+import logo from '../../../img/logo.png'
 
 function NavigationCategory(props) {
   const { handleChangeMenu = Function.prototype, isOpen } = props
@@ -8,7 +9,7 @@ function NavigationCategory(props) {
       <S.NavLogo className="nav__logo">
         <S.LogoImage
           className="logo__image"
-          src="../img/logo.png"
+          src={logo}
           alt="logo"
         ></S.LogoImage>
       </S.NavLogo>
