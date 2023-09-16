@@ -2,6 +2,8 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from '../app-src/styles/style'
 import { postRegistration } from '../app-src/function/response'
+import logo from '../img/logo.svg'
+
 const RegisterContent = () => {
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
@@ -74,7 +76,7 @@ const RegisterContent = () => {
     <S.WindowLogin className="window-login">
       <S.LayoutLogo className="layout-logo">
         <S.DivLogo className="div-logo">
-          <img src="img/logo.svg" alt="logo-skypro" />
+          <img src={logo} alt="logo-skypro" />
         </S.DivLogo>
         <S.DivInputsLogin className="div-inputs-login">
           <S.DivInputEmailandPassword className="div-input-email">

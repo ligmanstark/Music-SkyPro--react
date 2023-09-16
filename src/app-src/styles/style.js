@@ -291,7 +291,7 @@ export const PlayerPrev = styled.div`
   margin-right: 23px;
   cursor: pointer;
 `
-export const PlayerPrevSVG = styled.svg`
+export const PlayerPrevSVG = styled.img`
   width: 15px;
   height: 14px;
 `
@@ -302,7 +302,7 @@ export const PlayerButtonPlay = styled(PlayerPrev)`
   align-items: center;
   margin-right: 23px;
 `
-export const ButtonPlaySVG = styled.svg`
+export const ButtonPlaySVG = styled.img`
   width: 22px;
   height: 20px;
   fill: #d9d9d9;
@@ -315,7 +315,7 @@ export const PlayerButonNext = styled.div`
   fill: #a53939;
   cursor: pointer;
 `
-export const PlayerButtonNextSVG = styled.svg`
+export const PlayerButtonNextSVG = styled.img`
   width: 15px;
   height: 14px;
   fill: inherit;
@@ -328,7 +328,7 @@ export const PlayerButtonRepeat = styled.div`
   margin-right: 24px;
   cursor: pointer;
 `
-export const PlayerButtonRepeatSVG = styled.svg`
+export const PlayerButtonRepeatSVG = styled.img`
   width: 18px;
   height: 12px;
   fill: transparent;
@@ -342,7 +342,7 @@ export const PlayerButtonShuffle = styled.div`
   align-items: center;
   cursor: pointer;
 `
-export const PlayerButtonShuffleSVG = styled.svg`
+export const PlayerButtonShuffleSVG = styled.img`
   width: 19px;
   height: 12px;
   fill: transparent;
@@ -365,7 +365,7 @@ export const VolumeImage = styled.div`
   height: 18px;
   margin-right: 17px;
 `
-export const VolumeSVG = styled.div`
+export const VolumeSVG = styled.img`
   width: 13px;
   height: 18px;
   fill: transparent;

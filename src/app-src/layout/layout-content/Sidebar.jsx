@@ -1,5 +1,9 @@
 import * as S from '../../styles/style'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import playlist03 from '../../../img/playlist03.png'
+import playlist02 from '../../../img/playlist02.png'
+import playlist01 from '../../../img/playlist01.png'
+import logup from '../../../img/icon/logup.svg'
 function Sidebar(props) {
   const { music = [] } = props
 
@@ -7,11 +11,10 @@ function Sidebar(props) {
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
         <S.SideBarPersonalName className="sidebar__personal-name">
-          {/* Sergey.Ivanov */}
         </S.SideBarPersonalName>
         <S.SideBarAvatar
           className="sidebar__avatar"
-          src="img/icon/logup.svg"
+          src={logup}
           alt="login"
         ></S.SideBarAvatar>
       </S.SideBarPersonal>
@@ -22,7 +25,7 @@ function Sidebar(props) {
               <NavLink to={`/category/1`}>
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="img/playlist01.png"
+                  src={playlist01}
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -34,7 +37,7 @@ function Sidebar(props) {
                 {' '}
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="img/playlist02.png"
+                  src={playlist02}
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -45,7 +48,7 @@ function Sidebar(props) {
               <NavLink to={`/category/3`}>
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="img/playlist03.png"
+                  src={playlist03}
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>

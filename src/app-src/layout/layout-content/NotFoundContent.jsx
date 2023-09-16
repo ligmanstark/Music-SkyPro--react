@@ -8,7 +8,7 @@ const NotFoundContent = () => {
   const navigate = useNavigate()
   if (isActiveButton) {
     setTimeout(() => {
-      navigate('/sky-music')
+      navigate('/')
     }, 1500)
     setActiveButton((prev) => !prev)
   }

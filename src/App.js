@@ -1,13 +1,12 @@
-import { Content } from './pages/Content'
-import { LoginContent } from './pages/LoginContent'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { RegisterContent } from './pages/RegisterContent'
+import { useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { AppRoutes } from './routes'
 function App() {
+  const [token, setToken] = useState(true)
   return (
     <Router basename="/Music-SkyPro--react">
       <main>
-        <AppRoutes />
+        <AppRoutes token={token} setToken={setToken} />
       </main>
     </Router>
   )

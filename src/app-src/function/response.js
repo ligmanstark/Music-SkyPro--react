@@ -22,7 +22,7 @@ const getTrackSelectionById = async (Id) => {
 }
 
 const postRegistration = async (email, password, username) => {
-  const response = await axios.post('https://painassasin.online/user/signup/', {
+  const response = await axios.post('https://skypro-music-api.skyeng.tech/user/signup/', {
     email: email,
     password: password,
     username: username,
@@ -31,7 +31,7 @@ const postRegistration = async (email, password, username) => {
 }
 
 const postLogin = async (email, password) => {
-  const response = await axios.post('https://painassasin.online/user/login/', {
+  const response = await axios.post('https://skypro-music-api.skyeng.tech/user/login/', {
     email: email,
     password: password,
   })

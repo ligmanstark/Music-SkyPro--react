@@ -2,7 +2,9 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from '../app-src/styles/style'
 import { postLogin } from '../app-src/function/response'
-const LoginContent = ({ setToken }) => {
+import logo from '../img/logo.svg'
+const LoginContent = (props) => {
+  const { setToken } = props
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
@@ -19,7 +21,7 @@ const LoginContent = ({ setToken }) => {
     }, 1500)
   } else if (isActiveFirstButton) {
     setTimeout(() => {
-      navigate('/sky-music', { replace: true })
+      navigate('/', { replace: true })
     }, 1500)
   }
 
@@ -33,6 +35,7 @@ const LoginContent = ({ setToken }) => {
               console.log(response.data)
               setActiveFirstButton((prev) => !prev)
               setToken(true)
+              console.log(setToken)
               if (!target.id == '') {
                 target.id = ''
               } else {
@@ -80,7 +83,10 @@ const LoginContent = ({ setToken }) => {
     <S.WindowLogin className="window-login">
       <S.LayoutLogo className="layout-logo">
         <S.DivLogo className="div-logo">
-          <img src="/Music-SkyPro--react/img/logo.svg" alt="logo-skypro" />
+          <img
+            src={logo}
+            alt="logo-skypro"
+          />
         </S.DivLogo>
         <S.DivInputsLogin className="div-inputs-login">
           <S.DivInputEmailandPassword className="div-input-email">

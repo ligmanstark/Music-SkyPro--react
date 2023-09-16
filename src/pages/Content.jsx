@@ -14,7 +14,6 @@ function Content() {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [loginData, setLoginData] = useState()
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)

@@ -6,18 +6,17 @@ import { NotFound } from './pages/NotFound'
 import { Category } from './pages/Category'
 import { MyPlaylist } from './pages/MyPlaylist'
 import { ProtectedRoute } from './app-src/components/ProtectedRoute'
-const AppRoutes = (token, setToken) => {
+const AppRoutes = (props) => {
+  const { token, setToken } = props
   return (
     <>
       <Routes>
-        <Route path="/" element={<LoginContent />}>
-          <Route path="/login" element={<LoginContent setToken={setToken} />} />
-        </Route>
+        <Route path="/login" element={<LoginContent setToken={setToken} />} />
         <Route path="/register" element={<RegisterContent />} />
         <Route element={<ProtectedRoute token={Boolean(token)} />}>
-          <Route path="/sky-music" element={<Content />} />
+          <Route path="/" element={<Content />} />
           <Route path="/category/:id" element={<Category />} />
-          <Route path="/my-playlist" element={<MyPlaylist />} />
+          <Route path="/favorites" element={<MyPlaylist />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

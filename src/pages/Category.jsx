@@ -7,7 +7,7 @@ import {
   getTrackById,
   getTrackSelectionById,
 } from '../app-src/function/response'
-import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
+import { PlayerBar } from '../app-src/layout/layout-category/PlayBarCategory'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/styles/style'
 import { useParams } from 'react-router-dom'
