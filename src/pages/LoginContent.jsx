@@ -83,10 +83,7 @@ const LoginContent = (props) => {
     <S.WindowLogin className="window-login">
       <S.LayoutLogo className="layout-logo">
         <S.DivLogo className="div-logo">
-          <img
-            src={logo}
-            alt="logo-skypro"
-          />
+          <img src={logo} alt="logo-skypro" />
         </S.DivLogo>
         <S.DivInputsLogin className="div-inputs-login">
           <S.DivInputEmailandPassword className="div-input-email">

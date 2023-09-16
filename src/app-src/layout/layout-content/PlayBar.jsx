@@ -66,8 +66,11 @@ const PlayerBar = (props) => {
           <S.BarVolumeBlock className="bar__volume-block volume">
             <S.VolumeContent className="volume__content">
               <S.VolumeImage className="volume__image">
-                <S.VolumeSVG src={volumeB} className="volume__svg" alt="volume">
-                </S.VolumeSVG>
+                <S.VolumeSVG
+                  src={volumeB}
+                  className="volume__svg"
+                  alt="volume"
+                ></S.VolumeSVG>
               </S.VolumeImage>
               <S.VolumeProgress className="volume__progress _btn">
                 <S.VolumeProgressLine
