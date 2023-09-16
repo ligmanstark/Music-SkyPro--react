@@ -14,7 +14,11 @@ function ItemContent(props) {
   } = props
 
   return (
-    <S.PlaylistItem className="playlist__item" key={id} onClick={handleSelectSong}>
+    <S.PlaylistItem
+      className="playlist__item"
+      key={id}
+      onClick={handleSelectSong}
+    >
       <S.PlaylistTrack className="playlist__track track">
         <S.TrackTittle className="track__title">
           <S.TrackTittleImage className="track__title-image">
@@ -25,10 +29,7 @@ function ItemContent(props) {
             ></S.TrackTittleSVG>
           </S.TrackTittleImage>
           <div className="track__title-text">
-            <S.TrackTittleLink
-              className="track__title-link"
-              
-            >
+            <S.TrackTittleLink className="track__title-link">
               {name}
             </S.TrackTittleLink>
           </div>

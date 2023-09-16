@@ -16,8 +16,6 @@ function MiddleContentCategory(props) {
     lengthFilter,
     url,
     handleSelectSong = Function.prototype,
-    
-
   } = props
 
   console.log(url)
@@ -42,10 +40,7 @@ function MiddleContentCategory(props) {
       {!music.length ? (
         <PreloaderMiddleContent />
       ) : (
-        <ListContent
-          music={music}
-          handleSelectSong={handleSelectSong}
-        />
+        <ListContent music={music} handleSelectSong={handleSelectSong} />
       )}
     </S.MainCenterblock>
   )

@@ -38,10 +38,7 @@ function MiddleContent(props) {
       {!music.length ? (
         <PreloaderMiddleContent />
       ) : (
-        <ListContent
-          music={music}
-          handleSelectSong={handleSelectSong}
-        />
+        <ListContent music={music} handleSelectSong={handleSelectSong} />
       )}
     </S.MainCenterblock>
   )
