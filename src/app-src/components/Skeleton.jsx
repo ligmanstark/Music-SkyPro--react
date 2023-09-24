@@ -1,4 +1,6 @@
 import * as S from '../styles/style'
+import note from '../../img/icon/watch.svg'
+
 const Skeleton = (props) => {
   return (
     <S.PlaylistItem className="playlist__item">
@@ -8,6 +10,7 @@ const Skeleton = (props) => {
             <S.TrackTittleSVG
               className="track__title-svg"
               alt="music"
+              src={note}
             ></S.TrackTittleSVG>
           </S.TrackTittleImage>
           <S.Preloader className="preloader">

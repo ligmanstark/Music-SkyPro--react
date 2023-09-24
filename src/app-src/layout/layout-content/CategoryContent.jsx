@@ -5,7 +5,7 @@ import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
 import * as S from '../../styles/style'
 
-function CategoryContent(props) {
+const CategoryContent = (props) => {
   const {
     music = [],
     isOpenFilter,

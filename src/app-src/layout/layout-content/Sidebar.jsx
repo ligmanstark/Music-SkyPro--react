@@ -4,18 +4,32 @@ import playlist03 from '../../../img/playlist03.png'
 import playlist02 from '../../../img/playlist02.png'
 import playlist01 from '../../../img/playlist01.png'
 import logup from '../../../img/icon/logup.svg'
-function Sidebar(props) {
-  const { music = [] } = props
+const Sidebar = (props) => {
+  const { music = [], user } = props
+
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    setTimeout(() => {
+      navigate('/login')
+    }, 500)
+  }
 
   return (
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
-        <S.SideBarPersonalName className="sidebar__personal-name"></S.SideBarPersonalName>
-        <S.SideBarAvatar
-          className="sidebar__avatar"
-          src={logup}
-          alt="login"
-        ></S.SideBarAvatar>
+        <S.SideBarPersonalName className="sidebar__personal-name">
+          {user ? `Hello, ${user}` : ''}
+        </S.SideBarPersonalName>
+        {user ? (
+          <S.SideBarAvatar
+            className="sidebar__avatar"
+            src={logup}
+            alt="login"
+            onClick={handleLogout}
+          ></S.SideBarAvatar>
+        ) : (
+          ''
+        )}
       </S.SideBarPersonal>
       <S.SideBarBlock className="sidebar__block">
         <S.SideBarList className="sidebar__list">
@@ -59,4 +73,4 @@ function Sidebar(props) {
   )
 }
 
-export default Sidebar
+export { Sidebar }

@@ -1,19 +1,34 @@
 import * as S from '../../styles/style'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
-function SidebarMyPlaylist(props) {
-  const { music = [] } = props
+import playlist03 from '../../../img/playlist03.png'
+import playlist02 from '../../../img/playlist02.png'
+import playlist01 from '../../../img/playlist01.png'
+import logup from '../../../img/icon/logup.svg'
+const SidebarMyPlaylist = (props) => {
+  const { music = [], user } = props
 
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    setTimeout(() => {
+      navigate('/login')
+    }, 500)
+  }
   return (
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
         <S.SideBarPersonalName className="sidebar__personal-name">
-          {/* Sergey.Ivanov */}
+          {user ? `Hello, ${user}` : ''}
         </S.SideBarPersonalName>
-        <S.SideBarAvatar
-          className="sidebar__avatar"
-          src="./img/icon/logup.svg"
-          alt="login"
-        ></S.SideBarAvatar>
+        {user ? (
+          <S.SideBarAvatar
+            className="sidebar__avatar"
+            src={logup}
+            alt="login"
+            onClick={handleLogout}
+          ></S.SideBarAvatar>
+        ) : (
+          ''
+        )}
       </S.SideBarPersonal>
       <S.SideBarBlock className="sidebar__block">
         <S.SideBarList className="sidebar__list">
@@ -22,7 +37,7 @@ function SidebarMyPlaylist(props) {
               <NavLink to={`/category/1`}>
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="./img/playlist01.png"
+                  src={playlist01}
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -34,7 +49,7 @@ function SidebarMyPlaylist(props) {
                 {' '}
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="./img/playlist02.png"
+                  src={playlist02}
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -45,7 +60,7 @@ function SidebarMyPlaylist(props) {
               <NavLink to={`/category/3`}>
                 <S.SideBarImg
                   className="sidebar__img"
-                  src="./img/playlist03.png"
+                  src={playlist03}
                   alt="day's playlist"
                 ></S.SideBarImg>
               </NavLink>
@@ -57,4 +72,4 @@ function SidebarMyPlaylist(props) {
   )
 }
 
-export default SidebarMyPlaylist
+export { SidebarMyPlaylist }

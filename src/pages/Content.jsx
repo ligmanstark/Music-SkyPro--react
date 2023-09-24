@@ -1,19 +1,23 @@
-import Navigation from '../app-src/layout/layout-content/Navigation'
-import MiddleContent from '../app-src/layout/layout-content/MiddleContent'
-import Sidebar from '../app-src/layout/layout-content/Sidebar'
+import { Navigation } from '../app-src/layout/layout-content/Navigation'
+import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
+import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import React, { useEffect, useState } from 'react'
 import { getAllTracks, getTrackById } from '../app-src/function/response'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/styles/style'
+import { searchID } from '../app-src/function/searchID'
+import { searchFunc } from '../app-src/function/searchFunc'
+const Content = (props) => {
+  const { user } = props
 
-function Content() {
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
   const [isOpenFilter, setOpenFilter] = useState(false)
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
+  const [selectSong, setSelecSong] = useState([])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -39,6 +43,15 @@ function Content() {
       setLengthFilter(null)
       setNameFilter('')
     }
+  }
+
+  const handleSelectSong = (event) => {
+    const target = event.target
+    const valueName = target.innerHTML
+    console.log(typeof valueName)
+
+    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    console.log(selectSong)
   }
 
   useEffect(() => {
@@ -72,10 +85,15 @@ function Content() {
             filteredMusic={filteredMusic}
             nameFilter={nameFilter}
             lengthFilter={lengthFilter}
+            handleSelectSong={handleSelectSong}
           />
-          {!music.length ? <PreloaderSideBar /> : <Sidebar />}
+          {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        <PlayerBar music={music} />
+        {!selectSong.length ? (
+          ''
+        ) : (
+          <PlayerBar music={music} selectSong={selectSong} />
+        )}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

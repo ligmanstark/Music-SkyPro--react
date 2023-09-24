@@ -1,5 +1,5 @@
 import * as S from '../styles/style'
-function PreloaderSideBar(props) {
+const PreloaderSideBar = (props) => {
   return (
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">

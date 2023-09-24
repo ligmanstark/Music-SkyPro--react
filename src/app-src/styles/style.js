@@ -397,6 +397,7 @@ export const SideBarAvatar = styled.img`
   height: 43px;
   background-color: #313131;
   border-radius: 50%;
+  cursor: pointer;
 `
 export const SideBarBlock = styled.div`
   height: 100%;
@@ -459,7 +460,7 @@ export const PlaylistTittleFour = styled(PlaylistTittle)`
   text-align: end;
 `
 
-export const PlaylistTittleSVG = styled.svg`
+export const PlaylistTittleSVG = styled.img`
   width: 12px;
   height: 12px;
   fill: transparent;
@@ -497,25 +498,26 @@ export const TrackTittleImage = styled.div`
   justify-content: center;
   margin-right: 17px;
 `
-export const TrackTittleSVG = styled.svg`
+export const TrackTittleSVG = styled.img`
   width: 18px;
   height: 17px;
   fill: transparent;
   stroke: #4e4e4e;
 `
-export const TrackTittleLink = styled.a`
+export const TrackTittleLink = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #ffffff;
+  cursor: pointer;
 `
 export const TackAuthor = styled.div`
   width: 321px;
   display: flex;
   justify-content: flex-start;
 `
-export const TackAuthorLink = styled.a`
+export const TackAuthorLink = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -527,18 +529,19 @@ export const TrackAlbum = styled.div`
   width: 245px;
 `
 
-export const TrackAlbumLink = styled.a`
+export const TrackAlbumLink = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #696969;
 `
-export const TrackTimeSVG = styled.svg`
+export const TrackTimeSVG = styled.img`
   width: 14px;
   height: 12px;
   margin-right: 17px;
   fill: transparent;
+  cursor: pointer;
   stroke: #696969;
 `
 export const TrackTimeText = styled.span`
@@ -572,7 +575,7 @@ export const TrackPlayImage = styled.div`
   grid-area: image;
 `
 
-export const TrackPlaySVG = styled.svg`
+export const TrackPlaySVG = styled.img`
   width: 18px;
   height: 17px;
   fill: transparent;
@@ -603,7 +606,7 @@ export const TrackPlayAlbumLink = styled.a`
   line-height: 24px;
   color: #ffffff;
 `
-export const TrackPlayLikeSVG = styled.svg`
+export const TrackPlayLikeSVG = styled.img`
   fill: #696969;
   stroke: #ffffff;
   cursor: pointer;
@@ -622,7 +625,7 @@ export const TrackPlayLikeDis = styled.div`
   margin-left: 26%;
 `
 
-export const TrackPlayDislikeSVG = styled.svg`
+export const TrackPlayDislikeSVG = styled.img`
   fill: #696969;
   stroke: #ffffff;
   cursor: pointer;
@@ -710,7 +713,7 @@ export const CenterblockSearch = styled.div`
   flex-direction: row;
   align-items: center;
 `
-export const SearchSVG = styled.svg`
+export const SearchSVG = styled.img`
   width: 17px;
   height: 17px;
   margin-right: 5px;

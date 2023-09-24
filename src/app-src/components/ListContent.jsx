@@ -1,7 +1,12 @@
 import { ItemContent } from './ItemContent'
 import * as S from '../styles/style'
-function ListContent(props) {
-  const { music = [] } = props
+import watch from '../../img/icon/watch.svg'
+const ListContent = (props) => {
+  const {
+    music = [],
+    handleSelectSong = Function.prototype,
+    selectSong,
+  } = props
   return (
     <S.CenterblockContent className="centerblock__content">
       <S.ContentTittle className="content__title playlist-title">
@@ -15,9 +20,11 @@ function ListContent(props) {
           АЛЬБОМ
         </S.PlaylistTittleThree>
         <S.PlaylistTittleFour className="playlist-title__col col04">
-          <S.PlaylistTittleSVG className="playlist-title__svg" alt="time">
-            <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-          </S.PlaylistTittleSVG>
+          <S.PlaylistTittleSVG
+            src={watch}
+            className="playlist-title__svg"
+            alt="time"
+          ></S.PlaylistTittleSVG>
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
@@ -25,8 +32,7 @@ function ListContent(props) {
           <ItemContent
             key={el.id}
             {...el}
-            image="img/icon/sprite.svg#icon-note"
-            tackTimeIcon="img/icon/sprite.svg#icon-like"
+            handleSelectSong={handleSelectSong}
           />
         ))}
       </S.ContentPlaylist>

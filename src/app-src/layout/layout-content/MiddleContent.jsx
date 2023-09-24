@@ -5,7 +5,7 @@ import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
 import * as S from '../../styles/style'
 
-function MiddleContent(props) {
+const MiddleContent = (props) => {
   const {
     music = [],
     isOpenFilter,
@@ -14,6 +14,8 @@ function MiddleContent(props) {
     filteredMusic = [],
     nameFilter,
     lengthFilter,
+    handleSelectSong = Function.prototype,
+    selectSong,
   } = props
 
   return (
@@ -36,10 +38,10 @@ function MiddleContent(props) {
       {!music.length ? (
         <PreloaderMiddleContent />
       ) : (
-        <ListContent music={music} />
+        <ListContent music={music} handleSelectSong={handleSelectSong} />
       )}
     </S.MainCenterblock>
   )
 }
 
-export default MiddleContent
+export { MiddleContent }

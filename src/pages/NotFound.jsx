@@ -1,5 +1,5 @@
 import * as S from '../app-src/styles/style'
-import Navigation from '../app-src/layout/layout-content/Navigation'
+import { Navigation } from '../app-src/layout/layout-content/Navigation'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { NotFoundContent } from '../app-src/layout/layout-content/NotFoundContent'
 import { Search } from '../app-src/components/Search'

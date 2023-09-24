@@ -1,5 +1,8 @@
 import { Skeleton } from './Skeleton'
 import * as S from '../styles/style'
+import watch from '../../img/icon/watch.svg'
+import note from '../../img/icon/watch.svg'
+
 const PreloaderMiddleContent = () => {
   return (
     <S.CenterblockContent className="centerblock__content">
@@ -14,9 +17,11 @@ const PreloaderMiddleContent = () => {
           АЛЬБОМ
         </S.PlaylistTittleThree>
         <S.PlaylistTittleFour className="playlist-title__col col04">
-          <S.PlaylistTittleSVG className="playlist-title__svg" alt="time">
-            <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-          </S.PlaylistTittleSVG>
+          <S.PlaylistTittleSVG
+            src={watch}
+            className="playlist-title__svg"
+            alt="time"
+          ></S.PlaylistTittleSVG>
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
