@@ -856,10 +856,10 @@ export const AudioStyle = styled.audio`
 export const StyledProgressInput = styled.input`
 
 
-bottom: -5px; !important
+bottom: -6px; !important
 box-shadow: none !important;
 
-height: 6px;
+height: 7px;
 
 margin:0; !important
 
@@ -918,5 +918,5 @@ overflow: hidden;
 
 `
 export const VolumeBar = styled(StyledProgressInput)`
-margin-bottom: 22px;
+  margin-bottom: 22px;
 `
