@@ -1,6 +1,6 @@
-import NavigationCategory from '../app-src/layout/layout-category/NavigationCategory'
-import MiddleContentCategory from '../app-src/layout/layout-category/MiddleContentCategory'
-import SidebarCategory from '../app-src/layout/layout-category/SidebarCategory'
+import { NavigationCategory } from '../app-src/layout/layout-category/NavigationCategory'
+import { MiddleContentCategory } from '../app-src/layout/layout-category/MiddleContentCategory'
+import { SidebarCategory } from '../app-src/layout/layout-category/SidebarCategory'
 import React, { useEffect, useState } from 'react'
 import {
   getAllTracks,
@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom'
 import { searchID } from '../app-src/function/searchID'
 import { searchFunc } from '../app-src/function/searchFunc'
 
-function Category(props) {
+const Category = (props) => {
   const { user } = props
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)

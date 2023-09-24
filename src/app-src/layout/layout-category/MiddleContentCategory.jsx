@@ -5,7 +5,7 @@ import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
 import * as S from '../../styles/style'
 
-function MiddleContentCategory(props) {
+const MiddleContentCategory = (props) => {
   const {
     music = [],
     isOpenFilter,
@@ -46,4 +46,4 @@ function MiddleContentCategory(props) {
   )
 }
 
-export default MiddleContentCategory
+export { MiddleContentCategory }

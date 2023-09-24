@@ -5,7 +5,7 @@ import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
 import * as S from '../../styles/style'
 
-function MiddleContent(props) {
+const MiddleContent = (props) => {
   const {
     music = [],
     isOpenFilter,
@@ -44,4 +44,4 @@ function MiddleContent(props) {
   )
 }
 
-export default MiddleContent
+export { MiddleContent }

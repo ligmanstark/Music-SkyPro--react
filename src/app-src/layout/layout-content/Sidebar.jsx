@@ -4,7 +4,7 @@ import playlist03 from '../../../img/playlist03.png'
 import playlist02 from '../../../img/playlist02.png'
 import playlist01 from '../../../img/playlist01.png'
 import logup from '../../../img/icon/logup.svg'
-function Sidebar(props) {
+const Sidebar = (props) => {
   const { music = [], user } = props
 
   const navigate = useNavigate()
@@ -73,4 +73,4 @@ function Sidebar(props) {
   )
 }
 
-export default Sidebar
+export { Sidebar }

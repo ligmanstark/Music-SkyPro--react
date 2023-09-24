@@ -1,6 +1,6 @@
-import Navigation from '../app-src/layout/layout-content/Navigation'
-import MiddleContent from '../app-src/layout/layout-content/MiddleContent'
-import Sidebar from '../app-src/layout/layout-content/Sidebar'
+import { Navigation } from '../app-src/layout/layout-content/Navigation'
+import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
+import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import React, { useEffect, useState } from 'react'
 import { getAllTracks, getTrackById } from '../app-src/function/response'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
@@ -8,7 +8,7 @@ import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/styles/style'
 import { searchID } from '../app-src/function/searchID'
 import { searchFunc } from '../app-src/function/searchFunc'
-function Content(props) {
+const Content = (props) => {
   const { user } = props
 
   const [music, setMusic] = useState([])

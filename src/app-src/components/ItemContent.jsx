@@ -3,7 +3,7 @@ import * as S from '../styles/style'
 import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
 
-function ItemContent(props) {
+const ItemContent = (props) => {
   const {
     id,
     name,

@@ -2,7 +2,7 @@ import { BurgerMenu } from '../../components/BurgerMenu'
 import * as S from '../../styles/style'
 import logo from '../../../img/logo.png'
 
-function NavigationCategory(props) {
+const NavigationCategory = (props) => {
   const { handleChangeMenu = Function.prototype, isOpen } = props
   return (
     <S.MainNav className="main__nav">
@@ -23,4 +23,4 @@ function NavigationCategory(props) {
   )
 }
 
-export default NavigationCategory
+export { NavigationCategory }

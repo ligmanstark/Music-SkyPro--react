@@ -1,7 +1,7 @@
 import { ItemContent } from './ItemContent'
 import * as S from '../styles/style'
 import watch from '../../img/icon/watch.svg'
-function ListContent(props) {
+const ListContent = (props) => {
   const {
     music = [],
     handleSelectSong = Function.prototype,

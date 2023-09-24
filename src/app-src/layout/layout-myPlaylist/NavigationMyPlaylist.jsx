@@ -1,7 +1,7 @@
 import { BurgerMenu } from '../../components/BurgerMenu'
 import * as S from '../../styles/style'
 import logo from '../../../img/logo.png'
-function NavigationMyPlaylist(props) {
+const NavigationMyPlaylist = (props) => {
   const { handleChangeMenu = Function.prototype, isOpen } = props
   return (
     <S.MainNav className="main__nav">
@@ -22,4 +22,4 @@ function NavigationMyPlaylist(props) {
   )
 }
 
-export default NavigationMyPlaylist
+export { NavigationMyPlaylist }
