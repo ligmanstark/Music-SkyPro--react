@@ -1,9 +1,9 @@
-import { ListContent } from '../../components/ListContent'
-import { Filter } from '../../components/Filter'
-import { Search } from '../../components/Search'
-import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
-import { ListFilter } from '../../components/ListFilter'
-import * as S from '../../styles/style'
+import { ListContent } from '../app-src/components/ListContent'
+import { Filter } from '../app-src/components/Filter'
+import { Search } from '../app-src/components/Search'
+import { PreloaderMiddleContent } from '../app-src/components/PreloaderMiddleContent'
+import { ListFilter } from '../app-src/components/ListFilter'
+import * as S from '../app-src/styles/style'
 
 const CategoryContent = (props) => {
   const {
