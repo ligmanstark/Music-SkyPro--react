@@ -1,32 +1,57 @@
 import { ActiveTrack } from '../../components/ActiveTrack'
-import useSound from 'use-sound'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { ProgressBar } from '../../components/ProgressBar'
+import { VolumeBar } from '../../components/VolumeBar'
 import * as S from '../../styles/style'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
 import playB from '../../../img/icon/play.svg'
+import pauseB from '../../../img/icon/pause.svg'
+import loopB from '../../../img/icon/loop.svg'
 import repeatB from '../../../img/icon/repeat.svg'
 import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
-
+export let audioRef = ''
 const PlayerBar = (props) => {
   const { music = [], selectSong = [] } = props
-  const track = selectSong[0].track_file
-
+  console.log(selectSong)
+  audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [play, { pause }] = useSound(track)
+  const [isLooping, setIsLooping] = useState(false)
+
   const playingButton = () => {
     if (isPlaying) {
-      pause()
-      setIsPlaying(false)
+      audioRef.current.pause()
+      setIsPlaying((prev) => !prev)
     } else {
-      play()
-      setIsPlaying(true)
+      audioRef.current.play()
+      setIsPlaying((prev) => !prev)
     }
+    console.log(isPlaying)
   }
+
+  const handleLoop = () => {
+    setIsLooping((prev) => !prev)
+  }
+
+  useEffect(() => {
+    audioRef.current.play()
+    setIsPlaying(true)
+    return () => {
+      setIsPlaying(false)
+    }
+  }, [selectSong[0].track_file])
+
   return (
     <S.Bar className="bar">
+      <S.AudioStyle
+        controls
+        ref={audioRef}
+        src={selectSong[0].track_file}
+        loop={isLooping ? true : false}
+      ></S.AudioStyle>
       <S.BarContent className="bar__content">
+        <ProgressBar />
         <S.BarPlayerProgress className="bar__player-progress"></S.BarPlayerProgress>
         <S.BarPlayerBlock className="bar__player-block">
           <S.BarPlayer className="bar__player player">
@@ -36,35 +61,57 @@ const PlayerBar = (props) => {
                   src={prevB}
                   className="player__btn-prev-svg"
                   alt="prev"
+                  onClick={() => alert('Еще не реализовано')}
                 ></S.PlayerPrevSVG>
               </S.PlayerPrev>
               <S.PlayerButtonPlay className="player__btn-play _btn">
-                <S.ButtonPlaySVG
-                  src={playB}
-                  className="player__btn-play-svg"
-                  alt="play"
-                  onClick={playingButton}
-                ></S.ButtonPlaySVG>
+                {!isPlaying ? (
+                  <S.ButtonPlaySVG
+                    src={playB}
+                    className="player__btn-play-svg"
+                    alt="play"
+                    onClick={playingButton}
+                  ></S.ButtonPlaySVG>
+                ) : (
+                  <S.ButtonPauseSVG
+                    src={pauseB}
+                    className="player__btn-play-svg"
+                    alt="play"
+                    onClick={playingButton}
+                  ></S.ButtonPauseSVG>
+                )}
               </S.PlayerButtonPlay>
               <S.PlayerButonNext className="player__btn-next">
                 <S.PlayerButtonNextSVG
                   src={nextB}
                   className="player__btn-next-svg"
                   alt="next"
+                  onClick={() => alert('Еще не реализовано')}
                 ></S.PlayerButtonNextSVG>
               </S.PlayerButonNext>
               <S.PlayerButtonRepeat className="player__btn-repeat _btn-icon">
-                <S.PlayerButtonRepeatSVG
-                  src={repeatB}
-                  className="player__btn-repeat-svg"
-                  alt="repeat"
-                ></S.PlayerButtonRepeatSVG>
+                {!isLooping ? (
+                  <S.PlayerButtonRepeatSVG
+                    src={repeatB}
+                    className="player__btn-repeat-svg"
+                    alt="repeat"
+                    onClick={handleLoop}
+                  ></S.PlayerButtonRepeatSVG>
+                ) : (
+                  <S.PlayerButtonRepeatSVG
+                    src={loopB}
+                    className="player__btn-repeat-svg"
+                    alt="repeat"
+                    onClick={handleLoop}
+                  ></S.PlayerButtonRepeatSVG>
+                )}
               </S.PlayerButtonRepeat>
               <S.PlayerButtonShuffle className="player__btn-shuffle _btn-icon">
                 <S.PlayerButtonShuffleSVG
                   src={shuffleB}
                   className="player__btn-shuffle-svg"
                   alt="shuffle"
+                  onClick={() => alert('Еще не реализовано')}
                 ></S.PlayerButtonShuffleSVG>
               </S.PlayerButtonShuffle>
             </S.PlayerControls>
@@ -90,11 +137,9 @@ const PlayerBar = (props) => {
                 ></S.VolumeSVG>
               </S.VolumeImage>
               <S.VolumeProgress className="volume__progress _btn">
-                <S.VolumeProgressLine
-                  className="volume__progress-line _btn"
-                  type="range"
-                  name="range"
-                ></S.VolumeProgressLine>
+                <S.VolumeProgressLine>
+                  <VolumeBar />
+                </S.VolumeProgressLine>
               </S.VolumeProgress>
             </S.VolumeContent>
           </S.BarVolumeBlock>

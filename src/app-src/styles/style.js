@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { createGlobalStyle } from 'styled-components'
 
@@ -51,11 +51,19 @@ input {
     outline: none;
     transition: all 0.3s linear;
 
-    // border-bottom: 2px solid;
-    // width: 265px;
   }
 
+  input[type=range] {
+    position: relative;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    margin:0;
+    padding: 0
+  }
 `
+
 export const WindowLogin = styled.div`
   box-sizing: border-box;
   background-color: darkgray;
@@ -307,6 +315,12 @@ export const ButtonPlaySVG = styled.img`
   height: 20px;
   fill: #d9d9d9;
 `
+export const ButtonPauseSVG = styled.img`
+  width: 22px;
+  height: 20px;
+  fill: #d9d9d9;
+`
+
 export const PlayerButonNext = styled.div`
   padding: 5px;
   display: flex;
@@ -373,8 +387,9 @@ export const VolumeSVG = styled.img`
 export const VolumeProgress = styled.div`
   width: 109px;
 `
-export const VolumeProgressLine = styled.input`
+export const VolumeProgressLine = styled.div`
   width: 109px;
+  margin-bottom: 16px;
 `
 export const SideBarPersonal = styled.div`
   display: flex;
@@ -833,4 +848,75 @@ export const PError = styled.p`
   font-size: 24px;
   width: 431px;
   text-align: center;
+`
+export const AudioStyle = styled.audio`
+  display: none;
+`
+
+export const StyledProgressInput = styled.input`
+
+
+bottom: -6px; !important
+box-shadow: none !important;
+
+height: 7px;
+
+margin:0; !important
+
+--progress-height: 16px;
+--progress-color: #b672ff; 
+--progress-color: ${(props) => props.$color ?? '#b672ff'};
+
+--progress-bg-color: #2e2e2e;  
+
+margin: 0 !important
+width: 100%;!important
+height: var(--progress-height); 
+-webkit-appearance: none; 
+cursor: pointer;!important
+background: transparent; 
+position: relative;
+overflow: hidden;
+
+&::-webkit-slider-runnable-track {
+  position: relative;
+  height: var(--progress-height);
+  background: var(--progress-bg-color);
+}
+&::-webkit-slider-thumb {
+  --thumb-height: 1px;
+  --thumb-width: 1px;
+  position: relative;
+  -webkit-appearance: none;
+  width: var(--thumb-width, var(--thumb-height));
+  box-shadow: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0 100vmax var(--progress-color);
+}
+
+&::-webkit-slider-runnable-track {
+  background: var(--progress-bg-color);
+}
+
+/* FF */
+&::-moz-range-track {
+  width: 100%;
+  height: var(--progress-height);
+  background: var(--progress-bg-color);
+  border: none;
+  border-radius: 0px;
+}
+&::-moz-range-thumb {
+  border: none;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background: transparent;
+}
+&::-moz-range-progress {
+  background-color: var(--progress-color);
+  height: var(--progress-height);
+}
+
+`
+export const VolumeBar = styled(StyledProgressInput)`
+  margin-bottom: 22px;
 `
