@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_URL } from '../config'
+import { API_URL } from '../../config'
 
 const getAllTracks = async () => {
   const response = await axios.get(API_URL + 'catalog/track/all/')

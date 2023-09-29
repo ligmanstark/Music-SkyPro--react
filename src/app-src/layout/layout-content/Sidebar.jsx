@@ -1,16 +1,22 @@
 import * as S from '../../styles/style'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { useContext } from 'react'
+import { AppContext } from '../../../context'
+import { NavLink, useNavigate } from 'react-router-dom'
 import playlist03 from '../../../img/playlist03.png'
 import playlist02 from '../../../img/playlist02.png'
 import playlist01 from '../../../img/playlist01.png'
 import logup from '../../../img/icon/logup.svg'
-const Sidebar = (props) => {
-  const { music = [], user } = props
+const Sidebar = () => {
+  const { user, setToken, setUser, token } = useContext(AppContext)
 
   const navigate = useNavigate()
   const handleLogout = () => {
     setTimeout(() => {
       navigate('/login')
+      // setUser('')
+      localStorage.setItem('user', '')
+      // setToken(false)
+      localStorage.setItem('token', false)
     }, 500)
   }
 
@@ -18,7 +24,7 @@ const Sidebar = (props) => {
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
         <S.SideBarPersonalName className="sidebar__personal-name">
-          {user ? `Hello, ${user}` : ''}
+          {user ? `Hello, ${localStorage.getItem('user')}` : ''}
         </S.SideBarPersonalName>
         {user ? (
           <S.SideBarAvatar

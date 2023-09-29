@@ -1,16 +1,16 @@
 import { Navigation } from '../app-src/layout/layout-content/Navigation'
 import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { getAllTracks, getTrackById } from '../app-src/function/response'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/styles/style'
 import { searchID } from '../app-src/function/searchID'
 import { searchFunc } from '../app-src/function/searchFunc'
-const Content = (props) => {
-  const { user } = props
-
+import { AppContext } from '../context'
+const Content = () => {
+  const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
   const [isOpenFilter, setOpenFilter] = useState(false)

@@ -1,10 +1,10 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from '../app-src/styles/style'
 import { postLogin } from '../app-src/function/response'
 import logo from '../img/logo.svg'
-const LoginContent = (props) => {
-  const { setToken, setUser } = props
+import { AppContext } from '../context'
+const LoginContent = () => {
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
   const [isActiveFirstInput, setActiveFirstInput] = useState(false)
@@ -29,29 +29,29 @@ const LoginContent = (props) => {
     const target = event.target
     switch (target.id) {
       case 'colbBtn1':
-        postLogin(inpEmailRef.current.value, inpPasswordRef.current.value)
-          .then((response) => {
-            if (response.status === 200) {
-              console.log(response.data)
-              setActiveFirstButton((prev) => !prev)
-              setToken(true)
-              setUser(response.data.username)
-              console.log(setToken)
-              if (!target.id == '') {
-                target.id = ''
-              } else {
-                target.id = 'colbBtn1'
-              }
-            }
-          })
-          .catch((warning) => {
-            if (warning.response.status === 400) {
-              alert('Введены неверные данные пользователя')
-            } else {
-              alert('Пользователя с таким email или паролем не найден')
-            }
-          })
+        if (inpEmailRef.current.value && inpPasswordRef.current.value) {
+          document.getElementById('colbBtn2').disabled = true
 
+          postLogin(inpEmailRef.current.value, inpPasswordRef.current.value)
+            .then((response) => {
+              if (response.status === 200) {
+                console.log(response.data)
+                setActiveFirstButton((prev) => !prev)
+                localStorage.setItem('token', true)
+                localStorage.setItem('user', response.data.username)
+                if (!target.id == '') {
+                  target.id = ''
+                } else {
+                  target.id = 'colbBtn1'
+                }
+              }
+            })
+            .catch((warning) => {
+              if (warning.response.status === 401) {
+                alert(warning.response.data.detail)
+              }
+            })
+        }
         break
       case 'colbBtn2':
         setActiveSecondButton((prev) => !prev)
@@ -64,13 +64,10 @@ const LoginContent = (props) => {
         break
       case 'colbInp1':
         setActiveFirstInput(!isActiveFirstInput)
-
         break
       case 'colbInp2':
         setActiveSecondInput(!isActiveSecondInput)
-
         break
-
       default:
         if (!target.id) {
           console.warn(Error)
@@ -78,6 +75,7 @@ const LoginContent = (props) => {
 
         break
     }
+    document.getElementById('colbBtn2').disabled = false
   }
 
   return (
