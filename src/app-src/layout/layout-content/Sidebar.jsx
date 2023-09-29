@@ -13,9 +13,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     setTimeout(() => {
       navigate('/login')
-      // setUser('')
       localStorage.setItem('user', '')
-      // setToken(false)
       localStorage.setItem('token', false)
     }, 500)
   }
