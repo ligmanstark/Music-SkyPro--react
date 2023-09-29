@@ -7,7 +7,6 @@ import { Category } from './pages/Category'
 import { MyPlaylist } from './pages/MyPlaylist'
 import { ProtectedRoute } from './app-src/components/ProtectedRoute'
 const AppRoutes = () => {
-
   return (
     <>
       <Routes>
