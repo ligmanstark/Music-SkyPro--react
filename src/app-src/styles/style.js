@@ -108,6 +108,14 @@ export const DivInputsLogin = styled.div`
   top: 106px;
   left: 2rem;
 `
+export const DivInputsRegistration = styled.div`
+  box-sizing: border-box;
+  position: absolute;
+  width: 278px;
+  top: 36px;
+  left: 2rem;
+`
+
 export const DivInputEmailandPassword = styled.div`
   padding-top: 2rem;
 `
@@ -119,6 +127,15 @@ export const DivButtonsLogin = styled.div`
   top: 300px;
   margin-top: 240px;
 `
+export const DivButtonsRegistration = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  top: 300px;
+  margin-top: 240px;
+`
+
 export const DivButtonLogin = styled.div`
   box-sizing: border-box;
   min-width: 198px;
@@ -152,6 +169,13 @@ export const DivButtonSignUp = styled.div`
   background-color: white;
   color: black;
 `
+export const DivButtonSignUpRegistration = styled.div`
+  margin-left: -26px;
+  margin-top: 40px;
+  background-color: white;
+  color: black;
+`
+
 export const ButtonActiveLogin = styled(ButtonClassic)`
   &:hover {
     background-color: rgba(63, 0, 125, 1);

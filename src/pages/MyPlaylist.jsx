@@ -1,7 +1,7 @@
 import { NavigationMyPlaylist } from '../app-src/layout/layout-myPlaylist/NavigationMyPlaylist'
 import { MiddleContentMyPlaylist } from '../app-src/layout/layout-myPlaylist/MiddleMyPlaylist'
 import { SidebarMyPlaylist } from '../app-src/layout/layout-myPlaylist/SidebarMyPlaylist'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {
   getAllTracks,
   getTrackById,
@@ -13,9 +13,9 @@ import * as S from '../app-src/styles/style'
 import { useParams } from 'react-router-dom'
 import { searchID } from '../app-src/function/searchID'
 import { searchFunc } from '../app-src/function/searchFunc'
-
-const MyPlaylist = (props) => {
-  const { user } = props
+import { AppContext } from '../context'
+const MyPlaylist = () => {
+  const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
   const [isOpenFilter, setOpenFilter] = useState(false)

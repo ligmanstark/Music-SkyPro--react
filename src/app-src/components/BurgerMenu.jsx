@@ -8,6 +8,8 @@ const BurgerMenu = () => {
   const handleLogout = () => {
     setTimeout(() => {
       navigate('/login')
+      localStorage.setItem('user', '')
+      localStorage.setItem('token', false)
     }, 500)
   }
 

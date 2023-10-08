@@ -13,11 +13,12 @@ const RegisterContent = () => {
   const inpLoginRef = useRef('')
   const inpEmailRef = useRef('')
   const inpPasswordRef = useRef('')
+  const inpRepeatPasswordRef = useRef('')
 
   const navigate = useNavigate()
   if (isActiveSecondButton) {
     setTimeout(() => {
-      navigate('/login')
+      navigate('/', { replace: true })
     }, 1500)
   }
 
@@ -26,29 +27,47 @@ const RegisterContent = () => {
 
     switch (target.id) {
       case 'colbBtn2':
-        postRegistration(
-          inpEmailRef.current.value,
-          inpPasswordRef.current.value,
-          inpLoginRef.current.value
-        )
-          .then((response) => {
-            if (response.status === 201) {
-              setActiveSecondButton((prev) => !prev)
-              if (!target.id == '') {
-                target.id = ''
-              } else {
-                target.id = 'colbBtn2'
-              }
-            }
-          })
-          .catch((warning) => {
-            if (warning.response.status === 400) {
-              alert('Введены неверные данные')
-            } else {
-              alert('Сервер не работает')
-            }
-          })
+        if (inpEmailRef.current.value && inpLoginRef.current.value) {
+          if (
+            inpPasswordRef.current.value === inpRepeatPasswordRef.current.value
+          ) {
+            document.getElementById('colbBtn2').disabled = true
 
+            postRegistration(
+              inpEmailRef.current.value,
+              inpPasswordRef.current.value,
+              inpLoginRef.current.value
+            )
+              .then((response) => {
+                if (response.status === 201) {
+                  setActiveSecondButton((prev) => !prev)
+                  localStorage.setItem('token', true)
+                  localStorage.setItem('user', response.data.username)
+                  if (!target.id == '') {
+                    target.id = ''
+                  } else {
+                    target.id = 'colbBtn2'
+                  }
+                }
+              })
+              .catch((warning) => {
+                if (warning.response.status === 400) {
+                  if (warning.response.data.username) {
+                    alert(warning.response.data.username)
+                  }
+                  if (warning.response.data.email) {
+                    alert(warning.response.data.email)
+                  }
+                } else {
+                  console.log(warning)
+                }
+              })
+          } else {
+            alert('Пароли не совпадают')
+          }
+        } else {
+          alert('Заполните форму')
+        }
         break
 
       case 'colbInp1':
@@ -70,6 +89,7 @@ const RegisterContent = () => {
 
         break
     }
+    document.getElementById('colbBtn2').disabled = false
   }
 
   return (
@@ -78,7 +98,7 @@ const RegisterContent = () => {
         <S.DivLogo className="div-logo">
           <img src={logo} alt="logo-skypro" />
         </S.DivLogo>
-        <S.DivInputsLogin className="div-inputs-login">
+        <S.DivInputsRegistration className="div-inputs-login">
           <S.DivInputEmailandPassword className="div-input-email">
             <S.InputActive
               type="email"
@@ -117,11 +137,30 @@ const RegisterContent = () => {
               onClick={handleActive}
             />
           </S.DivInputEmailandPassword>
+          <S.DivInputEmailandPassword className="div-input-password">
+            <S.InputActive
+              type="password"
+              placeholder="Repeat password"
+              id="colbInp3"
+              className="active"
+              style={{
+                borderColor: isActiveSecondInput
+                  ? 'rgba(39, 26, 88, 1)'
+                  : 'rgba(88, 14, 162, 1)',
+                outlineColor: isActiveSecondInput
+                  ? 'rgba(39, 26, 88, 1)'
+                  : 'rgba(88, 14, 162, 1)',
+                boxShadow: 'none',
+              }}
+              ref={inpRepeatPasswordRef}
+              onClick={handleActive}
+            />
+          </S.DivInputEmailandPassword>
           <S.DivInputEmailandPassword className="div-input-password-repeat">
             <S.InputActive
               type="text"
               placeholder="Username"
-              id="colbInp3"
+              id="colbInp4"
               className="active"
               style={{
                 borderColor: isActiveThreeInput
@@ -136,9 +175,9 @@ const RegisterContent = () => {
               onClick={handleActive}
             />
           </S.DivInputEmailandPassword>
-        </S.DivInputsLogin>
-        <S.DivButtonsLogin className="div-buttons-login ">
-          <S.DivButtonSignUp className="div-button-signup">
+        </S.DivInputsRegistration>
+        <S.DivButtonsRegistration className="div-buttons-login ">
+          <S.DivButtonSignUpRegistration className="div-button-signup">
             <S.ButtonActiveRegistrationOnReg
               id="colbBtn2"
               className="button-signup active register  "
@@ -151,8 +190,8 @@ const RegisterContent = () => {
             >
               Зарегистрироваться
             </S.ButtonActiveRegistrationOnReg>
-          </S.DivButtonSignUp>
-        </S.DivButtonsLogin>
+          </S.DivButtonSignUpRegistration>
+        </S.DivButtonsRegistration>
       </S.LayoutLogo>
     </S.WindowLogin>
   )

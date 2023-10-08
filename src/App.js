@@ -1,19 +1,20 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { AppRoutes } from './routes'
+import { AppContext } from './context'
 const App = () => {
-  const [token, setToken] = useState(false)
-  const [user, setUser] = useState('')
+  const token = useContext(AppContext).token
+  const user = useContext(AppContext).user
   return (
     <Router basename="/Music-SkyPro--react">
-      <main>
-        <AppRoutes
-          token={token}
-          setToken={setToken}
-          user={user}
-          setUser={setUser}
-        />
-      </main>
+      <AppContext.Provider
+        value={{
+          user: user,
+          token: token,
+        }}
+      >
+        <AppRoutes />
+      </AppContext.Provider>
     </Router>
   )
 }
