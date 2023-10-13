@@ -3,7 +3,6 @@ import { searchFunc } from '../app-src/helpers/searchFunc'
 import { searchID } from '../app-src/helpers/searchID'
 import { getTrackById } from '../app-src/api/track'
 
-
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
@@ -23,7 +22,6 @@ const musicSlice = createSlice({
           action.payload.setmusic.valueName
         ).id + '/'
       )
-
     },
     shuffle(state, action) {
       console.log(state)
@@ -49,6 +47,8 @@ const musicSlice = createSlice({
       let nextSong = action.payload.music.find(
         (findSong) => findSong.id === currentIndex + 1
       )
+      state.selectNextSong.pop()
+
       state.selectNextSong.push(nextSong)
     },
     prevSong(state, action) {},
