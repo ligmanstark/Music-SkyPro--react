@@ -1,7 +1,5 @@
-import { createSlice, isPlain } from '@reduxjs/toolkit'
-import { searchFunc } from '../app-src/helpers/searchFunc'
-import { searchID } from '../app-src/helpers/searchID'
-import { getTrackById } from '../app-src/api/track'
+import { createSlice } from '@reduxjs/toolkit'
+
 
 const musicSlice = createSlice({
   name: 'music',
