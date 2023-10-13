@@ -35,28 +35,37 @@ const musicSlice = createSlice({
       console.log(state.shuffleSongPlaylist)
     },
     nextSong(state, action) {
+      let nextSong
+      let currentIndex
       console.log(state)
       console.log(action)
-      let currentIndex = action.payload.selectSong[0][0].id
-      let nextSong = action.payload.music.find(
+      currentIndex = action.payload.selectSong[0][0].id
+
+      nextSong = action.payload.music.find(
         (findSong) => findSong.id === currentIndex + 1
       )
-      state.selectNextSong.pop()
-      state.selectNextSong.push(nextSong)
-      state.selectSong.pop()
-      state.selectSong.push([nextSong])
+      if (currentIndex < 36) {
+        state.selectNextSong.pop()
+        state.selectNextSong.push(nextSong)
+        state.selectSong.pop()
+        state.selectSong.push([nextSong])
+      }
     },
     prevSong(state, action) {
+      let prevSong
+      let currentIndex
       console.log(state)
       console.log(action)
-      let currentIndex = action.payload.selectSong[0][0].id
-      let prevSong = action.payload.music.find(
+      currentIndex = action.payload.selectSong[0][0].id
+      prevSong = action.payload.music.find(
         (findSong) => findSong.id === currentIndex - 1
       )
-      state.selectPrevSong.pop()
-      state.selectPrevSong.push(prevSong)
-      state.selectSong.pop()
-      state.selectSong.push([prevSong])
+      if (currentIndex > 8) {
+        state.selectPrevSong.pop()
+        state.selectPrevSong.push(prevSong)
+        state.selectSong.pop()
+        state.selectSong.push([prevSong])
+      }
     },
   },
 })
