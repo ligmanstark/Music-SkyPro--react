@@ -21,7 +21,7 @@ const PlayerBar = (props) => {
     (state) => state.musicReducer.shuffleSongPlaylist
   )
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
-  console.log(selectSong)
+  console.log(selectSong[0])
   const dispatch = useDispatch()
   const shuffleMusic = () => {
     dispatch(shuffle(music))
@@ -57,14 +57,14 @@ const PlayerBar = (props) => {
     return () => {
       setIsPlaying(false)
     }
-  }, [selectSong.track_file])
+  }, [selectSong])
 
   return (
     <S.Bar className="bar">
       <S.AudioStyle
         controls
         ref={audioRef}
-        src={selectSong.track_file}
+        src={selectSong[0][0] ? selectSong[0][0].track_file : '00:00'}
         loop={isLooping ? true : false}
       ></S.AudioStyle>
       <S.BarContent className="bar__content">
@@ -133,7 +133,7 @@ const PlayerBar = (props) => {
               </S.PlayerButtonShuffle>
             </S.PlayerControls>
 
-            {!selectSong.length ? (
+            {!selectSong[0].length ? (
               ''
             ) : (
               <ActiveTrack

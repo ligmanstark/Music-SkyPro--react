@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 const ActiveTrack = (props) => {
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
   // console.log(selectSong);
-  const { id, name, author } = selectSong
+  const { id, name, author } = selectSong[0][0]
   console.log(name)
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>
