@@ -13,15 +13,8 @@ const musicSlice = createSlice({
   },
   reducers: {
     setterSong(state, action) {
-      console.log(state)
-      console.log(action)
-      searchFunc(
-        getTrackById,
-        searchID(
-          action.payload.setmusic.music,
-          action.payload.setmusic.valueName
-        ).id + '/'
-      )
+      state.selectSong.pop()
+      state.selectSong.push(action.payload)
     },
     shuffle(state, action) {
       console.log(state)

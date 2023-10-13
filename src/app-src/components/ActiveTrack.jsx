@@ -2,11 +2,11 @@ import * as S from './styles/style'
 import like from '../../img/icon/like.svg'
 import dislike from '../../img/icon/dislike.svg'
 import note from '../../img/icon/note.svg'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 const ActiveTrack = (props) => {
-  // const selectSong = useSelector(state=>state.musicReducer.selectSong)
-
-  const { id, name, author, track_file } = props
+  const selectSong = useSelector((state) => state.musicReducer.selectSong)
+  // console.log(selectSong);
+  const { id, name, author } = selectSong
   console.log(name)
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>

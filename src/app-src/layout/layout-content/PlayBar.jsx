@@ -15,10 +15,13 @@ import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 export let audioRef = ''
 const PlayerBar = (props) => {
+  const { music = [] } = props
+
   const shuffleSong = useSelector(
     (state) => state.musicReducer.shuffleSongPlaylist
   )
-  // const selectSong = useSelector(state=>state.musicReducer.selectSong)
+  const selectSong = useSelector((state) => state.musicReducer.selectSong)
+  console.log(selectSong)
   const dispatch = useDispatch()
   const shuffleMusic = () => {
     dispatch(shuffle(music))
@@ -28,7 +31,6 @@ const PlayerBar = (props) => {
     dispatch(nextSong({ music, selectSong }))
   }
 
-  const { music = [], selectSong = [] } = props
   console.log(selectSong)
   audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -55,14 +57,14 @@ const PlayerBar = (props) => {
     return () => {
       setIsPlaying(false)
     }
-  }, [selectSong[0].track_file])
+  }, [selectSong.track_file])
 
   return (
     <S.Bar className="bar">
       <S.AudioStyle
         controls
         ref={audioRef}
-        src={selectSong[0].track_file}
+        src={selectSong.track_file}
         loop={isLooping ? true : false}
       ></S.AudioStyle>
       <S.BarContent className="bar__content">
@@ -135,10 +137,10 @@ const PlayerBar = (props) => {
               ''
             ) : (
               <ActiveTrack
-                key={selectSong[0].id}
-                name={selectSong[0].name}
-                author={selectSong[0].author}
-                track_file={selectSong[0].track_file}
+                key={selectSong.id}
+                name={selectSong.name}
+                author={selectSong.author}
+                track_file={selectSong.track_file}
               />
             )}
           </S.BarPlayer>

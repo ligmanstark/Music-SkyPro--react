@@ -20,12 +20,12 @@ const Content = () => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [selectSong, setSelecSong] = useState([])
-  // const selectSong = useSelector(state=>state.musicReducer.selectSong)
-
+  const [song, setSelecSong] = useState([])
+  const selectSong = useSelector((state) => state.musicReducer.selectSong)
+console.log(selectSong);
   const dispatch = useDispatch()
-  const setterSelectSong = (setmusic) => {
-    dispatch(setterSong({setmusic}))
+  const setterSelectSong = () => {
+    dispatch(setterSong(song))
   }
 
   const handleOpenFilter = (event) => {
@@ -57,10 +57,11 @@ const Content = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-
     searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
-    // setterSelectSong({ music, valueName })
   }
+  useEffect(() => {
+    setterSelectSong()
+  }, [song])
 
   useEffect(() => {
     getAllTracks().then((data) => {
@@ -97,11 +98,7 @@ const Content = () => {
           />
           {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!selectSong.length ? (
-          ''
-        ) : (
-          <PlayerBar music={music} selectSong={selectSong} />
-        )}
+        {!song.length  ? '' : <PlayerBar music={music} />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>
