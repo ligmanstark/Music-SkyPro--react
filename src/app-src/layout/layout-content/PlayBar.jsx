@@ -4,7 +4,7 @@ import { ProgressBar } from '../../components/ProgressBar'
 import { VolumeBar } from '../../components/VolumeBar'
 import * as S from '../../components/styles/style'
 import { useSelector, useDispatch } from 'react-redux'
-import { shuffle, nextSong } from '../../../store/musicSlice'
+import { shuffle, nextSong, prevSong } from '../../../store/musicSlice'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
 import playB from '../../../img/icon/play.svg'
@@ -29,6 +29,10 @@ const PlayerBar = (props) => {
 
   const handleNextSong = () => {
     dispatch(nextSong({ music, selectSong }))
+  }
+
+  const handlePrevSong = () => {
+    dispatch(prevSong({ music, selectSong }))
   }
 
   console.log(selectSong)
@@ -78,7 +82,7 @@ const PlayerBar = (props) => {
                   src={prevB}
                   className="player__btn-prev-svg"
                   alt="prev"
-                  onClick={() => alert('Еще не реализовано')}
+                  onClick={handlePrevSong}
                 ></S.PlayerPrevSVG>
               </S.PlayerPrev>
               <S.PlayerButtonPlay className="player__btn-play _btn">

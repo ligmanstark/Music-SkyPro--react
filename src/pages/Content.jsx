@@ -22,7 +22,7 @@ const Content = () => {
   const [lengthFilter, setLengthFilter] = useState(null)
   const [song, setSelecSong] = useState([])
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
-  console.log(selectSong)
+
   const dispatch = useDispatch()
   const setterSelectSong = () => {
     dispatch(setterSong(song))
@@ -98,11 +98,7 @@ const Content = () => {
           />
           {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? (
-          ''
-        ) : (
-          <PlayerBar music={music}/>
-        )}
+        {!song.length ? '' : <PlayerBar music={music} />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>
