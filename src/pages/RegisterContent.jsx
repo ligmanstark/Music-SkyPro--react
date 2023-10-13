@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as S from '../app-src/styles/style'
-import { postRegistration } from '../app-src/function/response'
+import * as S from '../app-src/components/styles/style'
+import { postRegistration } from '../app-src/api/user'
 import logo from '../img/logo.svg'
 
 const RegisterContent = () => {

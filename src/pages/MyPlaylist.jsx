@@ -1,19 +1,19 @@
 import { NavigationMyPlaylist } from '../app-src/layout/layout-myPlaylist/NavigationMyPlaylist'
 import { MiddleContentMyPlaylist } from '../app-src/layout/layout-myPlaylist/MiddleMyPlaylist'
-import { SidebarMyPlaylist } from '../app-src/layout/layout-myPlaylist/SidebarMyPlaylist'
 import React, { useEffect, useState, useContext } from 'react'
 import {
   getAllTracks,
   getTrackById,
   getTrackSelectionById,
-} from '../app-src/function/response'
+} from '../app-src/api/track'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
-import * as S from '../app-src/styles/style'
+import * as S from '../app-src/components/styles/style'
 import { useParams } from 'react-router-dom'
-import { searchID } from '../app-src/function/searchID'
-import { searchFunc } from '../app-src/function/searchFunc'
+import { searchID } from '../app-src/helpers/searchID'
+import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
+import {Sidebar} from '../app-src/layout/layout-content/Sidebar'
 const MyPlaylist = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -100,7 +100,7 @@ const MyPlaylist = () => {
           {!music.length ? (
             <PreloaderSideBar />
           ) : (
-            <SidebarMyPlaylist user={user} />
+            <Sidebar user={user} />
           )}
         </S.Main>
         {!selectSong.length ? (

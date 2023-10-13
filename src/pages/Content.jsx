@@ -2,13 +2,16 @@ import { Navigation } from '../app-src/layout/layout-content/Navigation'
 import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import React, { useEffect, useState, useContext } from 'react'
-import { getAllTracks, getTrackById } from '../app-src/function/response'
+import { getAllTracks, getTrackById } from '../app-src/api/track'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
-import * as S from '../app-src/styles/style'
-import { searchID } from '../app-src/function/searchID'
-import { searchFunc } from '../app-src/function/searchFunc'
+import * as S from '../app-src/components/styles/style'
+import { searchID } from '../app-src/helpers/searchID'
+import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
+import { useSelector, useDispatch } from 'react-redux'
+import { setterSong } from '../store/musicSlice'
+
 const Content = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -18,6 +21,12 @@ const Content = () => {
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
   const [selectSong, setSelecSong] = useState([])
+  // const selectSong = useSelector(state=>state.musicReducer.selectSong)
+
+  const dispatch = useDispatch()
+  const setterSelectSong = (setmusic) => {
+    dispatch(setterSong({setmusic}))
+  }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -48,10 +57,9 @@ const Content = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-    console.log(typeof valueName)
 
     searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
-    console.log(selectSong)
+    // setterSelectSong({ music, valueName })
   }
 
   useEffect(() => {

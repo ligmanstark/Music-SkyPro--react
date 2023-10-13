@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { QuantitySongsInFilter } from './QuantitySongsInFilter'
-import * as S from '../styles/style'
+import * as S from './styles/style'
 const Filter = (props) => {
   const {
     music = [],

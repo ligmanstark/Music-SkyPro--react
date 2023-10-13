@@ -1,4 +1,4 @@
-import * as S from '../styles/style'
+import * as S from './styles/style'
 const PreloaderSideBar = (props) => {
   return (
     <S.MainSideBar className="main__sidebar sidebar">

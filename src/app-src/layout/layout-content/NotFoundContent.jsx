@@ -1,4 +1,4 @@
-import * as S from '../../styles/style'
+import * as S from '../../components/styles/style'
 import { Search } from '../../components/Search'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'

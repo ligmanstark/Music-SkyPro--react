@@ -1,5 +1,5 @@
-import { convertTime } from '../function/convertTime'
-import * as S from '../styles/style'
+import { convertTime } from '../helpers/convertTime'
+import * as S from './styles/style'
 import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
 

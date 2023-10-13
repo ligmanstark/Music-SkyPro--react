@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import * as S from '../styles/style'
+import * as S from './styles/style'
 import { audioRef } from '../layout/layout-content/PlayBar'
-import { convertTime } from '../function/convertTime'
+import { convertTime } from '../helpers/convertTime'
 const ProgressBar = () => {
   const [currentTime, setCurrentTime] = useState(null)
   const [duration, setDuration] = useState(null)

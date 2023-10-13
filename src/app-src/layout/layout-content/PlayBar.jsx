@@ -2,7 +2,9 @@ import { ActiveTrack } from '../../components/ActiveTrack'
 import { useState, useRef, useEffect } from 'react'
 import { ProgressBar } from '../../components/ProgressBar'
 import { VolumeBar } from '../../components/VolumeBar'
-import * as S from '../../styles/style'
+import * as S from '../../components/styles/style'
+import { useSelector, useDispatch } from 'react-redux'
+import { shuffle, nextSong } from '../../../store/musicSlice'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
 import playB from '../../../img/icon/play.svg'
@@ -13,6 +15,19 @@ import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 export let audioRef = ''
 const PlayerBar = (props) => {
+  const shuffleSong = useSelector(
+    (state) => state.musicReducer.shuffleSongPlaylist
+  )
+  // const selectSong = useSelector(state=>state.musicReducer.selectSong)
+  const dispatch = useDispatch()
+  const shuffleMusic = () => {
+    dispatch(shuffle(music))
+  }
+
+  const handleNextSong = () => {
+    dispatch(nextSong({ music, selectSong }))
+  }
+
   const { music = [], selectSong = [] } = props
   console.log(selectSong)
   audioRef = useRef(null)
@@ -86,7 +101,7 @@ const PlayerBar = (props) => {
                   src={nextB}
                   className="player__btn-next-svg"
                   alt="next"
-                  onClick={() => alert('Еще не реализовано')}
+                  onClick={handleNextSong}
                 ></S.PlayerButtonNextSVG>
               </S.PlayerButonNext>
               <S.PlayerButtonRepeat className="player__btn-repeat _btn-icon">
@@ -111,7 +126,7 @@ const PlayerBar = (props) => {
                   src={shuffleB}
                   className="player__btn-shuffle-svg"
                   alt="shuffle"
-                  onClick={() => alert('Еще не реализовано')}
+                  onClick={shuffleMusic}
                 ></S.PlayerButtonShuffleSVG>
               </S.PlayerButtonShuffle>
             </S.PlayerControls>
