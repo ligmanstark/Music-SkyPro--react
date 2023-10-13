@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom'
 import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
-import {Sidebar} from '../app-src/layout/layout-content/Sidebar'
+import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 const MyPlaylist = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -97,11 +97,7 @@ const MyPlaylist = () => {
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
           />
-          {!music.length ? (
-            <PreloaderSideBar />
-          ) : (
-            <Sidebar user={user} />
-          )}
+          {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
         {!selectSong.length ? (
           ''

@@ -13,6 +13,7 @@ import loopB from '../../../img/icon/loop.svg'
 import repeatB from '../../../img/icon/repeat.svg'
 import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
+import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
 const PlayerBar = (props) => {
   const { music = [] } = props
@@ -24,7 +25,10 @@ const PlayerBar = (props) => {
   console.log(selectSong[0])
   const dispatch = useDispatch()
   const shuffleMusic = () => {
-    dispatch(shuffle(music))
+    setIsShuffle((prev) => !prev)
+    if (isShuffle) {
+      dispatch(shuffle(music))
+    }
   }
 
   const handleNextSong = () => {
@@ -39,6 +43,7 @@ const PlayerBar = (props) => {
   audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLooping, setIsLooping] = useState(false)
+  const [isShuffle, setIsShuffle] = useState(false)
 
   const playingButton = () => {
     if (isPlaying) {
@@ -128,12 +133,21 @@ const PlayerBar = (props) => {
                 )}
               </S.PlayerButtonRepeat>
               <S.PlayerButtonShuffle className="player__btn-shuffle _btn-icon">
-                <S.PlayerButtonShuffleSVG
-                  src={shuffleB}
-                  className="player__btn-shuffle-svg"
-                  alt="shuffle"
-                  onClick={shuffleMusic}
-                ></S.PlayerButtonShuffleSVG>
+                {isShuffle ? (
+                  <S.PlayerButtonShuffleSVG
+                    src={activeshuffleB}
+                    className="player__btn-shuffle-svg"
+                    alt="shuffle"
+                    onClick={shuffleMusic}
+                  ></S.PlayerButtonShuffleSVG>
+                ) : (
+                  <S.PlayerButtonShuffleSVG
+                    src={shuffleB}
+                    className="player__btn-shuffle-svg"
+                    alt="shuffle"
+                    onClick={shuffleMusic}
+                  ></S.PlayerButtonShuffleSVG>
+                )}
               </S.PlayerButtonShuffle>
             </S.PlayerControls>
 

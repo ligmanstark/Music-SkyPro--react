@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, isPlain } from '@reduxjs/toolkit'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { searchID } from '../app-src/helpers/searchID'
 import { getTrackById } from '../app-src/api/track'
@@ -18,8 +18,6 @@ const musicSlice = createSlice({
       state.selectSong.push(action.payload)
     },
     shuffle(state, action) {
-      console.log(state)
-      console.log(action)
       let currentIndex = action.payload.length
       let arr = action.payload
       let randomIndex
@@ -37,8 +35,7 @@ const musicSlice = createSlice({
     nextSong(state, action) {
       let nextSong
       let currentIndex
-      console.log(state)
-      console.log(action)
+
       currentIndex = action.payload.selectSong[0][0].id
 
       nextSong = action.payload.music.find(
@@ -54,8 +51,7 @@ const musicSlice = createSlice({
     prevSong(state, action) {
       let prevSong
       let currentIndex
-      console.log(state)
-      console.log(action)
+
       currentIndex = action.payload.selectSong[0][0].id
       prevSong = action.payload.music.find(
         (findSong) => findSong.id === currentIndex - 1
@@ -70,6 +66,7 @@ const musicSlice = createSlice({
   },
 })
 
-export const { shuffle, nextSong, prevSong, setterSong } = musicSlice.actions
+export const { shuffle, nextSong, prevSong, setterSong, setPlay } =
+  musicSlice.actions
 
 export default musicSlice.reducer

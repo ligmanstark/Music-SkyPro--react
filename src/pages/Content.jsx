@@ -21,7 +21,6 @@ const Content = () => {
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
   const [song, setSelecSong] = useState([])
-  const selectSong = useSelector((state) => state.musicReducer.selectSong)
 
   const dispatch = useDispatch()
   const setterSelectSong = () => {

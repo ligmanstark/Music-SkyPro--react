@@ -21,12 +21,4 @@ const getTrackSelectionById = async (Id) => {
   return response
 }
 
-
-
-export {
-  getAllTracks,
-  getTrackById,
-  getTrackSelection,
-  getTrackSelectionById,
- 
-}
+export { getAllTracks, getTrackById, getTrackSelection, getTrackSelectionById }
