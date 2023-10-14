@@ -33,7 +33,7 @@ const PlayerBar = () => {
     setIsShuffle((prev) => !prev)
     dispatch(shuffle(music))
   }
-  
+
   const handleNextSong = () => {
     dispatch(nextSong({ music, selectSong }))
   }
@@ -50,7 +50,6 @@ const PlayerBar = () => {
   useEffect(() => {
     dispatch(changeShuffle(isShuffle))
   }, [isShuffle])
-
 
   const playingButton = () => {
     if (isPlaying) {

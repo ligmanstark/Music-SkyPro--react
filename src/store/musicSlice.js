@@ -8,11 +8,11 @@ const musicSlice = createSlice({
     selectSong: [],
     music: [],
     shuffleSongPlaylist: [],
-    shuffleActive:false
+    shuffleActive: false,
   },
   reducers: {
     changeShuffle(state, action) {
-      console.log(action);
+      console.log(action)
       state.shuffleActive = action.payload
     },
     setterSong(state, action) {
@@ -38,7 +38,6 @@ const musicSlice = createSlice({
       }
       state.shuffleSongPlaylist.pop()
       state.shuffleSongPlaylist.push(arrCopy)
-
     },
     nextSong(state, action) {
       let nextSong
@@ -116,7 +115,13 @@ const musicSlice = createSlice({
   },
 })
 
-export const { shuffle, nextSong, prevSong, setterSong, setterMusic,changeShuffle } =
-  musicSlice.actions
+export const {
+  shuffle,
+  nextSong,
+  prevSong,
+  setterSong,
+  setterMusic,
+  changeShuffle,
+} = musicSlice.actions
 
 export default musicSlice.reducer

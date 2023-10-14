@@ -18,7 +18,6 @@ const MiddleContentCategory = (props) => {
     handleSelectSong = Function.prototype,
   } = props
 
-
   return (
     <S.MainCenterblock className="main__centerblock ">
       <Search searchTrack={searchTrack} music={music} />

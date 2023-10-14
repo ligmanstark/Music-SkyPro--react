@@ -23,9 +23,9 @@ const Content = () => {
   const [song, setSelecSong] = useState([])
 
   const dispatch = useDispatch()
-const setterSelectMusic = () => {
-  dispatch(setterMusic(music))
-}
+  const setterSelectMusic = () => {
+    dispatch(setterMusic(music))
+  }
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
@@ -75,7 +75,7 @@ const setterSelectMusic = () => {
 
   useEffect(() => {
     setterSelectMusic()
-  }, [music]);
+  }, [music])
 
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {
