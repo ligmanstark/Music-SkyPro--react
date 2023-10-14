@@ -54,17 +54,14 @@ const MyPlaylist = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-    console.log(typeof valueName)
 
     searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
-    console.log(selectSong)
   }
 
   useEffect(() => {
     getTrackSelectionById('1/').then((data) => {
       setMusic(data.data.items)
       setFilteredMusic([...new Set(data.data.items.map((e) => e.author))])
-      console.log(data.data.items)
     })
   }, [categoryId.id])
 

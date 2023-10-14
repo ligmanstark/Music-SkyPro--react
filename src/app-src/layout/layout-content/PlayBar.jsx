@@ -16,19 +16,19 @@ import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
 const PlayerBar = (props) => {
-  const { music = [] } = props
 
   const shuffleSong = useSelector(
     (state) => state.musicReducer.shuffleSongPlaylist
   )
+  const music = useSelector(
+    (state) => state.musicReducer.music
+  )
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
-  console.log(selectSong[0])
   const dispatch = useDispatch()
   const shuffleMusic = () => {
     setIsShuffle((prev) => !prev)
-    if (isShuffle) {
       dispatch(shuffle(music))
-    }
+
   }
 
   const handleNextSong = () => {
@@ -39,7 +39,6 @@ const PlayerBar = (props) => {
     dispatch(prevSong({ music, selectSong }))
   }
 
-  console.log(selectSong)
   audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLooping, setIsLooping] = useState(false)
@@ -53,7 +52,6 @@ const PlayerBar = (props) => {
       audioRef.current.play()
       setIsPlaying((prev) => !prev)
     }
-    console.log(isPlaying)
   }
 
   const handleLoop = () => {

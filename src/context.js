@@ -14,7 +14,6 @@ const initialState = {
   user: setUserLocalStorage,
   token: setTokenLocalStorage,
 }
-console.log(initialState)
 const AppContext = createContext(initialState)
 
 export { AppContext }

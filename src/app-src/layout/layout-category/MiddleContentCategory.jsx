@@ -18,7 +18,6 @@ const MiddleContentCategory = (props) => {
     handleSelectSong = Function.prototype,
   } = props
 
-  console.log(url)
 
   return (
     <S.MainCenterblock className="main__centerblock ">

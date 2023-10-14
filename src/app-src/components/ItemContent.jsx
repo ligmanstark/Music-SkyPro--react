@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux'
 const ItemContent = (props) => {
   const song = useSelector((state) => state.musicReducer.selectSong)
   const activeNote = useSelector((state) => state.musicReducer.isPlay)
-  // console.log(song);
   const {
     id,
     name,

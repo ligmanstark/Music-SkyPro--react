@@ -10,7 +10,7 @@ import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { useSelector, useDispatch } from 'react-redux'
-import { setterSong } from '../store/musicSlice'
+import { setterMusic, setterSong } from '../store/musicSlice'
 
 const Content = () => {
   const { user } = useContext(AppContext)
@@ -23,6 +23,10 @@ const Content = () => {
   const [song, setSelecSong] = useState([])
 
   const dispatch = useDispatch()
+const setterSelectMusic = () => {
+  dispatch(setterMusic(music))
+}
+
   const setterSelectSong = () => {
     dispatch(setterSong(song))
   }
@@ -68,6 +72,10 @@ const Content = () => {
       setFilteredMusic([...new Set(data.data.map((e) => e.author))])
     })
   }, [])
+
+  useEffect(() => {
+    setterSelectMusic()
+  }, [music]);
 
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {

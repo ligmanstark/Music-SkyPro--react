@@ -35,7 +35,6 @@ const LoginContent = () => {
           postLogin(inpEmailRef.current.value, inpPasswordRef.current.value)
             .then((response) => {
               if (response.status === 200) {
-                console.log(response.data)
                 setActiveFirstButton((prev) => !prev)
                 localStorage.setItem('token', true)
                 localStorage.setItem('user', response.data.username)
