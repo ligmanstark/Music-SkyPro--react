@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import { audioRef } from '../app-src/layout/layout-content/PlayBar'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
@@ -9,8 +9,17 @@ const musicSlice = createSlice({
     music: [],
     shuffleSongPlaylist: [],
     shuffleActive: false,
+    currentTime: [],
+    duration: [],
   },
   reducers: {
+    autoNext(state, action) {
+      console.log(action)
+      state.duration = action.payload.duration
+      state.currentTime = action.payload.currentTime
+      if (state.duration !== NaN && state.duration == state.currentTime) {
+      }
+    },
     changeShuffle(state, action) {
       console.log(action)
       state.shuffleActive = action.payload
@@ -122,6 +131,7 @@ export const {
   setterSong,
   setterMusic,
   changeShuffle,
+  autoNext,
 } = musicSlice.actions
 
 export default musicSlice.reducer

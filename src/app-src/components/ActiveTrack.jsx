@@ -3,7 +3,7 @@ import like from '../../img/icon/like.svg'
 import dislike from '../../img/icon/dislike.svg'
 import note from '../../img/icon/note.svg'
 import { useSelector } from 'react-redux'
-const ActiveTrack = (props) => {
+const ActiveTrack = () => {
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
   const { id, name, author } = selectSong[0][0]
   return (

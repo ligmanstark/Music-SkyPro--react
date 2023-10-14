@@ -21,12 +21,8 @@ import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
 const PlayerBar = () => {
-  const shuffleSong = useSelector(
-    (state) => state.musicReducer.shuffleSongPlaylist
-  )
   const music = useSelector((state) => state.musicReducer.music)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
-  const shuffleActive = useSelector((state) => state.musicReducer.shuffleActive)
 
   const dispatch = useDispatch()
   const shuffleMusic = () => {
@@ -79,6 +75,7 @@ const PlayerBar = () => {
         controls
         ref={audioRef}
         src={selectSong[0][0] ? selectSong[0][0].track_file : '00:00'}
+        onEnded={selectSong[0][0] ? selectSong[0][0].track_file : '00:00'}
         loop={isLooping ? true : false}
       ></S.AudioStyle>
       <S.BarContent className="bar__content">

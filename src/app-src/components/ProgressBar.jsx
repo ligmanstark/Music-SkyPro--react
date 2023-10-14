@@ -2,9 +2,16 @@ import { useState, useEffect } from 'react'
 import * as S from './styles/style'
 import { audioRef } from '../layout/layout-content/PlayBar'
 import { convertTime } from '../helpers/convertTime'
+import { useDispatch, useSelector } from 'react-redux'
+import { autoNext } from '../../store/musicSlice'
 const ProgressBar = () => {
   const [currentTime, setCurrentTime] = useState(null)
   const [duration, setDuration] = useState(null)
+
+  const dispatch = useDispatch()
+  const timeDuration = (time) => {
+    dispatch(autoNext(time))
+  }
 
   useEffect(() => {
     setDuration(audioRef.current.duration)
@@ -17,6 +24,10 @@ const ProgressBar = () => {
   useEffect(() => {
     const timeId = setInterval(() => {
       setCurrentTime(audioRef.current.currentTime)
+      if (currentTime !== null) {
+        timeDuration({ currentTime, duration })
+      }
+      console.log(currentTime)
     }, 100)
     return () => clearInterval(timeId)
   }, [currentTime])
