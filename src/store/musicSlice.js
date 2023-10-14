@@ -11,13 +11,49 @@ const musicSlice = createSlice({
     shuffleActive: false,
     currentTime: [],
     duration: [],
+    five: 5,
+    restart: false,
   },
   reducers: {
     autoNext(state, action) {
-      console.log(action)
       state.duration = action.payload.duration
       state.currentTime = action.payload.currentTime
-      if (state.duration !== NaN && state.duration == state.currentTime) {
+      if (state.duration !== NaN && state.duration === state.currentTime) {
+        let nextSong
+        let currentIndex
+
+        if (state.shuffleActive) {
+          currentIndex = state.selectSong[0][0].id
+          nextSong = state.shuffleSongPlaylist[0].find(
+            (findSong) =>
+              findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
+          )
+          if (nextSong === undefined) {
+            nextSong = state.shuffleSongPlaylist[0].find(
+              (findSong) =>
+                findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
+            )
+          } else {
+            if (currentIndex < 36) {
+              state.selectNextSong.pop()
+              state.selectNextSong.push(nextSong)
+              state.selectSong.pop()
+              state.selectSong.push([nextSong])
+            }
+          }
+        } else {
+          currentIndex = state.selectSong[0][0].id
+
+          nextSong = state.music[0].find(
+            (findSong) => findSong.id === currentIndex + 1
+          )
+          if (currentIndex < 36) {
+            state.selectNextSong.pop()
+            state.selectNextSong.push(nextSong)
+            state.selectSong.pop()
+            state.selectSong.push([nextSong])
+          }
+        }
       }
     },
     changeShuffle(state, action) {
@@ -86,38 +122,44 @@ const musicSlice = createSlice({
       }
     },
     prevSong(state, action) {
-      let prevSong
-      let currentIndex
+      if (state.five < state.currentTime) {
+        state.restart = !state.restart
+        audioRef.current.load()
+        audioRef.current.play()
+      } else {
+        let prevSong
+        let currentIndex
 
-      if (state.shuffleSongPlaylist.length) {
-        currentIndex = action.payload.selectSong[0][0].id
-        prevSong = state.shuffleSongPlaylist[0].find(
-          (findSong) =>
-            findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
-        )
-        if (prevSong === undefined) {
+        if (state.shuffleSongPlaylist.length) {
+          currentIndex = action.payload.selectSong[0][0].id
           prevSong = state.shuffleSongPlaylist[0].find(
             (findSong) =>
               findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
           )
+          if (prevSong === undefined) {
+            prevSong = state.shuffleSongPlaylist[0].find(
+              (findSong) =>
+                findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
+            )
+          } else {
+            if (currentIndex > 8) {
+              state.selectPrevSong.pop()
+              state.selectPrevSong.push(prevSong)
+              state.selectSong.pop()
+              state.selectSong.push([prevSong])
+            }
+          }
         } else {
+          currentIndex = action.payload.selectSong[0][0].id
+          prevSong = action.payload.music[0].find(
+            (findSong) => findSong.id === currentIndex - 1
+          )
           if (currentIndex > 8) {
             state.selectPrevSong.pop()
             state.selectPrevSong.push(prevSong)
             state.selectSong.pop()
             state.selectSong.push([prevSong])
           }
-        }
-      } else {
-        currentIndex = action.payload.selectSong[0][0].id
-        prevSong = action.payload.music[0].find(
-          (findSong) => findSong.id === currentIndex - 1
-        )
-        if (currentIndex > 8) {
-          state.selectPrevSong.pop()
-          state.selectPrevSong.push(prevSong)
-          state.selectSong.pop()
-          state.selectSong.push([prevSong])
         }
       }
     },

@@ -59,6 +59,7 @@ const PlayerBar = () => {
 
   const handleLoop = () => {
     setIsLooping((prev) => !prev)
+    console.log('loop')
   }
 
   useEffect(() => {
