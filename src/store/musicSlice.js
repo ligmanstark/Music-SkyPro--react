@@ -8,8 +8,13 @@ const musicSlice = createSlice({
     selectSong: [],
     music: [],
     shuffleSongPlaylist: [],
+    shuffleActive:false
   },
   reducers: {
+    changeShuffle(state, action) {
+      console.log(action);
+      state.shuffleActive = action.payload
+    },
     setterSong(state, action) {
       state.selectSong.pop()
       state.selectSong.push(action.payload)
@@ -39,7 +44,7 @@ const musicSlice = createSlice({
       let nextSong
       let currentIndex
 
-      if (state.shuffleSongPlaylist.length) {
+      if (state.shuffleActive) {
         currentIndex = action.payload.selectSong[0][0].id
         nextSong = state.shuffleSongPlaylist[0].find(
           (findSong) =>
@@ -111,7 +116,7 @@ const musicSlice = createSlice({
   },
 })
 
-export const { shuffle, nextSong, prevSong, setterSong, setPlay, setterMusic } =
+export const { shuffle, nextSong, prevSong, setterSong, setterMusic,changeShuffle } =
   musicSlice.actions
 
 export default musicSlice.reducer

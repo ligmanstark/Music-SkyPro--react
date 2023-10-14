@@ -4,7 +4,12 @@ import { ProgressBar } from '../../components/ProgressBar'
 import { VolumeBar } from '../../components/VolumeBar'
 import * as S from '../../components/styles/style'
 import { useSelector, useDispatch } from 'react-redux'
-import { shuffle, nextSong, prevSong } from '../../../store/musicSlice'
+import {
+  shuffle,
+  nextSong,
+  prevSong,
+  changeShuffle,
+} from '../../../store/musicSlice'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
 import playB from '../../../img/icon/play.svg'
@@ -15,22 +20,20 @@ import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
-const PlayerBar = (props) => {
-
+const PlayerBar = () => {
   const shuffleSong = useSelector(
     (state) => state.musicReducer.shuffleSongPlaylist
   )
-  const music = useSelector(
-    (state) => state.musicReducer.music
-  )
+  const music = useSelector((state) => state.musicReducer.music)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
+  const shuffleActive = useSelector((state) => state.musicReducer.shuffleActive)
+
   const dispatch = useDispatch()
   const shuffleMusic = () => {
     setIsShuffle((prev) => !prev)
-      dispatch(shuffle(music))
-
+    dispatch(shuffle(music))
   }
-
+  
   const handleNextSong = () => {
     dispatch(nextSong({ music, selectSong }))
   }
@@ -43,6 +46,11 @@ const PlayerBar = (props) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLooping, setIsLooping] = useState(false)
   const [isShuffle, setIsShuffle] = useState(false)
+
+  useEffect(() => {
+    dispatch(changeShuffle(isShuffle))
+  }, [isShuffle])
+
 
   const playingButton = () => {
     if (isPlaying) {
