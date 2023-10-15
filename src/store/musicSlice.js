@@ -177,7 +177,7 @@ const musicSlice = createSlice({
                     .id
               )
             } else {
-              if (currentIndex > 8) {
+              if (currentIndex > 8 && currentIndex !== undefined) {
                 state.selectPrevSong.pop()
                 state.selectPrevSong.push(prevSong)
                 state.selectSong.pop()
@@ -191,12 +191,14 @@ const musicSlice = createSlice({
           prevSong = action.payload.music[0].find(
             (findSong) => findSong.id === currentIndex - 1
           )
-          if (currentIndex > 8) {
+          if (currentIndex > 8 && prevSong !== undefined) {
             state.selectPrevSong.pop()
             state.selectPrevSong.push(prevSong)
             state.selectSong.pop()
             state.selectSong.push([prevSong])
           }
+          audioRef.current.load()
+          audioRef.current.play()
         }
       }
     },

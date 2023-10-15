@@ -14,6 +14,9 @@ import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
+import { useSelector, useDispatch } from 'react-redux'
+import { setterMusic, setterSong } from '../store/musicSlice'
+
 const MyPlaylist = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -22,8 +25,18 @@ const MyPlaylist = () => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [selectSong, setSelecSong] = useState([])
+  const [song, setSelecSong] = useState([])
+
   const categoryId = useParams()
+
+  const dispatch = useDispatch()
+  const setterSelectMusic = () => {
+    dispatch(setterMusic(music))
+  }
+
+  const setterSelectSong = () => {
+    dispatch(setterSong(song))
+  }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -76,6 +89,14 @@ const MyPlaylist = () => {
     setOpen((prev) => !prev)
   }
 
+  useEffect(() => {
+    setterSelectSong()
+  }, [song])
+
+  useEffect(() => {
+    setterSelectMusic()
+  }, [music])
+
   return (
     <S.Wrapper className="wrapper">
       <S.Container className="container">
@@ -96,11 +117,7 @@ const MyPlaylist = () => {
           />
           {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!selectSong.length ? (
-          ''
-        ) : (
-          <PlayerBar music={music} selectSong={selectSong} />
-        )}
+        {!song.length ? '' : <PlayerBar music={music} />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

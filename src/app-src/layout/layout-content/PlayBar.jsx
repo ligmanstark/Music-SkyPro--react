@@ -100,7 +100,7 @@ const PlayerBar = () => {
   const handlePrevSong = () => {
     dispatch(prevSong({ music, selectSong }))
     audioRef.current.play()
-    setIsPlaying((prev) => !prev)
+    setIsPlaying(true)
     isActiveMusic(isPlaying)
     prevCounter()
     prevTakeCounter()
@@ -141,11 +141,6 @@ const PlayerBar = () => {
   useEffect(() => {
     isActiveMusic(isPlaying)
   }, [audioRef.current])
-
-  // useEffect(() => {
-  //   nextTakeCounter(count)
-  //   prevTakeCounter(count)
-  // }, [count])
 
   return (
     <S.Bar className="bar">
