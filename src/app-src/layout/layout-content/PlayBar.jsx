@@ -9,6 +9,11 @@ import {
   nextSong,
   prevSong,
   changeShuffle,
+  active,
+  takeCount,
+  takeStartCount,
+  prevTakeStartCount,
+  prevTakeCount,
 } from '../../../store/musicSlice'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
@@ -24,24 +29,84 @@ const PlayerBar = () => {
   const music = useSelector((state) => state.musicReducer.music)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
 
+  audioRef = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isLooping, setIsLooping] = useState(false)
+  const [isShuffle, setIsShuffle] = useState(false)
+  const [count, setCount] = useState(1)
+  const [startCount, setStartCount] = useState(0)
+
+  const startPrevCounter = () => {
+    if (startCount > 0) {
+      setStartCount((count) => count - 1)
+    }
+  }
+
+  const prevCounter = () => {
+    if (count > 0) {
+      setCount((count) => count - 1)
+    }
+  }
+
+  const startNextCounter = () => {
+    if (startCount < 29) {
+      setStartCount((count) => count + 1)
+    }
+  }
+
+  const startCounter = () => {
+    if (count < 29) {
+      setCount((count) => count + 1)
+    }
+  }
+
   const dispatch = useDispatch()
+
+  const prevStartTakeCount = () => {
+    dispatch(prevTakeStartCount(startCount))
+  }
+
+  const prevTakeCounter = () => {
+    dispatch(prevTakeCount(count))
+  }
+
+  const nextStartTakeCount = () => {
+    dispatch(takeStartCount(startCount))
+  }
+
+  const nextTakeCounter = () => {
+    dispatch(takeCount(count))
+  }
   const shuffleMusic = () => {
     setIsShuffle((prev) => !prev)
     dispatch(shuffle(music))
   }
 
+  const isActiveMusic = (status) => {
+    dispatch(active(status))
+  }
+
   const handleNextSong = () => {
     dispatch(nextSong({ music, selectSong }))
+    audioRef.current.play()
+    setIsPlaying((prev) => !prev)
+    isActiveMusic(isPlaying)
+    startCounter()
+    nextTakeCounter()
+    startNextCounter()
+    nextStartTakeCount()
   }
 
   const handlePrevSong = () => {
     dispatch(prevSong({ music, selectSong }))
+    audioRef.current.play()
+    setIsPlaying((prev) => !prev)
+    isActiveMusic(isPlaying)
+    prevCounter()
+    prevTakeCounter()
+    startPrevCounter()
+    prevStartTakeCount()
   }
-
-  audioRef = useRef(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isLooping, setIsLooping] = useState(false)
-  const [isShuffle, setIsShuffle] = useState(false)
 
   useEffect(() => {
     dispatch(changeShuffle(isShuffle))
@@ -51,24 +116,36 @@ const PlayerBar = () => {
     if (isPlaying) {
       audioRef.current.pause()
       setIsPlaying((prev) => !prev)
+      isActiveMusic(isPlaying)
     } else {
       audioRef.current.play()
       setIsPlaying((prev) => !prev)
+      isActiveMusic(isPlaying)
     }
   }
 
   const handleLoop = () => {
     setIsLooping((prev) => !prev)
-    console.log('loop')
   }
 
   useEffect(() => {
     audioRef.current.play()
     setIsPlaying(true)
+    isActiveMusic(isPlaying)
     return () => {
       setIsPlaying(false)
+      isActiveMusic(false)
     }
   }, [selectSong])
+
+  useEffect(() => {
+    isActiveMusic(isPlaying)
+  }, [audioRef.current])
+
+  // useEffect(() => {
+  //   nextTakeCounter(count)
+  //   prevTakeCounter(count)
+  // }, [count])
 
   return (
     <S.Bar className="bar">
@@ -76,7 +153,6 @@ const PlayerBar = () => {
         controls
         ref={audioRef}
         src={selectSong[0][0] ? selectSong[0][0].track_file : '00:00'}
-        onEnded={selectSong[0][0] ? selectSong[0][0].track_file : '00:00'}
         loop={isLooping ? true : false}
       ></S.AudioStyle>
       <S.BarContent className="bar__content">

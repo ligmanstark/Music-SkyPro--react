@@ -27,7 +27,6 @@ const ProgressBar = () => {
       if (currentTime !== null) {
         timeDuration({ currentTime, duration })
       }
-      console.log(currentTime)
     }, 100)
     return () => clearInterval(timeId)
   }, [currentTime])

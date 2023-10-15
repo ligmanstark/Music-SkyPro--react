@@ -13,8 +13,30 @@ const musicSlice = createSlice({
     duration: [],
     five: 5,
     restart: false,
+    activeSong: false,
+    num: 1,
+    overNum: 0,
   },
   reducers: {
+    prevTakeStartCount(state, action) {
+      console.log(action, '-')
+      state.overNum = action.payload
+    },
+    prevTakeCount(state, action) {
+      console.log(action, '-')
+      state.num = action.payload
+    },
+    takeStartCount(state, action) {
+      console.log(action, '+')
+      state.overNum = action.payload
+    },
+    takeCount(state, action) {
+      console.log(action, '+')
+      state.num = action.payload
+    },
+    active(state, action) {
+      state.activeSong = !action.payload
+    },
     autoNext(state, action) {
       state.duration = action.payload.duration
       state.currentTime = action.payload.currentTime
@@ -57,7 +79,6 @@ const musicSlice = createSlice({
       }
     },
     changeShuffle(state, action) {
-      console.log(action)
       state.shuffleActive = action.payload
     },
     setterSong(state, action) {
@@ -83,28 +104,37 @@ const musicSlice = createSlice({
       }
       state.shuffleSongPlaylist.pop()
       state.shuffleSongPlaylist.push(arrCopy)
+      console.log(arrCopy)
     },
     nextSong(state, action) {
+      audioRef.current.pause()
+      audioRef.current.play()
+
+      state.activeSong = !state.activeSong
       let nextSong
       let currentIndex
-
       if (state.shuffleActive) {
-        currentIndex = action.payload.selectSong[0][0].id
-        nextSong = state.shuffleSongPlaylist[0].find(
-          (findSong) =>
-            findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
-        )
-        if (nextSong === undefined) {
-          nextSong = state.shuffleSongPlaylist[0].find(
-            (findSong) =>
-              findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
+        if (state.num < 29) {
+          currentIndex = action.payload.selectSong[0][0].id
+
+          nextSong = state.shuffleSongPlaylist[0].slice(
+            state.overNum,
+            state.num
           )
-        } else {
-          if (currentIndex < 36) {
-            state.selectNextSong.pop()
-            state.selectNextSong.push(nextSong)
-            state.selectSong.pop()
-            state.selectSong.push([nextSong])
+
+          if (nextSong === undefined) {
+            nextSong = state.shuffleSongPlaylist[0].find(
+              (findSong) =>
+                findSong.id ===
+                state.shuffleSongPlaylist[0].slice(state.overNum, state.num).id
+            )
+          } else {
+            if (currentIndex < 36) {
+              state.selectNextSong.pop()
+              state.selectNextSong.push(nextSong)
+              state.selectSong.pop()
+              state.selectSong.push([nextSong[0]])
+            }
           }
         }
       } else {
@@ -122,35 +152,42 @@ const musicSlice = createSlice({
       }
     },
     prevSong(state, action) {
+      let prevSong
+      let currentIndex
       if (state.five < state.currentTime) {
+        state.activeSong = true
         state.restart = !state.restart
         audioRef.current.load()
         audioRef.current.play()
       } else {
-        let prevSong
-        let currentIndex
+        if (state.shuffleActive) {
+          if (state.num > 1) {
+            currentIndex = action.payload.selectSong[0][0].id
 
-        if (state.shuffleSongPlaylist.length) {
-          currentIndex = action.payload.selectSong[0][0].id
-          prevSong = state.shuffleSongPlaylist[0].find(
-            (findSong) =>
-              findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
-          )
-          if (prevSong === undefined) {
-            prevSong = state.shuffleSongPlaylist[0].find(
-              (findSong) =>
-                findSong.id === Math.floor(Math.random() * (36 - 8 + 1) + 1)
+            prevSong = state.shuffleSongPlaylist[0].slice(
+              state.overNum,
+              state.num
             )
-          } else {
-            if (currentIndex > 8) {
-              state.selectPrevSong.pop()
-              state.selectPrevSong.push(prevSong)
-              state.selectSong.pop()
-              state.selectSong.push([prevSong])
+
+            if (prevSong === undefined) {
+              prevSong = state.shuffleSongPlaylist[0].find(
+                (findSong) =>
+                  findSong.id ===
+                  state.shuffleSongPlaylist[0].slice(state.overNum, state.num)
+                    .id
+              )
+            } else {
+              if (currentIndex > 8) {
+                state.selectPrevSong.pop()
+                state.selectPrevSong.push(prevSong)
+                state.selectSong.pop()
+                state.selectSong.push([prevSong[0]])
+              }
             }
           }
         } else {
           currentIndex = action.payload.selectSong[0][0].id
+
           prevSong = action.payload.music[0].find(
             (findSong) => findSong.id === currentIndex - 1
           )
@@ -167,6 +204,10 @@ const musicSlice = createSlice({
 })
 
 export const {
+  prevTakeStartCount,
+  prevTakeCount,
+  takeStartCount,
+  takeCount,
   shuffle,
   nextSong,
   prevSong,
@@ -174,6 +215,7 @@ export const {
   setterMusic,
   changeShuffle,
   autoNext,
+  active,
 } = musicSlice.actions
 
 export default musicSlice.reducer
