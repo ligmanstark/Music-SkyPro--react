@@ -1,5 +1,5 @@
 import { BurgerMenu } from '../../components/BurgerMenu'
-import * as S from '../../styles/style'
+import * as S from '../../components/styles/style'
 import logo from '../../../img/logo.png'
 
 const NavigationCategory = (props) => {

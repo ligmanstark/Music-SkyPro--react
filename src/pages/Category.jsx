@@ -1,19 +1,18 @@
 import { NavigationCategory } from '../app-src/layout/layout-category/NavigationCategory'
 import { MiddleContentCategory } from '../app-src/layout/layout-category/MiddleContentCategory'
-import { SidebarCategory } from '../app-src/layout/layout-category/SidebarCategory'
 import React, { useEffect, useState, useContext } from 'react'
-import {
-  getAllTracks,
-  getTrackById,
-  getTrackSelectionById,
-} from '../app-src/function/response'
+import { getTrackById, getTrackSelectionById } from '../app-src/api/track'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
-import * as S from '../app-src/styles/style'
+import * as S from '../app-src/components/styles/style'
 import { useParams } from 'react-router-dom'
-import { searchID } from '../app-src/function/searchID'
-import { searchFunc } from '../app-src/function/searchFunc'
+import { searchID } from '../app-src/helpers/searchID'
+import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
+import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
+import { useSelector, useDispatch } from 'react-redux'
+import { setterMusic, setterSong } from '../store/musicSlice'
+
 const Category = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -22,9 +21,18 @@ const Category = () => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [selectSong, setSelecSong] = useState([])
+  const [song, setSelecSong] = useState([])
   const [url, setUrl] = useState('')
   const categoryId = useParams()
+
+  const dispatch = useDispatch()
+  const setterSelectMusic = () => {
+    dispatch(setterMusic(music))
+  }
+
+  const setterSelectSong = () => {
+    dispatch(setterSong(song))
+  }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -55,17 +63,22 @@ const Category = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-    console.log(typeof valueName)
 
     searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
-    console.log(selectSong)
   }
+
+  useEffect(() => {
+    setterSelectMusic()
+  }, [music])
+
+  useEffect(() => {
+    setterSelectSong()
+  }, [song])
 
   useEffect(() => {
     getTrackSelectionById(categoryId.id).then((data) => {
       setMusic(data.data.items)
       setFilteredMusic([...new Set(data.data.items.map((e) => e.author))])
-      console.log(data.data.items)
       switch (categoryId.id) {
         case '1':
           return setUrl('Плейлист дня')
@@ -107,17 +120,9 @@ const Category = () => {
             url={url}
             handleSelectSong={handleSelectSong}
           />
-          {!music.length ? (
-            <PreloaderSideBar />
-          ) : (
-            <SidebarCategory user={user} />
-          )}
+          {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!selectSong.length ? (
-          ''
-        ) : (
-          <PlayerBar music={music} selectSong={selectSong} />
-        )}
+        {!song.length ? '' : <PlayerBar music={music} />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

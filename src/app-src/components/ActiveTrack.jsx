@@ -1,10 +1,11 @@
-import * as S from '../styles/style'
+import * as S from './styles/style'
 import like from '../../img/icon/like.svg'
 import dislike from '../../img/icon/dislike.svg'
 import note from '../../img/icon/note.svg'
-const ActiveTrack = (props) => {
-  const { id, name, author, track_file } = props
-  console.log(name)
+import { useSelector } from 'react-redux'
+const ActiveTrack = () => {
+  const selectSong = useSelector((state) => state.musicReducer.selectSong)
+  const { id, name, author } = selectSong[0][0]
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>
       <S.TrackPlayContain className="track-play__contain">

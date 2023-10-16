@@ -3,7 +3,7 @@ import { Filter } from '../../components/Filter'
 import { Search } from '../../components/Search'
 import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
-import * as S from '../../styles/style'
+import * as S from '../../components/styles/style'
 
 const MiddleContentMyPlaylist = (props) => {
   const {

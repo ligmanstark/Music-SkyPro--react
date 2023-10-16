@@ -1,4 +1,4 @@
-import * as S from '../styles/style'
+import * as S from './styles/style'
 import note from '../../img/icon/watch.svg'
 
 const Skeleton = (props) => {

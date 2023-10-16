@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as S from '../styles/style'
+import * as S from './styles/style'
 import { MyPlaylist } from '../../pages/MyPlaylist'
 
 const BurgerMenu = () => {

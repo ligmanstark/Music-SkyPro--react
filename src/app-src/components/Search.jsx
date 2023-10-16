@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { searchID } from '../function/searchID'
-import * as S from '../styles/style'
+import { searchID } from '../helpers/searchID'
+import * as S from './styles/style'
 import searchimg from '../../img/icon/search.svg'
 const Search = (props) => {
   const { searchTrack = Function.prototype, music = [] } = props

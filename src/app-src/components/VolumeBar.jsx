@@ -1,4 +1,4 @@
-import * as S from '../styles/style'
+import * as S from './styles/style'
 import { audioRef } from '../layout/layout-content/PlayBar'
 import { useState, useEffect } from 'react'
 

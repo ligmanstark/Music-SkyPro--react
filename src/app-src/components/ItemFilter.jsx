@@ -1,4 +1,4 @@
-import * as S from '../styles/style'
+import * as S from './styles/style'
 
 const ItemFilter = (props) => {
   const { author } = props

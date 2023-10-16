@@ -1,5 +1,5 @@
 import { Skeleton } from './Skeleton'
-import * as S from '../styles/style'
+import * as S from './styles/style'
 import watch from '../../img/icon/watch.svg'
 import note from '../../img/icon/watch.svg'
 

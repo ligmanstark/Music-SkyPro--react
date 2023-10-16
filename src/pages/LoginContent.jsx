@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as S from '../app-src/styles/style'
-import { postLogin } from '../app-src/function/response'
+import * as S from '../app-src/components/styles/style'
+import { postLogin } from '../app-src/api/user'
 import logo from '../img/logo.svg'
 import { AppContext } from '../context'
 const LoginContent = () => {
@@ -35,7 +35,6 @@ const LoginContent = () => {
           postLogin(inpEmailRef.current.value, inpPasswordRef.current.value)
             .then((response) => {
               if (response.status === 200) {
-                console.log(response.data)
                 setActiveFirstButton((prev) => !prev)
                 localStorage.setItem('token', true)
                 localStorage.setItem('user', response.data.username)

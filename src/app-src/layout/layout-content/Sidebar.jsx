@@ -1,4 +1,4 @@
-import * as S from '../../styles/style'
+import * as S from '../../components/styles/style'
 import { useContext } from 'react'
 import { AppContext } from '../../../context'
 import { NavLink, useNavigate } from 'react-router-dom'

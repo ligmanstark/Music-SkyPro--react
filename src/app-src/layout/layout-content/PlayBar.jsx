@@ -2,7 +2,19 @@ import { ActiveTrack } from '../../components/ActiveTrack'
 import { useState, useRef, useEffect } from 'react'
 import { ProgressBar } from '../../components/ProgressBar'
 import { VolumeBar } from '../../components/VolumeBar'
-import * as S from '../../styles/style'
+import * as S from '../../components/styles/style'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  shuffle,
+  nextSong,
+  prevSong,
+  changeShuffle,
+  active,
+  takeCount,
+  takeStartCount,
+  prevTakeStartCount,
+  prevTakeCount,
+} from '../../../store/musicSlice'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
 import playB from '../../../img/icon/play.svg'
@@ -11,23 +23,105 @@ import loopB from '../../../img/icon/loop.svg'
 import repeatB from '../../../img/icon/repeat.svg'
 import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
+import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
-const PlayerBar = (props) => {
-  const { music = [], selectSong = [] } = props
-  console.log(selectSong)
+const PlayerBar = () => {
+  const music = useSelector((state) => state.musicReducer.music)
+  const selectSong = useSelector((state) => state.musicReducer.selectSong)
+
   audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLooping, setIsLooping] = useState(false)
+  const [isShuffle, setIsShuffle] = useState(false)
+  const [count, setCount] = useState(1)
+  const [startCount, setStartCount] = useState(0)
+
+  const startPrevCounter = () => {
+    if (startCount > 0) {
+      setStartCount((count) => count - 1)
+    }
+  }
+
+  const prevCounter = () => {
+    if (count > 0) {
+      setCount((count) => count - 1)
+    }
+  }
+
+  const startNextCounter = () => {
+    if (startCount < 29) {
+      setStartCount((count) => count + 1)
+    }
+  }
+
+  const startCounter = () => {
+    if (count < 29) {
+      setCount((count) => count + 1)
+    }
+  }
+
+  const dispatch = useDispatch()
+
+  const prevStartTakeCount = () => {
+    dispatch(prevTakeStartCount(startCount))
+  }
+
+  const prevTakeCounter = () => {
+    dispatch(prevTakeCount(count))
+  }
+
+  const nextStartTakeCount = () => {
+    dispatch(takeStartCount(startCount))
+  }
+
+  const nextTakeCounter = () => {
+    dispatch(takeCount(count))
+  }
+  const shuffleMusic = () => {
+    setIsShuffle((prev) => !prev)
+    dispatch(shuffle(music))
+  }
+
+  const isActiveMusic = (status) => {
+    dispatch(active(status))
+  }
+
+  const handleNextSong = () => {
+    dispatch(nextSong({ music, selectSong }))
+    audioRef.current.play()
+    setIsPlaying((prev) => !prev)
+    isActiveMusic(isPlaying)
+    startCounter()
+    nextTakeCounter()
+    startNextCounter()
+    nextStartTakeCount()
+  }
+
+  const handlePrevSong = () => {
+    dispatch(prevSong({ music, selectSong }))
+    audioRef.current.play()
+    setIsPlaying(true)
+    isActiveMusic(isPlaying)
+    prevCounter()
+    prevTakeCounter()
+    startPrevCounter()
+    prevStartTakeCount()
+  }
+
+  useEffect(() => {
+    dispatch(changeShuffle(isShuffle))
+  }, [isShuffle])
 
   const playingButton = () => {
     if (isPlaying) {
       audioRef.current.pause()
       setIsPlaying((prev) => !prev)
+      isActiveMusic(isPlaying)
     } else {
       audioRef.current.play()
       setIsPlaying((prev) => !prev)
+      isActiveMusic(isPlaying)
     }
-    console.log(isPlaying)
   }
 
   const handleLoop = () => {
@@ -37,17 +131,23 @@ const PlayerBar = (props) => {
   useEffect(() => {
     audioRef.current.play()
     setIsPlaying(true)
+    isActiveMusic(isPlaying)
     return () => {
       setIsPlaying(false)
+      isActiveMusic(false)
     }
-  }, [selectSong[0].track_file])
+  }, [selectSong])
+
+  useEffect(() => {
+    isActiveMusic(isPlaying)
+  }, [audioRef.current])
 
   return (
     <S.Bar className="bar">
       <S.AudioStyle
         controls
         ref={audioRef}
-        src={selectSong[0].track_file}
+        src={selectSong[0][0] ? selectSong[0][0].track_file : '00:00'}
         loop={isLooping ? true : false}
       ></S.AudioStyle>
       <S.BarContent className="bar__content">
@@ -61,7 +161,7 @@ const PlayerBar = (props) => {
                   src={prevB}
                   className="player__btn-prev-svg"
                   alt="prev"
-                  onClick={() => alert('Еще не реализовано')}
+                  onClick={handlePrevSong}
                 ></S.PlayerPrevSVG>
               </S.PlayerPrev>
               <S.PlayerButtonPlay className="player__btn-play _btn">
@@ -86,7 +186,7 @@ const PlayerBar = (props) => {
                   src={nextB}
                   className="player__btn-next-svg"
                   alt="next"
-                  onClick={() => alert('Еще не реализовано')}
+                  onClick={handleNextSong}
                 ></S.PlayerButtonNextSVG>
               </S.PlayerButonNext>
               <S.PlayerButtonRepeat className="player__btn-repeat _btn-icon">
@@ -107,23 +207,32 @@ const PlayerBar = (props) => {
                 )}
               </S.PlayerButtonRepeat>
               <S.PlayerButtonShuffle className="player__btn-shuffle _btn-icon">
-                <S.PlayerButtonShuffleSVG
-                  src={shuffleB}
-                  className="player__btn-shuffle-svg"
-                  alt="shuffle"
-                  onClick={() => alert('Еще не реализовано')}
-                ></S.PlayerButtonShuffleSVG>
+                {isShuffle ? (
+                  <S.PlayerButtonShuffleSVG
+                    src={activeshuffleB}
+                    className="player__btn-shuffle-svg"
+                    alt="shuffle"
+                    onClick={shuffleMusic}
+                  ></S.PlayerButtonShuffleSVG>
+                ) : (
+                  <S.PlayerButtonShuffleSVG
+                    src={shuffleB}
+                    className="player__btn-shuffle-svg"
+                    alt="shuffle"
+                    onClick={shuffleMusic}
+                  ></S.PlayerButtonShuffleSVG>
+                )}
               </S.PlayerButtonShuffle>
             </S.PlayerControls>
 
-            {!selectSong.length ? (
+            {!selectSong[0].length ? (
               ''
             ) : (
               <ActiveTrack
-                key={selectSong[0].id}
-                name={selectSong[0].name}
-                author={selectSong[0].author}
-                track_file={selectSong[0].track_file}
+                key={selectSong.id}
+                name={selectSong.name}
+                author={selectSong.author}
+                track_file={selectSong.track_file}
               />
             )}
           </S.BarPlayer>

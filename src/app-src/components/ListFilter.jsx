@@ -1,5 +1,5 @@
 import { ItemFilter } from './ItemFilter'
-import * as S from '../styles/style'
+import * as S from './styles/style'
 const ListFilter = (props) => {
   const { music = [], filteredMusic = [], nameFilter } = props
   return (

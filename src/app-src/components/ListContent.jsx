@@ -1,12 +1,8 @@
 import { ItemContent } from './ItemContent'
-import * as S from '../styles/style'
+import * as S from './styles/style'
 import watch from '../../img/icon/watch.svg'
 const ListContent = (props) => {
-  const {
-    music = [],
-    handleSelectSong = Function.prototype,
-    selectSong,
-  } = props
+  const { music = [], handleSelectSong = Function.prototype } = props
   return (
     <S.CenterblockContent className="centerblock__content">
       <S.ContentTittle className="content__title playlist-title">

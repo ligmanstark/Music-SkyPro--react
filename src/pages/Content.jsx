@@ -2,13 +2,16 @@ import { Navigation } from '../app-src/layout/layout-content/Navigation'
 import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import React, { useEffect, useState, useContext } from 'react'
-import { getAllTracks, getTrackById } from '../app-src/function/response'
+import { getAllTracks, getTrackById } from '../app-src/api/track'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
-import * as S from '../app-src/styles/style'
-import { searchID } from '../app-src/function/searchID'
-import { searchFunc } from '../app-src/function/searchFunc'
+import * as S from '../app-src/components/styles/style'
+import { searchID } from '../app-src/helpers/searchID'
+import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
+import { useSelector, useDispatch } from 'react-redux'
+import { setterMusic, setterSong } from '../store/musicSlice'
+
 const Content = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -17,7 +20,16 @@ const Content = () => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [selectSong, setSelecSong] = useState([])
+  const [song, setSelecSong] = useState([])
+
+  const dispatch = useDispatch()
+  const setterSelectMusic = () => {
+    dispatch(setterMusic(music))
+  }
+
+  const setterSelectSong = () => {
+    dispatch(setterSong(song))
+  }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -48,11 +60,11 @@ const Content = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-    console.log(typeof valueName)
-
     searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
-    console.log(selectSong)
   }
+  useEffect(() => {
+    setterSelectSong()
+  }, [song])
 
   useEffect(() => {
     getAllTracks().then((data) => {
@@ -60,6 +72,10 @@ const Content = () => {
       setFilteredMusic([...new Set(data.data.map((e) => e.author))])
     })
   }, [])
+
+  useEffect(() => {
+    setterSelectMusic()
+  }, [music])
 
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {
@@ -89,11 +105,7 @@ const Content = () => {
           />
           {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!selectSong.length ? (
-          ''
-        ) : (
-          <PlayerBar music={music} selectSong={selectSong} />
-        )}
+        {!song.length ? '' : <PlayerBar music={music} />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>
