@@ -20,19 +20,19 @@ const musicSlice = createSlice({
   reducers: {
     prevTakeStartCount(state, action) {
       console.log(action, '-')
-      state.overNum = action.payload
+      state.overNum = action.payload - 1
     },
     prevTakeCount(state, action) {
       console.log(action, '-')
-      state.num = action.payload
+      state.num = action.payload - 1
     },
     takeStartCount(state, action) {
       console.log(action, '+')
-      state.overNum = action.payload
+      state.overNum = action.payload + 1
     },
     takeCount(state, action) {
       console.log(action, '+')
-      state.num = action.payload
+      state.num = action.payload + 1
     },
     active(state, action) {
       state.activeSong = !action.payload
