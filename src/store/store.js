@@ -1,6 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
-import musicReducer from './musicSlice'
+import userReducer from './slice/userSlice'
+import tokenReducer from './slice/tokenSlice'
+import musicReducer from './slice/musicSlice'
+import { serviceMusicApi } from './service/serviceMusicApi'
 
 export default configureStore({
-  reducer: { musicReducer: musicReducer },
+  reducer: {
+    [serviceMusicApi.reducerPath]: serviceMusicApi.reducer,
+    musicReducer: musicReducer,
+    token: tokenReducer,
+    user: userReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(serviceMusicApi.middleware),
 })

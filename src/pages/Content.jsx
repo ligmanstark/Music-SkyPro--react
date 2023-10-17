@@ -2,17 +2,25 @@ import { Navigation } from '../app-src/layout/layout-content/Navigation'
 import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import React, { useEffect, useState, useContext } from 'react'
-import { getAllTracks, getTrackById } from '../app-src/api/track'
+import { getTrackById } from '../app-src/api/track'
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/components/styles/style'
 import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
-import { useSelector, useDispatch } from 'react-redux'
-import { setterMusic, setterSong } from '../store/musicSlice'
+import { useDispatch } from 'react-redux'
+import {
+  setterMusic,
+  setterSong,
+  setCurrentPage,
+} from '../store/slice/musicSlice'
+
+import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 
 const Content = () => {
+  const { data = [], isLoading } = useGetAllTracksQuery()
+
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -23,8 +31,16 @@ const Content = () => {
   const [song, setSelecSong] = useState([])
 
   const dispatch = useDispatch()
+  const setCurrent = () => {
+    dispatch(setCurrentPage('Main'))
+  }
+
+  useEffect(() => {
+    setCurrent()
+  }, [data])
+
   const setterSelectMusic = () => {
-    dispatch(setterMusic(music))
+    dispatch(setterMusic(data))
   }
 
   const setterSelectSong = () => {
@@ -35,19 +51,19 @@ const Content = () => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(music.map((e) => e.author))])
-      setLengthFilter([...new Set(music.map((e) => e.author))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.author))])
+      setLengthFilter([...new Set(data.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(music.map((e) => e.release_date))]
+      const arr = [...new Set(data.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
       setFilteredMusic(arr)
       setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(music.map((e) => e.genre))])
-      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
@@ -60,29 +76,29 @@ const Content = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    searchFunc(getTrackById, searchID(data, valueName).id + '/', setSelecSong)
   }
   useEffect(() => {
     setterSelectSong()
   }, [song])
 
   useEffect(() => {
-    getAllTracks().then((data) => {
-      setMusic(data.data)
-      setFilteredMusic([...new Set(data.data.map((e) => e.author))])
-    })
+    setFilteredMusic([...new Set(data.map((e) => e.author))])
   }, [])
 
   useEffect(() => {
     setterSelectMusic()
-  }, [music])
+  }, [data])
 
+  ////СЛОМАНО
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {
-      const flat = [data.data].flat(1)
+      const flat = data.data
+      console.log(flat)
       setMusic(flat)
     })
   }
+  /////////////////////////////////////
 
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
@@ -94,7 +110,6 @@ const Content = () => {
         <S.Main className="main">
           <Navigation handleChangeMenu={handleChangeMenu} isOpen={isOpen} />
           <MiddleContent
-            music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
@@ -103,9 +118,9 @@ const Content = () => {
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
           />
-          {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
+          {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar music={music} />}
+        {!song.length ? '' : <PlayerBar />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

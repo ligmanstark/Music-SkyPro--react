@@ -3,7 +3,7 @@ import * as S from './styles/style'
 import * as A from './styles/animations'
 import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const ItemContent = (props) => {
   const activ = useSelector((state) => state.musicReducer.activeSong)

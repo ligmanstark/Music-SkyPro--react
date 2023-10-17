@@ -1,15 +1,16 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from './styles/style'
-import { MyPlaylist } from '../../pages/MyPlaylist'
-
+import { usePostTokenMutation } from '../../store/service/serviceMusicApi'
 const BurgerMenu = () => {
+  const [postToken, {}] = usePostTokenMutation()
+
   const navigate = useNavigate()
   const handleLogout = () => {
     setTimeout(() => {
       navigate('/login')
       localStorage.setItem('user', '')
-      localStorage.setItem('token', false)
+      localStorage.setItem('token', '')
     }, 500)
   }
 

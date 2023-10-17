@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { audioRef } from '../app-src/layout/layout-content/PlayBar'
+import { audioRef } from '../../app-src/layout/layout-content/PlayBar'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    currentPage: '',
     selectNextSong: [],
     selectPrevSong: [],
     selectSong: [],
@@ -18,20 +19,19 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload
+    },
     prevTakeStartCount(state, action) {
-      console.log(action, '-')
       state.overNum = action.payload - 1
     },
     prevTakeCount(state, action) {
-      console.log(action, '-')
       state.num = action.payload - 1
     },
     takeStartCount(state, action) {
-      console.log(action, '+')
       state.overNum = action.payload + 1
     },
     takeCount(state, action) {
-      console.log(action, '+')
       state.num = action.payload + 1
     },
     active(state, action) {
@@ -104,7 +104,6 @@ const musicSlice = createSlice({
       }
       state.shuffleSongPlaylist.pop()
       state.shuffleSongPlaylist.push(arrCopy)
-      console.log(arrCopy)
     },
     nextSong(state, action) {
       audioRef.current.pause()
@@ -218,6 +217,7 @@ export const {
   changeShuffle,
   autoNext,
   active,
+  setCurrentPage,
 } = musicSlice.actions
 
 export default musicSlice.reducer

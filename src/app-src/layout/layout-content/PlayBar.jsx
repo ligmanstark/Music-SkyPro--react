@@ -14,7 +14,7 @@ import {
   takeStartCount,
   prevTakeStartCount,
   prevTakeCount,
-} from '../../../store/musicSlice'
+} from '../../../store/slice/musicSlice'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
 import playB from '../../../img/icon/play.svg'

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { searchID } from '../helpers/searchID'
 import * as S from './styles/style'
 import searchimg from '../../img/icon/search.svg'
+import { useGetAllTracksQuery } from '../../store/service/serviceMusicApi'
 const Search = (props) => {
-  const { searchTrack = Function.prototype, music = [] } = props
+  const { data = [], isLoading } = useGetAllTracksQuery()
+  const { searchTrack = Function.prototype } = props
 
   const [search, setSearch] = useState('')
   const handleClick = (event) => {
@@ -11,7 +13,7 @@ const Search = (props) => {
       if (search === '') {
         searchTrack('all/')
       } else {
-        searchTrack(searchID(music, search).id + '/')
+        searchTrack(searchID(data, search).id + '/')
         setSearch('')
       }
     }

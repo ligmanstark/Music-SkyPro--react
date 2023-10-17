@@ -7,14 +7,14 @@ import playlist02 from '../../../img/playlist02.png'
 import playlist01 from '../../../img/playlist01.png'
 import logup from '../../../img/icon/logup.svg'
 const Sidebar = () => {
-  const { user, setToken, setUser, token } = useContext(AppContext)
+  const { user } = useContext(AppContext)
 
   const navigate = useNavigate()
   const handleLogout = () => {
     setTimeout(() => {
       navigate('/login')
       localStorage.setItem('user', '')
-      localStorage.setItem('token', false)
+      localStorage.setItem('token', '')
     }, 500)
   }
 

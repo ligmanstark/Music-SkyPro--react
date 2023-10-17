@@ -3,7 +3,6 @@ import { QuantitySongsInFilter } from './QuantitySongsInFilter'
 import * as S from './styles/style'
 const Filter = (props) => {
   const {
-    music = [],
     handleOpenFilter = Function.prototype,
     nameFilter,
     lengthFilter,

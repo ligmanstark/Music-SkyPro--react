@@ -14,10 +14,12 @@ import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
-import { useSelector, useDispatch } from 'react-redux'
-import { setterMusic, setterSong } from '../store/musicSlice'
-
+import {  useDispatch } from 'react-redux'
+import { setterMusic, setterSong } from '../store/slice/musicSlice'
+import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 const MyPlaylist = () => {
+  const { data = [], isLoading } = useGetAllTracksQuery()
+
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -31,30 +33,30 @@ const MyPlaylist = () => {
 
   const dispatch = useDispatch()
   const setterSelectMusic = () => {
-    dispatch(setterMusic(music))
+    dispatch(setterMusic(data))
   }
 
   const setterSelectSong = () => {
-    dispatch(setterSong(song))
+    dispatch(setterSong(data))
   }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(music.map((e) => e.author))])
-      setLengthFilter([...new Set(music.map((e) => e.author))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.author))])
+      setLengthFilter([...new Set(data.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(music.map((e) => e.release_date))]
+      const arr = [...new Set(data.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
       setFilteredMusic(arr)
       setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(music.map((e) => e.genre))])
-      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
@@ -68,23 +70,26 @@ const MyPlaylist = () => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    searchFunc(
+      getTrackById,
+      searchID(data, valueName).id + '/',
+      setSelecSong
+    )
   }
 
   useEffect(() => {
-    getTrackSelectionById('1/').then((data) => {
-      setMusic(data.data.items)
-      setFilteredMusic([...new Set(data.data.items.map((e) => e.author))])
-    })
+    setMusic(data)
+    setFilteredMusic([...new Set(data.map((e) => e.author))])
   }, [categoryId.id])
 
+  ////////////////////////////////////////////////СЛОМАНО
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {
       const flat = [data.data].flat(1)
       setMusic(flat)
     })
   }
-
+  ////////////////////////////////////////////////////
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
@@ -95,7 +100,7 @@ const MyPlaylist = () => {
 
   useEffect(() => {
     setterSelectMusic()
-  }, [music])
+  }, [data])
 
   return (
     <S.Wrapper className="wrapper">
@@ -106,7 +111,6 @@ const MyPlaylist = () => {
             isOpen={isOpen}
           />
           <MiddleContentMyPlaylist
-            music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
@@ -115,9 +119,9 @@ const MyPlaylist = () => {
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
           />
-          {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
+          {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar music={music} />}
+        {!song.length ? '' : <PlayerBar />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

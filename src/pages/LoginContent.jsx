@@ -1,9 +1,14 @@
-import { useState, useRef, useContext } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import * as S from '../app-src/components/styles/style'
-import { postLogin } from '../app-src/api/user'
 import logo from '../img/logo.svg'
-import { AppContext } from '../context'
+import {
+  usePostLoginMutation,
+  usePostTokenMutation,
+} from '../store/service/serviceMusicApi'
+import { userLogin } from '../store/slice/userSlice'
+import { setAccessToken } from '../store/slice/tokenSlice'
 const LoginContent = () => {
   const [isActiveFirstButton, setActiveFirstButton] = useState(false)
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
@@ -11,9 +16,13 @@ const LoginContent = () => {
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const inpEmailRef = useRef('')
   const inpPasswordRef = useRef('')
+
+  const [postToken, {}] = usePostTokenMutation()
+  const [postLogin, {}] = usePostLoginMutation()
 
   if (isActiveSecondButton) {
     setTimeout(() => {
@@ -25,32 +34,65 @@ const LoginContent = () => {
     }, 1500)
   }
 
-  const handleActive = (event) => {
+  const handleActive = async (event) => {
     const target = event.target
     switch (target.id) {
       case 'colbBtn1':
         if (inpEmailRef.current.value && inpPasswordRef.current.value) {
           document.getElementById('colbBtn2').disabled = true
+          await postToken({
+            email: inpEmailRef.current.value,
+            password: inpPasswordRef.current.value,
+          })
+            .unwrap()
+            .then((token) => {
+              localStorage.setItem('token', token.access)
+              localStorage.setItem('refreshToken', token.refresh)
 
-          postLogin(inpEmailRef.current.value, inpPasswordRef.current.value)
-            .then((response) => {
-              if (response.status === 200) {
-                setActiveFirstButton((prev) => !prev)
-                localStorage.setItem('token', true)
-                localStorage.setItem('user', response.data.username)
-                if (!target.id == '') {
-                  target.id = ''
-                } else {
-                  target.id = 'colbBtn1'
-                }
-              }
-            })
-            .catch((warning) => {
-              if (warning.response.status === 401) {
-                alert(warning.response.data.detail)
-              }
+              postLogin({
+                email: inpEmailRef.current.value,
+                password: inpPasswordRef.current.value,
+              })
+                .unwrap()
+                .then((response) => {
+                  setActiveFirstButton((prev) => !prev)
+                  localStorage.setItem('email', response.email)
+                  localStorage.setItem('user', response.username)
+                  localStorage.setItem('id', response.id)
+
+                  dispatch(
+                    userLogin({
+                      email: response.email,
+                      username: response.username,
+                      id: response.id,
+                    })
+                  )
+                  dispatch(
+                    setAccessToken({
+                      token: token.access,
+                      refreshToken: token.refresh,
+                    })
+                  )
+                  if (response.email) {
+                    navigate('/')
+                  }
+                  if (!target.id == '') {
+                    target.id = ''
+                  } else {
+                    target.id = 'colbBtn1'
+                  }
+                })
+                .catch((warning) => {
+                  console.log(warning)
+                  if (warning.status === 401) {
+                    alert(
+                      'Не найдено активной учетной записи с указанными данными'
+                    )
+                  }
+                })
             })
         }
+
         break
       case 'colbBtn2':
         setActiveSecondButton((prev) => !prev)

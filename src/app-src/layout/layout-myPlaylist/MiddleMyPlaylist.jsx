@@ -1,13 +1,14 @@
-import { ListContent } from '../../components/ListContent'
+import { MyPlaylistContent } from '../../components/MyPlaylistContent'
 import { Filter } from '../../components/Filter'
 import { Search } from '../../components/Search'
 import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
 import * as S from '../../components/styles/style'
-
+import { useGetAllTracksQuery } from '../../../store/service/serviceMusicApi'
 const MiddleContentMyPlaylist = (props) => {
+  const { isLoading } = useGetAllTracksQuery()
+
   const {
-    music = [],
     isOpenFilter,
     searchTrack = Function.prototype,
     handleOpenFilter = Function.prototype,
@@ -19,27 +20,22 @@ const MiddleContentMyPlaylist = (props) => {
 
   return (
     <S.MainCenterblock className="main__centerblock ">
-      <Search searchTrack={searchTrack} music={music} />
+      <Search searchTrack={searchTrack} />
       <S.CenterblockH2 className="centerblock__h2">
         Мой плейлист
       </S.CenterblockH2>
       <Filter
-        music={music}
         handleOpenFilter={handleOpenFilter}
         nameFilter={nameFilter}
         lengthFilter={lengthFilter}
       />
       {isOpenFilter && (
-        <ListFilter
-          music={music}
-          filteredMusic={filteredMusic}
-          nameFilter={nameFilter}
-        />
+        <ListFilter filteredMusic={filteredMusic} nameFilter={nameFilter} />
       )}
-      {!music.length ? (
+      {isLoading ? (
         <PreloaderMiddleContent />
       ) : (
-        <ListContent music={music} handleSelectSong={handleSelectSong} />
+        <MyPlaylistContent handleSelectSong={handleSelectSong} />
       )}
     </S.MainCenterblock>
   )

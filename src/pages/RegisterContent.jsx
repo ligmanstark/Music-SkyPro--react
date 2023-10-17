@@ -1,8 +1,14 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from '../app-src/components/styles/style'
-import { postRegistration } from '../app-src/api/user'
 import logo from '../img/logo.svg'
+import { useDispatch } from 'react-redux'
+import {
+  usePostTokenMutation,
+  usePostRegMutation,
+} from '../store/service/serviceMusicApi'
+import { userLogin } from '../store/slice/userSlice'
+import { setAccessToken } from '../store/slice/tokenSlice'
 
 const RegisterContent = () => {
   const [isActiveSecondButton, setActiveSecondButton] = useState(false)
@@ -10,10 +16,15 @@ const RegisterContent = () => {
   const [isActiveSecondInput, setActiveSecondInput] = useState(false)
   const [isActiveThreeInput, setActiveThreeInput] = useState(false)
 
+  const [postReg, {}] = usePostRegMutation()
+  const [postToken, {}] = usePostTokenMutation()
+
   const inpLoginRef = useRef('')
   const inpEmailRef = useRef('')
   const inpPasswordRef = useRef('')
   const inpRepeatPasswordRef = useRef('')
+
+  const dispatch = useDispatch()
 
   const navigate = useNavigate()
   if (isActiveSecondButton) {
@@ -22,7 +33,7 @@ const RegisterContent = () => {
     }, 1500)
   }
 
-  const handleActive = (event) => {
+  const handleActive = async (event) => {
     const target = event.target
 
     switch (target.id) {
@@ -32,31 +43,55 @@ const RegisterContent = () => {
             inpPasswordRef.current.value === inpRepeatPasswordRef.current.value
           ) {
             document.getElementById('colbBtn2').disabled = true
-
-            postRegistration(
-              inpEmailRef.current.value,
-              inpPasswordRef.current.value,
-              inpLoginRef.current.value
-            )
+            await postReg({
+              email: inpEmailRef.current.value,
+              password: inpPasswordRef.current.value,
+              username: inpLoginRef.current.value,
+            })
+              .unwrap()
               .then((response) => {
-                if (response.status === 201) {
-                  setActiveSecondButton((prev) => !prev)
-                  localStorage.setItem('token', true)
-                  localStorage.setItem('user', response.data.username)
-                  if (!target.id == '') {
-                    target.id = ''
-                  } else {
-                    target.id = 'colbBtn2'
-                  }
+                dispatch(
+                  userLogin({
+                    email: response.email,
+                    username: response.username,
+                    password: response.password,
+                  })
+                )
+                localStorage.setItem('user', response.username)
+                localStorage.setItem('email', response.email)
+                localStorage.setItem('id', response.id)
+
+                postToken({
+                  email: inpEmailRef.current.value,
+                  password: inpPasswordRef.current.value,
+                })
+                  .unwrap()
+                  .then((token) => {
+                    localStorage.setItem('token', token.acceess)
+                    localStorage.setItem('refreshToken', token.refresh)
+                    dispatch(
+                      setAccessToken({
+                        token: token.acceess,
+                        refreshToken: token.refresh,
+                      })
+                    )
+                  })
+
+                setActiveSecondButton((prev) => !prev)
+                localStorage.setItem('user', response.username)
+                if (!target.id == '') {
+                  target.id = ''
+                } else {
+                  target.id = 'colbBtn2'
                 }
               })
               .catch((warning) => {
-                if (warning.response.status === 400) {
-                  if (warning.response.data.username) {
-                    alert(warning.response.data.username)
+                if (warning.status === 400) {
+                  if (warning.data.username) {
+                    alert(warning.data.username)
                   }
-                  if (warning.response.data.email) {
-                    alert(warning.response.data.email)
+                  if (warning.data.email) {
+                    alert(warning.data.email)
                   }
                 } else {
                   console.log(warning)

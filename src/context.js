@@ -1,5 +1,6 @@
 import { createContext } from 'react'
 
+
 const setUserLocalStorage = () => {
   const userLocalStorage = localStorage.getItem('user')
   return userLocalStorage ? userLocalStorage : ''
@@ -7,7 +8,7 @@ const setUserLocalStorage = () => {
 
 const setTokenLocalStorage = () => {
   const tokenLocalStorage = localStorage.getItem('token')
-  return tokenLocalStorage ? tokenLocalStorage : false
+  return tokenLocalStorage ? tokenLocalStorage : ''
 }
 
 const initialState = {
