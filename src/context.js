@@ -10,9 +10,15 @@ const setTokenLocalStorage = () => {
   return tokenLocalStorage ? tokenLocalStorage : ''
 }
 
+const setIsPlayingLocalStorage = () => {
+  const isPlayingLocalStorage = Boolean(localStorage.getItem('IsPlaying'))
+  return isPlayingLocalStorage ? isPlayingLocalStorage : false
+}
+
 const initialState = {
   user: setUserLocalStorage,
   token: setTokenLocalStorage,
+  isPlay: setIsPlayingLocalStorage,
 }
 const AppContext = createContext(initialState)
 

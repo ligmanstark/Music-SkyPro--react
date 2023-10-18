@@ -1,9 +1,11 @@
 import { ActiveTrack } from '../../components/ActiveTrack'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import { ProgressBar } from '../../components/ProgressBar'
 import { VolumeBar } from '../../components/VolumeBar'
 import * as S from '../../components/styles/style'
 import { useSelector, useDispatch } from 'react-redux'
+import { AppContext } from '../../../context'
+
 import {
   shuffle,
   nextSong,
@@ -25,12 +27,14 @@ import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
-const PlayerBar = () => {
+const PlayerBar = (props) => {
+  const { isPlay } = props
+  console.log(isPlay)
   const music = useSelector((state) => state.musicReducer.music)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
 
   audioRef = useRef(null)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(isPlay)
   const [isLooping, setIsLooping] = useState(false)
   const [isShuffle, setIsShuffle] = useState(false)
   const [count, setCount] = useState(1)
@@ -117,10 +121,12 @@ const PlayerBar = () => {
       audioRef.current.pause()
       setIsPlaying((prev) => !prev)
       isActiveMusic(isPlaying)
+      localStorage.setItem('IsPlaying', Boolean(false))
     } else {
       audioRef.current.play()
       setIsPlaying((prev) => !prev)
       isActiveMusic(isPlaying)
+      localStorage.setItem('IsPlaying', Boolean(true))
     }
   }
 

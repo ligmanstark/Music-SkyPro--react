@@ -25,7 +25,7 @@ const Content = () => {
     (state) => state.musicReducer.currentPlaylist
   )
   console.log(currentPlaylist)
-  const { user } = useContext(AppContext)
+  const { user, isPlay } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
   const [isOpenFilter, setOpenFilter] = useState(false)
@@ -37,7 +37,6 @@ const Content = () => {
   const dispatch = useDispatch()
   const setCurrent = () => {
     dispatch(setCurrentPage('Main'))
-    // dispatch(addCurrentTrack())
   }
 
   useEffect(() => {
@@ -51,7 +50,6 @@ const Content = () => {
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
-    // dispatch(addCurrentTrack(data))
   }
 
   const handleOpenFilter = (event) => {
@@ -80,11 +78,15 @@ const Content = () => {
     }
   }
 
-  const handleSelectSong = (event) => {
+  const handleSelectSong = async (event) => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    await searchFunc(
+      getTrackById,
+      searchID(music, valueName).id + '/',
+      setSelecSong
+    )
   }
   useEffect(() => {
     setterSelectSong()
@@ -129,7 +131,7 @@ const Content = () => {
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar />}
+        {!song.length ? '' : <PlayerBar isPlay={isPlay} />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

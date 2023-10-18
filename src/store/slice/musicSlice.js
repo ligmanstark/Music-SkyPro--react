@@ -102,7 +102,7 @@ const musicSlice = createSlice({
         } else {
           currentIndex = state.selectSong[0][0].id
 
-          nextSong = state.currentPlaylist.find(
+          nextSong = state.music[0].find(
             (findSong) => findSong.id === currentIndex + 1
           )
           if (currentIndex < 36) {

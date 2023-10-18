@@ -15,7 +15,11 @@ import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import { useDispatch, useSelector } from 'react-redux'
-import { setterSong, addCurrentTrack } from '../store/slice/musicSlice'
+import {
+  setterSong,
+  addCurrentTrack,
+  addMyTracks,
+} from '../store/slice/musicSlice'
 
 import {
   useGetFavTracksQuery,
@@ -38,6 +42,8 @@ const MyPlaylist = () => {
     (state) => state.musicReducer.playlistFavorite
   )
 
+  const myMusic = useSelector((state) => state.musicReducer.music)
+
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -50,7 +56,7 @@ const MyPlaylist = () => {
   const categoryId = useParams()
 
   const setterSelectMusic = () => {
-    dispatch(setterMusic(data))
+    dispatch(addMyTracks(data))
   }
 
   const setterSelectSong = () => {
@@ -59,8 +65,13 @@ const MyPlaylist = () => {
   }
   useEffect(() => {
     fetchFavorite()
-
-    setterSelectMusic()
+      .unwrap()
+      .then(() => {
+        setterSelectMusic()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }, [data])
 
   useEffect(() => {
@@ -95,11 +106,15 @@ const MyPlaylist = () => {
     }
   }
 
-  const handleSelectSong = (event) => {
+  const handleSelectSong = async (event) => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    await searchFunc(
+      getTrackById,
+      searchID(myFavTracks, valueName).id + '/',
+      setSelecSong
+    )
   }
 
   // useEffect(() => {

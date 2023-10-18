@@ -81,11 +81,15 @@ const Category = () => {
     }
   }
 
-  const handleSelectSong = (event) => {
+  const handleSelectSong = async (event) => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    await searchFunc(
+      getTrackById,
+      searchID(music, valueName).id + '/',
+      setSelecSong
+    )
   }
 
   useEffect(() => {
@@ -99,7 +103,6 @@ const Category = () => {
   useEffect(() => {
     setCountSection(categoryId.id)
     setMusic(data.items)
-    console.log(data.items)
     if (!isLoading) {
       setFilteredMusic([...new Set(data.items.map((e) => e.author))])
     }
