@@ -1,4 +1,4 @@
-import { MyPlaylistContent } from '../../components/MyPlaylistContent'
+import { ListContent } from '../../components/ListContent'
 import { Filter } from '../../components/Filter'
 import { Search } from '../../components/Search'
 import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
@@ -36,7 +36,7 @@ const MiddleContentMyPlaylist = (props) => {
       {isLoading ? (
         <PreloaderMiddleContent />
       ) : (
-        <MyPlaylistContent handleSelectSong={handleSelectSong} music={music} />
+        <ListContent handleSelectSong={handleSelectSong} music={music} />
       )}
     </S.MainCenterblock>
   )
