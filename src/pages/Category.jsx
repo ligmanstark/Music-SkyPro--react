@@ -103,10 +103,10 @@ const Category = () => {
   useEffect(() => {
     setCountSection(categoryId.id)
     setMusic(data.items)
-    console.log(data.items);
-    if (!isLoading) {
-      setFilteredMusic([...new Set(data.items.map((e) => e.author))])
-    }
+    console.log(data.items)
+    // if (!isLoading) {
+    //   setFilteredMusic([...new Set(data.items.map((e) => e.author))])
+    // }
     switch (categoryId.id) {
       case '1':
         setCountSection(categoryId.id)

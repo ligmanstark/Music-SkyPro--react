@@ -24,7 +24,6 @@ const Content = () => {
   const currentPlaylist = useSelector(
     (state) => state.musicReducer.currentPlaylist
   )
-  console.log(currentPlaylist)
   const { user, isPlay } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)

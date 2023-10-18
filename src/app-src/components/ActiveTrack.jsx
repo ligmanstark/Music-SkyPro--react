@@ -5,7 +5,7 @@ import note from '../../img/icon/note.svg'
 import { useSelector } from 'react-redux'
 const ActiveTrack = () => {
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
-  console.log(selectSong);
+  console.log(selectSong)
   const { id, name, author } = selectSong[0][0]
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>
