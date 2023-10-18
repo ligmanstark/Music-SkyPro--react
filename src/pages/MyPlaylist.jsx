@@ -54,25 +54,15 @@ const MyPlaylist = () => {
   }
 
   const setterSelectSong = () => {
-    dispatch(setterSong(data))
-    dispatch(addCurrentTrack(data))
+    dispatch(setterSong(song))
+    // dispatch(addCurrentTrack(data))
   }
-
   useEffect(() => {
-    postTokenRefresh({ refresh })
-      .unwrap()
-      .then((newToken) => {
-        dispatch(setAccessToken({ token: newToken.access }))
-        fetchFavorite()
-          .unwrap()
-          .then(() => {
-            setterSelectMusic()
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      })
-  }, [refresh, data])
+    fetchFavorite()
+
+    setterSelectMusic()
+  }, [data])
+
   useEffect(() => {
     if (myFavTracks) {
       dispatch(setCurrentPage('Favorites'))
@@ -109,12 +99,12 @@ const MyPlaylist = () => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(getTrackById, searchID(data, valueName).id + '/', setSelecSong)
+    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
   }
 
   // useEffect(() => {
   //   setMusic(data)
-  //   setFilteredMusic([...new Set(data.map((e) => e.author))])
+  //   setFilteredMusic([...new Set(music.map((e) => e.author))])
   // }, [categoryId.id])
 
   useEffect(() => {

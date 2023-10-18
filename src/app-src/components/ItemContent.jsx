@@ -4,12 +4,8 @@ import * as A from './styles/animations'
 import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { addCurrentTrack2 } from '../../store/slice/musicSlice'
 
 const ItemContent = (props) => {
-  const dispatch = useDispatch()
-
   const activ = useSelector((state) => state.musicReducer.activeSong)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
 
@@ -26,12 +22,11 @@ const ItemContent = (props) => {
       className="playlist__item"
       key={id}
       onClick={handleSelectSong}
-      
     >
       <S.PlaylistTrack className="playlist__track track">
         <S.TrackTittle className="track__title">
           <S.TrackTittleImage className="track__title-image">
-            {selectSong !==undefined?(activ && selectSong[0][0].id === id ? (
+            {activ && selectSong[0][0] && selectSong[0][0].id === id ? (
               <A.animationBubble
                 key={id}
                 src={note}
@@ -52,7 +47,7 @@ const ItemContent = (props) => {
                 className="track__title-svg"
                 alt="music"
               ></S.TrackTittleSVG>
-            )):''}
+            )}
           </S.TrackTittleImage>
           <div className="track__title-text">
             <S.TrackTittleLink className="track__title-link">

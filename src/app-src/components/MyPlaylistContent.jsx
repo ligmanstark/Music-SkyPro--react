@@ -12,11 +12,11 @@ const MyPlaylistContent = (props) => {
     console.log(isError, '401')
 
     setTimeout(() => {
-      navigate('/login')
       localStorage.setItem('user', '')
       localStorage.setItem('token', '')
       localStorage.setItem('email', '')
       localStorage.setItem('refreshToken', '')
+      navigate('/login', { replace: true })
     }, 500)
   }
   return (
@@ -40,7 +40,7 @@ const MyPlaylistContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {music.length
+        {music.length && music !== undefined
           ? music.map((el) => (
               <ItemContent
                 key={el.id}
