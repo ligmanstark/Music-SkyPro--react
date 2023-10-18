@@ -27,28 +27,26 @@ const musicSlice = createSlice({
     // },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
-      if (state.currentPage === 'Main') {
-        state.currentPlaylist = state.music[0]
-      }
-      if (state.currentPage === 'Favorites') {
-        state.currentPlaylist = state.playlistFavorite
-      }
     },
     addMyTracks(state, action) {
       state.playlistFavorite = action.payload
     },
-    // addCurrentTrack(state, action) {
-    //   if (state.currentPage === 'Main') {
-    //     state.currentPlaylist = state.music
-    //   } else if (state.currentPage === 'Favorites') {
-    //     state.currentPlaylist = state.music
-    //   }
-    // let currentIndex = null
-    // const setStateCurrentPlaylist = state.currentPlaylist
-    // currentIndex = setStateCurrentPlaylist.findIndex((track) => track.id === action.payload.id)
+    addCurrentTrack(state, action) {
+      if (action.payload) {
+        if (state.currentPage === 'Main') {
+          state.currentPlaylist = state.music
+        }
+        if (state.currentPage === 'Favorites') {
+          state.currentPlaylist = state.playlistFavorite
+        }
+      }
 
-    // state.selectSong
-    // },
+      // let currentIndex = null
+      // const setStateCurrentPlaylist = state.currentPlaylist
+      // currentIndex = setStateCurrentPlaylist.findIndex((track) => track.id === action.payload.id)
+
+      // state.selectSong
+    },
     prevTakeStartCount(state, action) {
       state.overNum = action.payload - 1
     },
@@ -67,7 +65,11 @@ const musicSlice = createSlice({
     autoNext(state, action) {
       state.duration = action.payload.duration
       state.currentTime = action.payload.currentTime
-      if (state.duration !== NaN && state.duration === state.currentTime) {
+      if (
+        state.duration !== NaN &&
+        state.currentTime !== NaN &&
+        state.duration === state.currentTime
+      ) {
         let nextSong
         let currentIndex
 
@@ -93,7 +95,7 @@ const musicSlice = createSlice({
         } else {
           currentIndex = state.selectSong[0][0].id
 
-          nextSong = state.music[0].find(
+          nextSong = state.currentPlaylist.find(
             (findSong) => findSong.id === currentIndex + 1
           )
           if (currentIndex < 36) {
@@ -109,6 +111,7 @@ const musicSlice = createSlice({
       state.shuffleActive = action.payload
     },
     setterSong(state, action) {
+      console.log(action)
       state.selectSong.pop()
       state.selectSong.push(action.payload)
     },
@@ -166,6 +169,9 @@ const musicSlice = createSlice({
       } else {
         currentIndex = action.payload.selectSong[0][0].id
 
+        // nextSong = state.currentPlaylist.find(
+        //   (findSong) => findSong.id === currentIndex + 1
+        // )
         nextSong = action.payload.music[0].find(
           (findSong) => findSong.id === currentIndex + 1
         )
@@ -214,6 +220,10 @@ const musicSlice = createSlice({
         } else {
           currentIndex = action.payload.selectSong[0][0].id
 
+          // prevSong = state.currentPlaylist.find(
+          //   (findSong) => findSong.id === currentIndex - 1
+          // )
+
           prevSong = action.payload.music[0].find(
             (findSong) => findSong.id === currentIndex - 1
           )
@@ -233,7 +243,7 @@ const musicSlice = createSlice({
 
 export const {
   addMyTracks,
-  // addCurrentTrack,
+  addCurrentTrack,
   prevTakeStartCount,
   prevTakeCount,
   takeStartCount,

@@ -24,12 +24,12 @@ const ProgressBar = () => {
   useEffect(() => {
     const timeId = setInterval(() => {
       setCurrentTime(audioRef.current.currentTime)
-      if (currentTime !== null) {
+      if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
         timeDuration({ currentTime, duration })
       }
     }, 100)
     return () => clearInterval(timeId)
-  }, [currentTime])
+  }, [currentTime, duration])
 
   return (
     <>

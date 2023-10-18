@@ -15,7 +15,7 @@ import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import { useDispatch, useSelector } from 'react-redux'
-import { setterSong } from '../store/slice/musicSlice'
+import { setterSong, addCurrentTrack } from '../store/slice/musicSlice'
 
 import {
   useGetFavTracksQuery,
@@ -55,6 +55,7 @@ const MyPlaylist = () => {
 
   const setterSelectSong = () => {
     dispatch(setterSong(data))
+    dispatch(addCurrentTrack(data))
   }
 
   useEffect(() => {

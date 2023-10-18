@@ -9,19 +9,20 @@ import * as S from '../app-src/components/styles/style'
 import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import {
   setterMusic,
   setterSong,
   setCurrentPage,
-  // addCurrentTrack
+  addCurrentTrack,
 } from '../store/slice/musicSlice'
 
 import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 
 const Content = () => {
   const { data = [], isLoading } = useGetAllTracksQuery()
-
+  const currentPlaylist = useSelector((state) => state.musicReducer.currentPlaylist)
+console.log(currentPlaylist);
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -40,8 +41,6 @@ const Content = () => {
   useEffect(() => {
     setCurrent()
     setMusic(data)
-    console.log(music)
-    console.log(data)
   })
 
   const setterSelectMusic = () => {
@@ -50,6 +49,7 @@ const Content = () => {
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
+    // dispatch(addCurrentTrack(data))
   }
 
   const handleOpenFilter = (event) => {
@@ -81,6 +81,7 @@ const Content = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
+    
     searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
   }
   useEffect(() => {
@@ -115,7 +116,7 @@ const Content = () => {
         <S.Main className="main">
           <Navigation handleChangeMenu={handleChangeMenu} isOpen={isOpen} />
           <MiddleContent
-            music={music}
+            music={data}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
