@@ -36,7 +36,7 @@ const MiddleContentMyPlaylist = (props) => {
       {isLoading ? (
         <PreloaderMiddleContent />
       ) : (
-          <MyPlaylistContent handleSelectSong={handleSelectSong} music={music} />
+        <MyPlaylistContent handleSelectSong={handleSelectSong} music={music} />
       )}
     </S.MainCenterblock>
   )

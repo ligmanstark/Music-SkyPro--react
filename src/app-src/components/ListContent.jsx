@@ -24,13 +24,15 @@ const ListContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {music.length? music.map((el) => (
-          <ItemContent
-            key={el.id}
-            {...el}
-            handleSelectSong={handleSelectSong}
-          />
-        )):'упс'}
+        {music.length
+          ? music.map((el) => (
+              <ItemContent
+                key={el.id}
+                {...el}
+                handleSelectSong={handleSelectSong}
+              />
+            ))
+          : 'упс'}
       </S.ContentPlaylist>
     </S.CenterblockContent>
   )

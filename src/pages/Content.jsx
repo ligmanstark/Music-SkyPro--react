@@ -9,7 +9,7 @@ import * as S from '../app-src/components/styles/style'
 import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
-import { useDispatch,useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   setterMusic,
   setterSong,
@@ -21,8 +21,10 @@ import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 
 const Content = () => {
   const { data = [], isLoading } = useGetAllTracksQuery()
-  const currentPlaylist = useSelector((state) => state.musicReducer.currentPlaylist)
-console.log(currentPlaylist);
+  const currentPlaylist = useSelector(
+    (state) => state.musicReducer.currentPlaylist
+  )
+  console.log(currentPlaylist)
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -81,7 +83,7 @@ console.log(currentPlaylist);
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-    
+
     searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
   }
   useEffect(() => {

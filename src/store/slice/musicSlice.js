@@ -3,6 +3,7 @@ import { audioRef } from '../../app-src/layout/layout-content/PlayBar'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    propMusic: [],
     currentPlaylist: [],
     playlistFavorite: [{}],
     currentPage: '',
@@ -21,6 +22,12 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    setPropMusic(state, action) {
+      if (action.payload) {
+        state.propMusic.pop()
+        state.propMusic.push(state.selectSong)
+      }
+    },
     // setterPlaylist(state, action) {
     //   state.currentPlaylist.pop()
     //   state.currentPlaylist.push(action.payload)
@@ -111,7 +118,6 @@ const musicSlice = createSlice({
       state.shuffleActive = action.payload
     },
     setterSong(state, action) {
-      console.log(action)
       state.selectSong.pop()
       state.selectSong.push(action.payload)
     },
@@ -242,6 +248,7 @@ const musicSlice = createSlice({
 })
 
 export const {
+  setPropMusic,
   addMyTracks,
   addCurrentTrack,
   prevTakeStartCount,

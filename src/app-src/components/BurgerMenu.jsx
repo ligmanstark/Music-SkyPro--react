@@ -2,7 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from './styles/style'
 import { usePostTokenMutation } from '../../store/service/serviceMusicApi'
+import { setPropMusic } from '../../store/slice/musicSlice'
+import { useDispatch } from 'react-redux'
 const BurgerMenu = () => {
+  const dispatch = useDispatch()
   const [postToken, {}] = usePostTokenMutation()
 
   const navigate = useNavigate()

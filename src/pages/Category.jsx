@@ -85,7 +85,7 @@ const Category = () => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(getTrackById, searchID(data, valueName).id + '/', setSelecSong)
+    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
   }
 
   useEffect(() => {
