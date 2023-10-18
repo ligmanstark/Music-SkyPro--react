@@ -4,7 +4,8 @@ import watch from '../../img/icon/watch.svg'
 import { useGetAllTracksQuery } from '../../store/service/serviceMusicApi'
 const ListContent = (props) => {
   const { data = [] } = useGetAllTracksQuery()
-  const { handleSelectSong = Function.prototype } = props
+  const { handleSelectSong = Function.prototype, music = [] } = props
+  console.log(music);
   return (
     <S.CenterblockContent className="centerblock__content">
       <S.ContentTittle className="content__title playlist-title">
@@ -26,7 +27,7 @@ const ListContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {data.map((el) => (
+        {music.map((el) => (
           <ItemContent
             key={el.id}
             {...el}

@@ -14,6 +14,7 @@ import {
   setterMusic,
   setterSong,
   setCurrentPage,
+  // addCurrentTrack
 } from '../store/slice/musicSlice'
 
 import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
@@ -33,14 +34,18 @@ const Content = () => {
   const dispatch = useDispatch()
   const setCurrent = () => {
     dispatch(setCurrentPage('Main'))
+    // dispatch(addCurrentTrack())
   }
 
   useEffect(() => {
     setCurrent()
-  }, [data])
+    setMusic(data)
+    console.log(music)
+    console.log(data)
+  })
 
   const setterSelectMusic = () => {
-    dispatch(setterMusic(data))
+    dispatch(setterMusic(music))
   }
 
   const setterSelectSong = () => {
@@ -51,19 +56,19 @@ const Content = () => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(data.map((e) => e.author))])
-      setLengthFilter([...new Set(data.map((e) => e.author))].length)
+      setFilteredMusic([...new Set(music.map((e) => e.author))])
+      setLengthFilter([...new Set(music.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(data.map((e) => e.release_date))]
+      const arr = [...new Set(music.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
       setFilteredMusic(arr)
       setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(data.map((e) => e.genre))])
-      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
+      setFilteredMusic([...new Set(music.map((e) => e.genre))])
+      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
@@ -76,19 +81,19 @@ const Content = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-    searchFunc(getTrackById, searchID(data, valueName).id + '/', setSelecSong)
+    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
   }
   useEffect(() => {
     setterSelectSong()
   }, [song])
 
   useEffect(() => {
-    setFilteredMusic([...new Set(data.map((e) => e.author))])
+    setFilteredMusic([...new Set(music.map((e) => e.author))])
   }, [])
 
   useEffect(() => {
     setterSelectMusic()
-  }, [data])
+  }, [music])
 
   ////СЛОМАНО
   const searchTrack = (id) => {
@@ -110,6 +115,7 @@ const Content = () => {
         <S.Main className="main">
           <Navigation handleChangeMenu={handleChangeMenu} isOpen={isOpen} />
           <MiddleContent
+            music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}

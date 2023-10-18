@@ -27,7 +27,30 @@ export const serviceMusicApi = createApi({
             ]
           : [{ type: 'Tracks', id: 'LIST' }],
     }),
-
+    getTrackById: builder.mutation({
+      query: (track) => ({
+        url: `catalog/track/${track.id}/`,
+        method: 'GET',
+      }),
+      invalidatesTags: [{ type: 'Track', id: 'LIST' }],
+    }),
+    getSectionTracks: builder.query({
+      query: (id = '') => `catalog/selection/${id}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.items.map(({ id }) => ({ type: 'Selections', id })),
+              { type: 'Selections', id: 'LIST' },
+            ]
+          : [{ type: 'Selections', id: 'LIST' }],
+    }),
+    setSectionTracks: builder.mutation({
+      query: (track) => ({
+        url: `catalog/selection/${track.id}`,
+        method: 'GET',
+      }),
+      invalidatesTags: [{ type: 'Selections', id: 'LIST' }],
+    }),
     getFavTracks: builder.query({
       query: () => 'catalog/track/favorite/all/',
       providesTags: (result) =>
@@ -41,7 +64,7 @@ export const serviceMusicApi = createApi({
 
     setLike: builder.mutation({
       query: (track) => ({
-        url: `/catalog/track/${track.id}/favorite/`,
+        url: `catalog/track/${track.id}/favorite/`,
         method: 'POST',
       }),
       invalidatesTags: [
@@ -110,6 +133,10 @@ export const serviceMusicApi = createApi({
 })
 
 export const {
+  useGetSectionTracksQuery,
+  useSetSectionTracksMutation,
+  useLazyGetSectionTracksQuery,
+  useGetTrackByIdMutation,
   useGetAllTracksQuery,
   useGetFavTracksQuery,
   useLazyGetAllTracksQuery,

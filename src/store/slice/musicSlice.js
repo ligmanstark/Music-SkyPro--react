@@ -3,6 +3,8 @@ import { audioRef } from '../../app-src/layout/layout-content/PlayBar'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    currentPlaylist: [],
+    playlistFavorite: [{}],
     currentPage: '',
     selectNextSong: [],
     selectPrevSong: [],
@@ -19,9 +21,34 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    // setterPlaylist(state, action) {
+    //   state.currentPlaylist.pop()
+    //   state.currentPlaylist.push(action.payload)
+    // },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
+      if (state.currentPage === 'Main') {
+        state.currentPlaylist = state.music[0]
+      }
+      if (state.currentPage === 'Favorites') {
+        state.currentPlaylist = state.playlistFavorite
+      }
     },
+    addMyTracks(state, action) {
+      state.playlistFavorite = action.payload
+    },
+    // addCurrentTrack(state, action) {
+    //   if (state.currentPage === 'Main') {
+    //     state.currentPlaylist = state.music
+    //   } else if (state.currentPage === 'Favorites') {
+    //     state.currentPlaylist = state.music
+    //   }
+    // let currentIndex = null
+    // const setStateCurrentPlaylist = state.currentPlaylist
+    // currentIndex = setStateCurrentPlaylist.findIndex((track) => track.id === action.payload.id)
+
+    // state.selectSong
+    // },
     prevTakeStartCount(state, action) {
       state.overNum = action.payload - 1
     },
@@ -205,6 +232,8 @@ const musicSlice = createSlice({
 })
 
 export const {
+  addMyTracks,
+  // addCurrentTrack,
   prevTakeStartCount,
   prevTakeCount,
   takeStartCount,

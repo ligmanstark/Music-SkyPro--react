@@ -9,6 +9,7 @@ const MiddleContentMyPlaylist = (props) => {
   const { isLoading } = useGetAllTracksQuery()
 
   const {
+    music = [],
     isOpenFilter,
     searchTrack = Function.prototype,
     handleOpenFilter = Function.prototype,
@@ -35,7 +36,7 @@ const MiddleContentMyPlaylist = (props) => {
       {isLoading ? (
         <PreloaderMiddleContent />
       ) : (
-        <MyPlaylistContent handleSelectSong={handleSelectSong} />
+          <MyPlaylistContent handleSelectSong={handleSelectSong} music={music} />
       )}
     </S.MainCenterblock>
   )

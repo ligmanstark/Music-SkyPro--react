@@ -14,11 +14,29 @@ import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
-import {  useDispatch } from 'react-redux'
-import { setterMusic, setterSong } from '../store/slice/musicSlice'
-import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
+import { useDispatch, useSelector } from 'react-redux'
+import { setterSong } from '../store/slice/musicSlice'
+
+import {
+  useGetFavTracksQuery,
+  useLazyGetFavTracksQuery,
+  usePostTokenRefreshMutation,
+} from '../store/service/serviceMusicApi'
+
+import { setAccessToken } from '../store/slice/tokenSlice'
+import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
+
 const MyPlaylist = () => {
-  const { data = [], isLoading } = useGetAllTracksQuery()
+  const dispatch = useDispatch()
+
+  const { data = [], isLoading } = useGetFavTracksQuery()
+  const [fetchFavorite] = useLazyGetFavTracksQuery()
+  const refresh = localStorage.getItem('refreshToken')
+  const [postTokenRefresh, {}] = usePostTokenRefreshMutation()
+
+  const myFavTracks = useSelector(
+    (state) => state.musicReducer.playlistFavorite
+  )
 
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -31,7 +49,6 @@ const MyPlaylist = () => {
 
   const categoryId = useParams()
 
-  const dispatch = useDispatch()
   const setterSelectMusic = () => {
     dispatch(setterMusic(data))
   }
@@ -39,6 +56,27 @@ const MyPlaylist = () => {
   const setterSelectSong = () => {
     dispatch(setterSong(data))
   }
+
+  useEffect(() => {
+    postTokenRefresh({ refresh })
+      .unwrap()
+      .then((newToken) => {
+        dispatch(setAccessToken({ token: newToken.access }))
+        fetchFavorite()
+          .unwrap()
+          .then(() => {
+            setterSelectMusic()
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+  }, [refresh, data])
+  useEffect(() => {
+    if (myFavTracks) {
+      dispatch(setCurrentPage('Favorites'))
+    }
+  }, [data])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -70,17 +108,18 @@ const MyPlaylist = () => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(
-      getTrackById,
-      searchID(data, valueName).id + '/',
-      setSelecSong
-    )
+    searchFunc(getTrackById, searchID(data, valueName).id + '/', setSelecSong)
   }
+
+  // useEffect(() => {
+  //   setMusic(data)
+  //   setFilteredMusic([...new Set(data.map((e) => e.author))])
+  // }, [categoryId.id])
 
   useEffect(() => {
     setMusic(data)
     setFilteredMusic([...new Set(data.map((e) => e.author))])
-  }, [categoryId.id])
+  }, [data])
 
   ////////////////////////////////////////////////СЛОМАНО
   const searchTrack = (id) => {
@@ -111,6 +150,7 @@ const MyPlaylist = () => {
             isOpen={isOpen}
           />
           <MiddleContentMyPlaylist
+            music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}

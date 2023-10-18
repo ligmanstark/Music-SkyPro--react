@@ -12,7 +12,11 @@ import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import { useSelector, useDispatch } from 'react-redux'
 import { setterMusic, setterSong } from '../store/slice/musicSlice'
-import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
+import {
+  useGetAllTracksQuery,
+  useGetSectionTracksQuery,
+  useLazyGetSectionTracksQuery,
+} from '../store/service/serviceMusicApi'
 const Category = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -25,16 +29,31 @@ const Category = () => {
   const [url, setUrl] = useState('')
   const categoryId = useParams()
   const [countSection, setCountSection] = useState(categoryId)
-  const { data = [], isLoading } = useGetAllTracksQuery()
+
+  // const { data = [], isLoading } = useGetAllTracksQuery()
+
+  const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
+  const [fetchSelection] = useLazyGetSectionTracksQuery()
 
   const dispatch = useDispatch()
   const setterSelectMusic = () => {
-    dispatch(setterMusic(data))
+    dispatch(setterMusic(data.items))
   }
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
   }
+
+  useEffect(() => {
+    fetchSelection()
+      .unwrap()
+      .then(() => {
+        setterSelectMusic()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [data])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -79,7 +98,7 @@ const Category = () => {
 
   useEffect(() => {
     setCountSection(categoryId.id)
-    setMusic(data)
+    setMusic(data.items)
     console.log(data.items)
     if (!isLoading) {
       setFilteredMusic([...new Set(data.items.map((e) => e.author))])
@@ -87,7 +106,7 @@ const Category = () => {
     switch (categoryId.id) {
       case '1':
         setCountSection(categoryId.id)
-
+        console.log(categoryId.id)
         return setUrl('Плейлист дня')
 
       case '2':
@@ -99,7 +118,7 @@ const Category = () => {
 
         return setUrl('Инди-заряд')
     }
-  }, [categoryId.id])
+  }, [categoryId.id, data])
   ///СЛОМАНО
   console.log(typeof countSection)
   const searchTrack = (id) => {
@@ -122,6 +141,7 @@ const Category = () => {
             isOpen={isOpen}
           />
           <MiddleContentCategory
+            music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}

@@ -1,6 +1,5 @@
 import { createContext } from 'react'
 
-
 const setUserLocalStorage = () => {
   const userLocalStorage = localStorage.getItem('user')
   return userLocalStorage ? userLocalStorage : ''

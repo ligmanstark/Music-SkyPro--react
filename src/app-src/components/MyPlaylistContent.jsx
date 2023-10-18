@@ -6,7 +6,8 @@ import { useGetFavTracksQuery } from '../../store/service/serviceMusicApi'
 const MyPlaylistContent = (props) => {
   const navigate = useNavigate()
   const { data = [], isLoading, isError } = useGetFavTracksQuery()
-  const { handleSelectSong = Function.prototype } = props
+  const { handleSelectSong = Function.prototype, music = [] } = props
+  console.log(music)
   if (isError) {
     console.log(isError, '401')
 
@@ -39,8 +40,8 @@ const MyPlaylistContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {isLoading
-          ? data.map((el) => (
+        {music.length
+          ? music.map((el) => (
               <ItemContent
                 key={el.id}
                 {...el}
