@@ -28,8 +28,14 @@ import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
 const PlayerBar = (props) => {
+  const {
+    duration,
+    currentTime,
+    setCurrentTime = Function.prototype,
+    handleTime = Function.prototype,
+    setDuration = Function.prototype,
+  } = props
   const { isPlay } = props
-  console.log(isPlay)
   const music = useSelector((state) => state.musicReducer.music)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
 
@@ -157,7 +163,13 @@ const PlayerBar = (props) => {
         loop={isLooping ? true : false}
       ></S.AudioStyle>
       <S.BarContent className="bar__content">
-        <ProgressBar />
+        <ProgressBar
+          duration={duration}
+          currentTime={currentTime}
+          setCurrentTime={setCurrentTime}
+          handleTime={handleTime}
+          setDuration={setDuration}
+        />
         <S.BarPlayerProgress className="bar__player-progress"></S.BarPlayerProgress>
         <S.BarPlayerBlock className="bar__player-block">
           <S.BarPlayer className="bar__player player">

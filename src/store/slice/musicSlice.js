@@ -6,7 +6,7 @@ const musicSlice = createSlice({
     propMusic: [],
     currentPlaylist: [],
     playlistFavorite: [{}],
-    currentPage: '',
+    currentPage: 'Main',
     selectNextSong: [],
     selectPrevSong: [],
     selectSong: [],

@@ -4,32 +4,39 @@ import { audioRef } from '../layout/layout-content/PlayBar'
 import { convertTime } from '../helpers/convertTime'
 import { useDispatch, useSelector } from 'react-redux'
 import { autoNext } from '../../store/slice/musicSlice'
-const ProgressBar = () => {
-  const [currentTime, setCurrentTime] = useState(null)
-  const [duration, setDuration] = useState(null)
+const ProgressBar = (props) => {
+  const {
+    duration,
+    currentTime,
+    setCurrentTime = Function.prototype,
+    handleTime = Function.prototype,
+    setDuration = Function.prototype,
+  } = props
+  // const [currentTime, setCurrentTime] = useState(null)
+  // const [duration, setDuration] = useState(null)
 
-  const dispatch = useDispatch()
-  const timeDuration = (time) => {
-    dispatch(autoNext(time))
-  }
+  // const dispatch = useDispatch()
+  // const timeDuration = (time) => {
+  //   dispatch(autoNext(time))
+  // }
 
-  useEffect(() => {
-    setDuration(audioRef.current.duration)
-  })
+  // useEffect(() => {
+  //   setDuration(audioRef.current.duration)
+  // })
 
-  const handleTime = () => {
-    audioRef.current.currentTime = currentTime
-  }
+  // const handleTime = () => {
+  //   audioRef.current.currentTime = currentTime
+  // }
 
-  useEffect(() => {
-    const timeId = setInterval(() => {
-      setCurrentTime(audioRef.current.currentTime)
-      if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
-        timeDuration({ currentTime, duration })
-      }
-    }, 100)
-    return () => clearInterval(timeId)
-  }, [currentTime, duration])
+  // useEffect(() => {
+  //   const timeId = setInterval(() => {
+  //     setCurrentTime(audioRef.current.currentTime)
+  //     if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
+  //       timeDuration({ currentTime, duration })
+  //     }
+  //   }, 100)
+  //   return () => clearInterval(timeId)
+  // }, [currentTime, duration])
 
   return (
     <>

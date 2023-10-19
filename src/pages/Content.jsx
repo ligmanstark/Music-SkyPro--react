@@ -19,7 +19,16 @@ import {
 
 import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 
-const Content = () => {
+const Content = (props) => {
+  const {
+    track = [],
+    handleSelectSong = Function.prototype,
+    duration,
+    currentTime,
+    setCurrentTime = Function.prototype,
+    handleTime = Function.prototype,
+    setDuration = Function.prototype,
+  } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
   const currentPlaylist = useSelector(
     (state) => state.musicReducer.currentPlaylist
@@ -48,7 +57,7 @@ const Content = () => {
   }
 
   const setterSelectSong = () => {
-    dispatch(setterSong(song))
+    dispatch(setterSong(track))
   }
 
   const handleOpenFilter = (event) => {
@@ -77,27 +86,27 @@ const Content = () => {
     }
   }
 
-  const handleSelectSong = async (event) => {
-    const target = event.target
-    const valueName = target.innerHTML
+  // const handleSelectSong = async (event) => {
+  //   const target = event.target
+  //   const valueName = target.innerHTML
 
-    await searchFunc(
-      getTrackById,
-      searchID(music, valueName).id + '/',
-      setSelecSong
-    )
-  }
-  useEffect(() => {
-    setterSelectSong()
-  }, [song])
+  //   await searchFunc(
+  //     getTrackById,
+  //     searchID(music, valueName).id + '/',
+  //     setSelecSong
+  //   )
+  // }
+  // useEffect(() => {
+  //   setterSelectSong()
+  // }, [song])
+
+  // useEffect(() => {
+  //   setterSelectMusic()
+  // }, [music])
 
   useEffect(() => {
     setFilteredMusic([...new Set(music.map((e) => e.author))])
   }, [])
-
-  useEffect(() => {
-    setterSelectMusic()
-  }, [music])
 
   ////СЛОМАНО
   const searchTrack = (id) => {
@@ -127,10 +136,21 @@ const Content = () => {
             nameFilter={nameFilter}
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
+            setDuration={setDuration}
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar isPlay={isPlay} />}
+        {!track.length ? (
+          ''
+        ) : (
+          <PlayerBar
+            isPlay={isPlay}
+            duration={duration}
+            currentTime={currentTime}
+            setCurrentTime={setCurrentTime}
+            handleTime={handleTime}
+          />
+        )}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

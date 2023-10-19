@@ -30,7 +30,17 @@ import {
 import { setAccessToken } from '../store/slice/tokenSlice'
 import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
 
-const MyPlaylist = () => {
+const MyPlaylist = (props) => {
+  const {
+    track = [],
+    handleSelectSong = Function.prototype,
+    duration,
+    currentTime,
+    setCurrentTime = Function.prototype,
+    handleTime = Function.prototype,
+    setDuration = Function.prototype,
+  } = props
+
   const dispatch = useDispatch()
 
   const { data = [], isLoading } = useGetFavTracksQuery()
@@ -51,7 +61,7 @@ const MyPlaylist = () => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [song, setSelecSong] = useState([])
+  // const [song, setSelecSong] = useState([])
 
   const categoryId = useParams()
 
@@ -60,7 +70,7 @@ const MyPlaylist = () => {
   }
 
   const setterSelectSong = () => {
-    dispatch(setterSong(song))
+    dispatch(setterSong(track))
     // dispatch(addCurrentTrack(data))
   }
   useEffect(() => {
@@ -106,16 +116,16 @@ const MyPlaylist = () => {
     }
   }
 
-  const handleSelectSong = async (event) => {
-    const target = event.target
-    const valueName = target.innerHTML
+  // const handleSelectSong = async (event) => {
+  //   const target = event.target
+  //   const valueName = target.innerHTML
 
-    await searchFunc(
-      getTrackById,
-      searchID(myFavTracks, valueName).id + '/',
-      setSelecSong
-    )
-  }
+  //   await searchFunc(
+  //     getTrackById,
+  //     searchID(myFavTracks, valueName).id + '/',
+  //     setSelecSong
+  //   )
+  // }
 
   // useEffect(() => {
   //   setMusic(data)
@@ -139,13 +149,13 @@ const MyPlaylist = () => {
     setOpen((prev) => !prev)
   }
 
-  useEffect(() => {
-    setterSelectSong()
-  }, [song])
+  // useEffect(() => {
+  //   setterSelectSong()
+  // }, [song])
 
-  useEffect(() => {
-    setterSelectMusic()
-  }, [data])
+  // useEffect(() => {
+  //   setterSelectMusic()
+  // }, [data])
 
   return (
     <S.Wrapper className="wrapper">
@@ -167,7 +177,17 @@ const MyPlaylist = () => {
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar />}
+        {!track.length ? (
+          ''
+        ) : (
+          <PlayerBar
+            duration={duration}
+            currentTime={currentTime}
+            setCurrentTime={setCurrentTime}
+            handleTime={handleTime}
+            setDuration={setDuration}
+          />
+        )}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>
