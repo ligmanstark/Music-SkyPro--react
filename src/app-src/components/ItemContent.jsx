@@ -10,6 +10,8 @@ const ItemContent = (props) => {
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
 
   const {
+    el,
+    toggleLike = Function.prototype,
     id,
     name,
     author,
@@ -70,6 +72,10 @@ const ItemContent = (props) => {
             src={like}
             className="track__time-svg"
             alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
           ></S.TrackTimeSVG>
           <S.TrackTimeText className="track__time-text">
             {convertTime(duration_in_seconds)}

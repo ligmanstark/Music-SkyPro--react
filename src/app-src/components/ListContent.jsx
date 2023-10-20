@@ -7,7 +7,11 @@ import { useGetFavTracksQuery } from '../../store/service/serviceMusicApi'
 const ListContent = (props) => {
   const navigate = useNavigate()
   const { isError } = useGetFavTracksQuery()
-  const { handleSelectSong = Function.prototype, music = [] } = props
+  const {
+    handleSelectSong = Function.prototype,
+    music = [],
+    toggleLike = Function.prototype,
+  } = props
   if (isError) {
     console.log(isError, '401')
 
@@ -43,9 +47,11 @@ const ListContent = (props) => {
         {music.length
           ? music.map((el) => (
               <ItemContent
+                el={el}
                 key={el.id}
                 {...el}
                 handleSelectSong={handleSelectSong}
+                toggleLike={toggleLike}
               />
             ))
           : 'упс'}

@@ -21,6 +21,7 @@ import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 
 const Content = (props) => {
   const {
+    toggleLike = Function.prototype,
     track = [],
     handleSelectSong = Function.prototype,
     duration,
@@ -111,6 +112,7 @@ const Content = (props) => {
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
             setDuration={setDuration}
+            toggleLike={toggleLike}
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>

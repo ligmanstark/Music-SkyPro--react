@@ -32,6 +32,8 @@ import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
 
 const MyPlaylist = (props) => {
   const {
+    toggleLike = Function.prototype,
+
     track = [],
     handleSelectSong = Function.prototype,
     duration,
@@ -135,6 +137,7 @@ const MyPlaylist = (props) => {
             isOpen={isOpen}
           />
           <MiddleContentMyPlaylist
+            toggleLike={toggleLike}
             music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}

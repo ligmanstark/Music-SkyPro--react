@@ -8,6 +8,7 @@ import { useGetAllTracksQuery } from '../../../store/service/serviceMusicApi'
 const MiddleContent = (props) => {
   const { isLoading } = useGetAllTracksQuery()
   const {
+    toggleLike=Function.prototype,
     music = [],
     isOpenFilter,
     searchTrack = Function.prototype,
@@ -33,7 +34,11 @@ const MiddleContent = (props) => {
       {isLoading ? (
         <PreloaderMiddleContent />
       ) : (
-        <ListContent handleSelectSong={handleSelectSong} music={music} />
+        <ListContent
+          handleSelectSong={handleSelectSong}
+          music={music}
+          toggleLike={toggleLike}
+        />
       )}
     </S.MainCenterblock>
   )

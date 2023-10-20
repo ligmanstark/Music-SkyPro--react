@@ -14,6 +14,11 @@ import { audioRef } from '../app-src/layout/layout-content/PlayBar'
 import { autoNext } from '../store/slice/musicSlice'
 
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
+
+import {
+  useSetLikeMutation,
+  useSetUnlikeMutation,
+} from '../store/service/serviceMusicApi'
 const Layout = () => {
   const { user, isPlay } = useContext(AppContext)
 
@@ -26,6 +31,11 @@ const Layout = () => {
 
   const Page = useSelector((state) => state.musicReducer.currentPage)
   const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
+  const userId = Number(useSelector((state) => state.user.id))
+
+  const [setLike, {}] = useSetLikeMutation()
+  const [setUnlike, {}] = useSetUnlikeMutation()
+
   const dispatch = useDispatch()
 
   const setterSelectMusic = () => {
@@ -92,6 +102,37 @@ const Layout = () => {
     }, 100)
     return () => clearInterval(timeId)
   }, [currentTime, duration])
+  /////like or unlike
+  const toggleLike = (track) => {
+    if ((track.stared_user ?? []).find((user) => user.id === userId)) {
+      console.log('dislike')
+      setUnlike(track)
+        .unwrap()
+        .catch((error) => {
+          console.log(error)
+          navigate('/login')
+          logout()
+        })
+    } else if (!track.stared_user) {
+      console.log('dislike')
+      setUnlike(track)
+        .unwrap()
+        .catch((error) => {
+          console.log(error)
+          navigate('/login')
+          logout()
+        })
+    } else {
+      console.log('like')
+      setLike(track)
+        .unwrap()
+        .catch((error) => {
+          console.log(error)
+          navigate('/login')
+          logout()
+        })
+    }
+  }
 
   return (
     <>
@@ -104,6 +145,7 @@ const Layout = () => {
           setCurrentTime={setCurrentTime}
           handleTime={handleTime}
           setDuration={setDuration}
+          toggleLike={toggleLike}
         />
       ) : (
         <MyPlaylist
@@ -115,6 +157,7 @@ const Layout = () => {
           setCurrentTime={setCurrentTime}
           handleTime={handleTime}
           setDuration={setDuration}
+          toggleLike={toggleLike}
         />
       )}
       {!song.length ? (
