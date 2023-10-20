@@ -30,7 +30,6 @@ import activeshuffleB from '../../../img/icon/activSfuh.svg'
 export let audioRef = ''
 
 const PlayerBar = (props) => {
-
   const {
     toggleLike = Function.prototype,
     duration,

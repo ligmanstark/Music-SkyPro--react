@@ -40,7 +40,7 @@ const Layout = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  
+
   const setterSelectMusic = () => {
     dispatch(setterMusic(music))
   }

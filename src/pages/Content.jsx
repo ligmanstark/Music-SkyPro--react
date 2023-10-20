@@ -3,24 +3,22 @@ import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import React, { useEffect, useState, useContext } from 'react'
 import { getTrackById } from '../app-src/api/track'
- import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
+import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/components/styles/style'
- import { AppContext } from '../context'
+import { AppContext } from '../context'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-   setCurrentPage,
- } from '../store/slice/musicSlice'
+import { setCurrentPage } from '../store/slice/musicSlice'
 
 import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 
 const Content = (props) => {
   const {
     toggleLike = Function.prototype,
-     handleSelectSong = Function.prototype,
-     setDuration = Function.prototype,
+    handleSelectSong = Function.prototype,
+    setDuration = Function.prototype,
   } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
- 
+
   const { user, isPlay } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -28,7 +26,7 @@ const Content = (props) => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
- 
+
   const dispatch = useDispatch()
   const setCurrent = () => {
     dispatch(setCurrentPage('Main'))
