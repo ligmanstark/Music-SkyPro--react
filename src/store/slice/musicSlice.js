@@ -28,10 +28,7 @@ const musicSlice = createSlice({
         state.propMusic.push(state.selectSong)
       }
     },
-    // setterPlaylist(state, action) {
-    //   state.currentPlaylist.pop()
-    //   state.currentPlaylist.push(action.payload)
-    // },
+
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
     },
@@ -47,12 +44,6 @@ const musicSlice = createSlice({
           state.currentPlaylist = state.playlistFavorite
         }
       }
-
-      // let currentIndex = null
-      // const setStateCurrentPlaylist = state.currentPlaylist
-      // currentIndex = setStateCurrentPlaylist.findIndex((track) => track.id === action.payload.id)
-
-      // state.selectSong
     },
     prevTakeStartCount(state, action) {
       state.overNum = action.payload - 1
