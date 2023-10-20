@@ -149,9 +149,11 @@ const musicSlice = createSlice({
       state.shuffleActive = action.payload
     },
     setterSong(state, action) {
-      console.log(action);
+      console.log(action)
       state.selectSong.pop(action.payload.song)
       state.selectSong.push(action.payload.song)
+      state.currentPlaylist.pop(action.payload.currentPlaylist)
+      state.currentPlaylist.push(action.payload.currentPlaylist)
     },
     setterMusic(state, action) {
       state.music.pop()
@@ -208,35 +210,71 @@ const musicSlice = createSlice({
         currentIndex = action.payload.selectSong[0][0].id
         console.log(action)
         if (state.currentPage === 'Main') {
-          const currentTrackIdInList = action.payload.music[0].findIndex(
-            (track) => track.id == state.selectSong[0][0].id
-          )
-          console.log(currentTrackIdInList, 'music')
-          if (currentTrackIdInList) {
-            nextSong = action.payload.music[0][currentTrackIdInList + 1]
-            if (nextSong !== undefined) {
-              console.log(nextSong)
-              state.selectNextSong.pop()
-              state.selectNextSong.push(nextSong)
-              state.selectSong.pop()
-              state.selectSong.push([nextSong])
+          if (state.currentPlaylist === state.music) {
+            const currentTrackIdInList = action.payload.music[0].findIndex(
+              (track) => track.id == state.selectSong[0][0].id
+            )
+            console.log(currentTrackIdInList, 'music')
+            if (currentTrackIdInList) {
+              nextSong = action.payload.music[0][currentTrackIdInList + 1]
+              if (nextSong !== undefined) {
+                console.log(nextSong)
+                state.selectNextSong.pop()
+                state.selectNextSong.push(nextSong)
+                state.selectSong.pop()
+                state.selectSong.push([nextSong])
+              }
+            }
+          } else if (state.currentPlaylist !== state.music) {
+            const currentTrackIdInList = state.currentPlaylist[0].findIndex(
+              (track) => track.id == state.selectSong[0][0].id
+            )
+            console.log(currentTrackIdInList, 'music')
+            if (currentTrackIdInList) {
+              nextSong = state.currentPlaylist[0][currentTrackIdInList + 1]
+              if (nextSong !== undefined) {
+                console.log(nextSong)
+                state.selectNextSong.pop()
+                state.selectNextSong.push(nextSong)
+                state.selectSong.pop()
+                state.selectSong.push([nextSong])
+              }
             }
           }
         } else if (state.currentPage === 'Favorites') {
-          const currentTrackIdInList = action.payload.FavSongs.findIndex(
-            (track) => track.id == state.selectSong[0][0].id
-          )
-          console.log(currentTrackIdInList)
-          console.log(action.payload.FavSongs)
-          console.log([[action.payload.FavSongs[currentTrackIdInList + 1]]])
-          if (currentTrackIdInList !== undefined) {
-            nextSong = action.payload.FavSongs[currentTrackIdInList + 1]
-            if (nextSong !== undefined) {
-              console.log(nextSong)
-              state.selectNextSong.pop()
-              state.selectNextSong.push(nextSong)
-              state.selectSong.pop()
-              state.selectSong.push([nextSong])
+          if (state.currentPlaylist === state.playlistFavorite) {
+            const currentTrackIdInList = action.payload.FavSongs.findIndex(
+              (track) => track.id == state.selectSong[0][0].id
+            )
+            console.log(currentTrackIdInList)
+            console.log(action.payload.FavSongs)
+            console.log([[action.payload.FavSongs[currentTrackIdInList + 1]]])
+            if (currentTrackIdInList !== undefined) {
+              nextSong = action.payload.FavSongs[currentTrackIdInList + 1]
+              if (nextSong !== undefined) {
+                console.log(nextSong)
+                state.selectNextSong.pop()
+                state.selectNextSong.push(nextSong)
+                state.selectSong.pop()
+                state.selectSong.push([nextSong])
+              }
+            }
+          } else if (state.currentPlaylist !== state.playlistFavorite) {
+            const currentTrackIdInList = state.currentPlaylist[0].findIndex(
+              (track) => track.id == state.selectSong[0][0].id
+            )
+            console.log(currentTrackIdInList)
+            console.log(action.payload.FavSongs)
+            console.log([[action.payload.FavSongs[currentTrackIdInList + 1]]])
+            if (currentTrackIdInList !== undefined) {
+              nextSong = state.currentPlaylist[0][currentTrackIdInList + 1]
+              if (nextSong !== undefined) {
+                console.log(nextSong)
+                state.selectNextSong.pop()
+                state.selectNextSong.push(nextSong)
+                state.selectSong.pop()
+                state.selectSong.push([nextSong])
+              }
             }
           }
         }
