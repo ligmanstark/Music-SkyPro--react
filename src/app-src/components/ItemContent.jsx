@@ -3,11 +3,13 @@ import * as S from './styles/style'
 import * as A from './styles/animations'
 import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
+import like_active from '../../img/icon/like_active.svg'
 import { useSelector } from 'react-redux'
 
 const ItemContent = (props) => {
   const activ = useSelector((state) => state.musicReducer.activeSong)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
+  const userId = Number(useSelector((state) => state.user.id))
 
   const {
     el,
@@ -19,6 +21,45 @@ const ItemContent = (props) => {
     duration_in_seconds,
     handleSelectSong = Function.prototype,
   } = props
+  const LikeStatus = () => {
+    if ((el.stared_user ?? []).find((user) => user.id === userId)) {
+      return (
+        <S.TrackTimeSVG
+          src={like_active}
+          className="track__time-svg"
+          alt="time"
+          onClick={(e) => {
+            toggleLike(el)
+            e.stopPropagation()
+          }}
+        ></S.TrackTimeSVG>
+      )
+    } else if (!el.stared_user) {
+      return (
+        <S.TrackTimeSVG
+          src={like_active}
+          className="track__time-svg"
+          alt="time"
+          onClick={(e) => {
+            toggleLike(el)
+            e.stopPropagation()
+          }}
+        ></S.TrackTimeSVG>
+      )
+    } else {
+      return (
+        <S.TrackTimeSVG
+          src={like}
+          className="track__time-svg"
+          alt="time"
+          onClick={(e) => {
+            toggleLike(el)
+            e.stopPropagation()
+          }}
+        ></S.TrackTimeSVG>
+      )
+    }
+  }
   return (
     <S.PlaylistItem
       className="playlist__item"
@@ -68,15 +109,7 @@ const ItemContent = (props) => {
           </S.TrackAlbumLink>
         </S.TrackAlbum>
         <div className="track__time">
-          <S.TrackTimeSVG
-            src={like}
-            className="track__time-svg"
-            alt="time"
-            onClick={(e) => {
-              toggleLike(el)
-              e.stopPropagation()
-            }}
-          ></S.TrackTimeSVG>
+          <LikeStatus />
           <S.TrackTimeText className="track__time-text">
             {convertTime(duration_in_seconds)}
           </S.TrackTimeText>

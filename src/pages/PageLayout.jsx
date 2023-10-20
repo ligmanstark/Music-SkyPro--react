@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getTrackById } from '../app-src/api/track'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { searchID } from '../app-src/helpers/searchID'
@@ -38,7 +39,8 @@ const Layout = () => {
   const [setUnlike, {}] = useSetUnlikeMutation()
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
+  
   const setterSelectMusic = () => {
     dispatch(setterMusic(music))
   }
