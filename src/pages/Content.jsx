@@ -52,14 +52,6 @@ const Content = (props) => {
     setMusic(data)
   })
 
-  const setterSelectMusic = () => {
-    dispatch(setterMusic(music))
-  }
-
-  const setterSelectSong = () => {
-    dispatch(setterSong(track))
-  }
-
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
@@ -85,24 +77,6 @@ const Content = (props) => {
       setNameFilter('')
     }
   }
-
-  // const handleSelectSong = async (event) => {
-  //   const target = event.target
-  //   const valueName = target.innerHTML
-
-  //   await searchFunc(
-  //     getTrackById,
-  //     searchID(music, valueName).id + '/',
-  //     setSelecSong
-  //   )
-  // }
-  // useEffect(() => {
-  //   setterSelectSong()
-  // }, [song])
-
-  // useEffect(() => {
-  //   setterSelectMusic()
-  // }, [music])
 
   useEffect(() => {
     setFilteredMusic([...new Set(music.map((e) => e.author))])
@@ -140,17 +114,7 @@ const Content = (props) => {
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!track.length ? (
-          ''
-        ) : (
-          <PlayerBar
-            isPlay={isPlay}
-            duration={duration}
-            currentTime={currentTime}
-            setCurrentTime={setCurrentTime}
-            handleTime={handleTime}
-          />
-        )}
+
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

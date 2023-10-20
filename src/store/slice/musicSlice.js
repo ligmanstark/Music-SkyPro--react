@@ -174,13 +174,44 @@ const musicSlice = createSlice({
         }
       } else {
         currentIndex = action.payload.selectSong[0][0].id
+        console.log(action)
+        if (state.currentPage === 'Main') {
+          nextSong = action.payload.music[0].find(
+            (findSong) => findSong.id === currentIndex + 1
+          )
+        } else if (state.currentPage === 'Favorites') {
+          // nextSong = action.payload.FavSongs.find(
+          //   (findSong) => findSong.id === currentIndex+1)
+          // nextSong = action.payload.FavSongs.find(
+          //   (findSong) =>
+          //     findSong.id === action.payload.FavSongs.indexOf(findSong.id) + 1
+          // )
+          const currentTrackIdInList = action.payload.FavSongs.findIndex(
+            (track) => track.id == state.selectSong[0][0].id
+          )
+          console.log(currentTrackIdInList)
+          console.log(action.payload.FavSongs)
+          if (currentTrackIdInList >= action.payload.FavSongs.length - 1) {
+            state.selectNextSong.pop()
+            state.selectNextSong.push(
+              action.payload.FavSongs[currentTrackIdInList + 1]
+            )
+            state.selectSong.pop()
+            state.selectSong.push(
+              action.payload.FavSongs[currentTrackIdInList + 1]
+            )
+          } else {
+            state.selectNextSong.pop()
+            state.selectNextSong.push(
+              action.payload.FavSongs[currentTrackIdInList + 1]
+            )
+            state.selectSong.pop()
+            state.selectSong.push([
+              action.payload.FavSongs[currentTrackIdInList + 1],
+            ])
+          }
+        }
 
-        // nextSong = state.currentPlaylist.find(
-        //   (findSong) => findSong.id === currentIndex + 1
-        // )
-        nextSong = action.payload.music[0].find(
-          (findSong) => findSong.id === currentIndex + 1
-        )
         if (currentIndex < 36) {
           state.selectNextSong.pop()
           state.selectNextSong.push(nextSong)
@@ -225,15 +256,22 @@ const musicSlice = createSlice({
           }
         } else {
           currentIndex = action.payload.selectSong[0][0].id
+          if (state.currentPage === 'Main') {
+            prevSong = action.payload.music[0].find(
+              (findSong) => findSong.id === currentIndex - 1
+            )
+          } else if (state.currentPage === 'Favorites') {
+            prevSong = action.payload.FavSongs.find(
+              (findSong) => findSong.id === currentIndex - 1
+            )
+          }
 
-          // prevSong = state.currentPlaylist.find(
-          //   (findSong) => findSong.id === currentIndex - 1
-          // )
-
-          prevSong = action.payload.music[0].find(
-            (findSong) => findSong.id === currentIndex - 1
-          )
           if (currentIndex > 8 && prevSong !== undefined) {
+            state.selectPrevSong.pop()
+            state.selectPrevSong.push(prevSong)
+            state.selectSong.pop()
+            state.selectSong.push([prevSong])
+          } else if (prevSong !== undefined) {
             state.selectPrevSong.pop()
             state.selectPrevSong.push(prevSong)
             state.selectSong.pop()

@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { LoginContent } from './pages/LoginContent'
 import { RegisterContent } from './pages/RegisterContent'
 import { Content } from './pages/Content'
-import { Layout } from './pages/PageLayout';
+import { Layout } from './pages/PageLayout'
 import { NotFound } from './pages/NotFound'
 import { Category } from './pages/Category'
 import { MyPlaylist } from './pages/MyPlaylist'

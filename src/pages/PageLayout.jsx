@@ -13,6 +13,7 @@ import { AppContext } from '../context'
 import { audioRef } from '../app-src/layout/layout-content/PlayBar'
 import { autoNext } from '../store/slice/musicSlice'
 
+import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 const Layout = () => {
   const { user, isPlay } = useContext(AppContext)
 
@@ -38,15 +39,11 @@ const Layout = () => {
     setMusic(data)
   })
 
-  const handleSelectSong = async (event) => {
+  const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
 
-    await searchFunc(
-      getTrackById,
-      searchID(music, valueName).id + '/',
-      setSelectSong
-    )
+    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelectSong)
   }
   useEffect(() => {
     setterSelectSong()
@@ -60,7 +57,6 @@ const Layout = () => {
     dispatch(autoNext(time))
   }
 
-
   const handleTime = () => {
     audioRef.current.currentTime = currentTime
   }
@@ -69,7 +65,7 @@ const Layout = () => {
     const timeId = setInterval(() => {
       setDuration(audioRef.current.duration)
 
-       setCurrentTime(audioRef.current.currentTime)
+      setCurrentTime(audioRef.current.currentTime)
       if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
         timeDuration({ currentTime, duration })
       }
@@ -84,7 +80,6 @@ const Layout = () => {
           track={song}
           handleSelectSong={handleSelectSong}
           user={user}
-          duration={duration}
           currentTime={currentTime}
           setCurrentTime={setCurrentTime}
           handleTime={handleTime}
@@ -102,6 +97,17 @@ const Layout = () => {
           setDuration={setDuration}
         />
       )}
+        {!song.length ? (
+          ''
+        ) : (
+          <PlayerBar
+            isPlay={isPlay}
+            duration={duration}
+            currentTime={currentTime}
+            setCurrentTime={setCurrentTime}
+            handleTime={handleTime}
+          />
+        )}
     </>
   )
 }

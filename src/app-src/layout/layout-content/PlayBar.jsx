@@ -37,7 +37,10 @@ const PlayerBar = (props) => {
   } = props
   const { isPlay } = props
   const music = useSelector((state) => state.musicReducer.music)
+  const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
+
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
+  const currentPage = useSelector((state) => state.musicReducer.currentPage)
 
   audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(isPlay)
@@ -97,7 +100,11 @@ const PlayerBar = (props) => {
   }
 
   const handleNextSong = () => {
-    dispatch(nextSong({ music, selectSong }))
+    if (currentPage === 'Main') {
+      dispatch(nextSong({ music, selectSong }))
+    } else if (currentPage === 'Favorites') {
+      dispatch(nextSong({ FavSongs, selectSong }))
+    }
     audioRef.current.play()
     setIsPlaying((prev) => !prev)
     isActiveMusic(isPlaying)
@@ -108,7 +115,11 @@ const PlayerBar = (props) => {
   }
 
   const handlePrevSong = () => {
-    dispatch(prevSong({ music, selectSong }))
+    if (currentPage === 'Main') {
+      dispatch(prevSong({ music, selectSong }))
+    } else if (currentPage === 'Favorites') {
+      dispatch(prevSong({ FavSongs, selectSong }))
+    }
     audioRef.current.play()
     setIsPlaying(true)
     isActiveMusic(isPlaying)

@@ -61,7 +61,6 @@ const MyPlaylist = (props) => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  // const [song, setSelecSong] = useState([])
 
   const categoryId = useParams()
 
@@ -69,10 +68,6 @@ const MyPlaylist = (props) => {
     dispatch(addMyTracks(data))
   }
 
-  const setterSelectSong = () => {
-    dispatch(setterSong(track))
-    // dispatch(addCurrentTrack(data))
-  }
   useEffect(() => {
     fetchFavorite()
       .unwrap()
@@ -84,11 +79,9 @@ const MyPlaylist = (props) => {
       })
   }, [data])
 
-  useEffect(() => {
-    if (myFavTracks) {
-      dispatch(setCurrentPage('Favorites'))
-    }
-  }, [data])
+  if (myFavTracks) {
+    dispatch(setCurrentPage('Favorites'))
+  }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -116,22 +109,6 @@ const MyPlaylist = (props) => {
     }
   }
 
-  // const handleSelectSong = async (event) => {
-  //   const target = event.target
-  //   const valueName = target.innerHTML
-
-  //   await searchFunc(
-  //     getTrackById,
-  //     searchID(myFavTracks, valueName).id + '/',
-  //     setSelecSong
-  //   )
-  // }
-
-  // useEffect(() => {
-  //   setMusic(data)
-  //   setFilteredMusic([...new Set(music.map((e) => e.author))])
-  // }, [categoryId.id])
-
   useEffect(() => {
     setMusic(data)
     setFilteredMusic([...new Set(data.map((e) => e.author))])
@@ -148,14 +125,6 @@ const MyPlaylist = (props) => {
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
-
-  // useEffect(() => {
-  //   setterSelectSong()
-  // }, [song])
-
-  // useEffect(() => {
-  //   setterSelectMusic()
-  // }, [data])
 
   return (
     <S.Wrapper className="wrapper">
@@ -177,17 +146,7 @@ const MyPlaylist = (props) => {
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!track.length ? (
-          ''
-        ) : (
-          <PlayerBar
-            duration={duration}
-            currentTime={currentTime}
-            setCurrentTime={setCurrentTime}
-            handleTime={handleTime}
-            setDuration={setDuration}
-          />
-        )}
+
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>
