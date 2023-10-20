@@ -4,13 +4,14 @@ import * as A from './styles/animations'
 import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
 import like_active from '../../img/icon/like_active.svg'
+import dislike_active from '../../img/icon/dislike_active.svg'
 import { useSelector } from 'react-redux'
 
 const ItemContent = (props) => {
   const activ = useSelector((state) => state.musicReducer.activeSong)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
   const userId = Number(useSelector((state) => state.user.id))
-
+  const Page = useSelector((state) => state.musicReducer.currentPage)
   const {
     el,
     toggleLike = Function.prototype,
@@ -22,42 +23,82 @@ const ItemContent = (props) => {
     handleSelectSong = Function.prototype,
   } = props
   const LikeStatus = () => {
-    if ((el.stared_user ?? []).find((user) => user.id === userId)) {
-      return (
-        <S.TrackTimeSVG
-          src={like_active}
-          className="track__time-svg"
-          alt="time"
-          onClick={(e) => {
-            toggleLike(el)
-            e.stopPropagation()
-          }}
-        ></S.TrackTimeSVG>
-      )
-    } else if (!el.stared_user) {
-      return (
-        <S.TrackTimeSVG
-          src={like_active}
-          className="track__time-svg"
-          alt="time"
-          onClick={(e) => {
-            toggleLike(el)
-            e.stopPropagation()
-          }}
-        ></S.TrackTimeSVG>
-      )
-    } else {
-      return (
-        <S.TrackTimeSVG
-          src={like}
-          className="track__time-svg"
-          alt="time"
-          onClick={(e) => {
-            toggleLike(el)
-            e.stopPropagation()
-          }}
-        ></S.TrackTimeSVG>
-      )
+    if (Page === 'Main') {
+      if ((el.stared_user ?? []).find((user) => user.id === userId)) {
+        return (
+          <S.TrackTimeSVG
+            src={like_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else if (!el.stared_user) {
+        return (
+          <S.TrackTimeSVG
+            src={like_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else {
+        return (
+          <S.TrackTimeSVG
+            src={like}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      }
+    } else if (Page === 'Favorites') {
+      if ((el.stared_user ?? []).find((user) => user.id === userId)) {
+        return (
+          <S.TrackTimeSVG
+            src={dislike_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else if (!el.stared_user) {
+        return (
+          <S.TrackTimeSVG
+            src={dislike_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else {
+        return (
+          <S.TrackTimeSVG
+            src={like}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      }
     }
   }
   return (
