@@ -324,23 +324,69 @@ const musicSlice = createSlice({
         } else {
           currentIndex = action.payload.selectSong[0][0].id
           if (state.currentPage === 'Main') {
-            prevSong = action.payload.music[0].find(
-              (findSong) => findSong.id === currentIndex - 1
-            )
+            if (state.currentPlaylist === state.music) {
+              const currentTrackIdInList = action.payload.music[0].findIndex(
+                (track) => track.id == state.selectSong[0][0].id
+              )
+              console.log(currentTrackIdInList, 'music')
+              if (currentTrackIdInList) {
+                prevSong = action.payload.music[0][currentTrackIdInList - 1]
+                if (prevSong !== undefined) {
+                  console.log(prevSong)
+                  state.selectNextSong.pop()
+                  state.selectNextSong.push(prevSong)
+                  state.selectSong.pop()
+                  state.selectSong.push([prevSong])
+                }
+              }
+            } else if (state.currentPlaylist !== state.music) {
+              const currentTrackIdInList = state.currentPlaylist[0].findIndex(
+                (track) => track.id == state.selectSong[0][0].id
+              )
+              console.log(currentTrackIdInList, 'music')
+              if (currentTrackIdInList) {
+                prevSong = state.currentPlaylist[0][currentTrackIdInList - 1]
+                if (prevSong !== undefined) {
+                  console.log(prevSong)
+                  state.selectNextSong.pop()
+                  state.selectNextSong.push(prevSong)
+                  state.selectSong.pop()
+                  state.selectSong.push([prevSong])
+                }
+              }
+            }
           } else if (state.currentPage === 'Favorites') {
-            const currentTrackIdInList = action.payload.FavSongs.findIndex(
-              (track) => track.id == state.selectSong[0][0].id
-            )
-            console.log(currentTrackIdInList)
-            console.log(action.payload.FavSongs)
-            console.log([[action.payload.FavSongs[currentTrackIdInList - 1]]])
-            if (currentTrackIdInList) {
-              prevSong = action.payload.FavSongs[currentTrackIdInList - 1]
-              if (prevSong !== undefined) {
-                state.selectPrevSong.pop()
-                state.selectPrevSong.push(prevSong)
-                state.selectSong.pop()
-                state.selectSong.push([prevSong])
+            if (state.currentPlaylist === state.playlistFavorite) {
+              const currentTrackIdInList = action.payload.FavSongs.findIndex(
+                (track) => track.id == state.selectSong[0][0].id
+              )
+              console.log(currentTrackIdInList)
+              console.log(action.payload.FavSongs)
+              console.log([[action.payload.FavSongs[currentTrackIdInList - 1]]])
+              if (currentTrackIdInList) {
+                prevSong = action.payload.FavSongs[currentTrackIdInList - 1]
+                if (prevSong !== undefined) {
+                  state.selectPrevSong.pop()
+                  state.selectPrevSong.push(prevSong)
+                  state.selectSong.pop()
+                  state.selectSong.push([prevSong])
+                }
+              }
+            } else if (state.currentPlaylist !== state.playlistFavorite) {
+              const currentTrackIdInList = state.currentPlaylist[0].findIndex(
+                (track) => track.id == state.selectSong[0][0].id
+              )
+              console.log(currentTrackIdInList)
+              console.log(action.payload.FavSongs)
+              console.log([[action.payload.FavSongs[currentTrackIdInList - 1]]])
+              if (currentTrackIdInList) {
+                prevSong = state.currentPlaylist[0][currentTrackIdInList - 1]
+                if (prevSong !== undefined) {
+                  state.selectPrevSong.pop()
+                  state.selectPrevSong.push(prevSong)
+                  state.selectSong.pop()
+                  state.selectSong.push([prevSong])
+                }
               }
             }
           }
