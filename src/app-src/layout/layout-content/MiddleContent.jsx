@@ -8,7 +8,7 @@ import { useGetAllTracksQuery } from '../../../store/service/serviceMusicApi'
 const MiddleContent = (props) => {
   const { isLoading } = useGetAllTracksQuery()
   const {
-    toggleLike=Function.prototype,
+    toggleLike = Function.prototype,
     music = [],
     isOpenFilter,
     searchTrack = Function.prototype,
