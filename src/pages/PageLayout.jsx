@@ -25,14 +25,15 @@ const Layout = () => {
   const [duration, setDuration] = useState(null)
 
   const Page = useSelector((state) => state.musicReducer.currentPage)
+  const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
   const dispatch = useDispatch()
 
   const setterSelectMusic = () => {
     dispatch(setterMusic(music))
   }
 
-  const setterSelectSong = () => {
-    dispatch(setterSong(song))
+  const setterSelectSong = (currentPlaylist) => {
+    dispatch(setterSong({ song, currentPlaylist }))
   }
 
   useEffect(() => {
@@ -42,12 +43,31 @@ const Layout = () => {
   const handleSelectSong = (event) => {
     const target = event.target
     const valueName = target.innerHTML
-
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelectSong)
+    if (Page === 'Main') {
+      searchFunc(
+        getTrackById,
+        searchID(music, valueName).id + '/',
+        setSelectSong
+      )
+      setterSelectSong(music)
+    } else if (Page === 'Favorites') {
+      searchFunc(
+        getTrackById,
+        searchID(FavSongs, valueName).id + '/',
+        setSelectSong
+      )
+      setterSelectSong(FavSongs)
+    }
   }
-  useEffect(() => {
-    setterSelectSong()
-  }, [song])
+  if (Page === 'Main') {
+    useEffect(() => {
+      setterSelectSong(music)
+    }, [song])
+  } else if (Page === 'Favorites') {
+    useEffect(() => {
+      setterSelectSong(FavSongs)
+    }, [song])
+  }
 
   useEffect(() => {
     setterSelectMusic()
@@ -97,17 +117,17 @@ const Layout = () => {
           setDuration={setDuration}
         />
       )}
-        {!song.length ? (
-          ''
-        ) : (
-          <PlayerBar
-            isPlay={isPlay}
-            duration={duration}
-            currentTime={currentTime}
-            setCurrentTime={setCurrentTime}
-            handleTime={handleTime}
-          />
-        )}
+      {!song.length ? (
+        ''
+      ) : (
+        <PlayerBar
+          isPlay={isPlay}
+          duration={duration}
+          currentTime={currentTime}
+          setCurrentTime={setCurrentTime}
+          handleTime={handleTime}
+        />
+      )}
     </>
   )
 }

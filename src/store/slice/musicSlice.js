@@ -149,8 +149,9 @@ const musicSlice = createSlice({
       state.shuffleActive = action.payload
     },
     setterSong(state, action) {
-      state.selectSong.pop()
-      state.selectSong.push(action.payload)
+      console.log(action);
+      state.selectSong.pop(action.payload.song)
+      state.selectSong.push(action.payload.song)
     },
     setterMusic(state, action) {
       state.music.pop()
@@ -228,7 +229,7 @@ const musicSlice = createSlice({
           console.log(currentTrackIdInList)
           console.log(action.payload.FavSongs)
           console.log([[action.payload.FavSongs[currentTrackIdInList + 1]]])
-          if (currentTrackIdInList) {
+          if (currentTrackIdInList !== undefined) {
             nextSong = action.payload.FavSongs[currentTrackIdInList + 1]
             if (nextSong !== undefined) {
               console.log(nextSong)
