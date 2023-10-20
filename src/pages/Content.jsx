@@ -3,37 +3,24 @@ import { MiddleContent } from '../app-src/layout/layout-content/MiddleContent'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import React, { useEffect, useState, useContext } from 'react'
 import { getTrackById } from '../app-src/api/track'
-import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
-import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
+ import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/components/styles/style'
-import { searchID } from '../app-src/helpers/searchID'
-import { searchFunc } from '../app-src/helpers/searchFunc'
-import { AppContext } from '../context'
+ import { AppContext } from '../context'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  setterMusic,
-  setterSong,
-  setCurrentPage,
-  addCurrentTrack,
-} from '../store/slice/musicSlice'
+   setCurrentPage,
+ } from '../store/slice/musicSlice'
 
 import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 
 const Content = (props) => {
   const {
     toggleLike = Function.prototype,
-    track = [],
-    handleSelectSong = Function.prototype,
-    duration,
-    currentTime,
-    setCurrentTime = Function.prototype,
-    handleTime = Function.prototype,
-    setDuration = Function.prototype,
+     handleSelectSong = Function.prototype,
+     setDuration = Function.prototype,
   } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
-  const currentPlaylist = useSelector(
-    (state) => state.musicReducer.currentPlaylist
-  )
+ 
   const { user, isPlay } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -41,8 +28,7 @@ const Content = (props) => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [song, setSelecSong] = useState([])
-
+ 
   const dispatch = useDispatch()
   const setCurrent = () => {
     dispatch(setCurrentPage('Main'))

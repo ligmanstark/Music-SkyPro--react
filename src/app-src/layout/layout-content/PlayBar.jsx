@@ -26,9 +26,13 @@ import repeatB from '../../../img/icon/repeat.svg'
 import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
+
 export let audioRef = ''
+
 const PlayerBar = (props) => {
+
   const {
+    toggleLike = Function.prototype,
     duration,
     currentTime,
     setCurrentTime = Function.prototype,
@@ -257,12 +261,7 @@ const PlayerBar = (props) => {
             {!selectSong[0].length ? (
               ''
             ) : (
-              <ActiveTrack
-                key={selectSong.id}
-                name={selectSong.name}
-                author={selectSong.author}
-                track_file={selectSong.track_file}
-              />
+              <ActiveTrack toggleLike={toggleLike} />
             )}
           </S.BarPlayer>
           <S.BarVolumeBlock className="bar__volume-block volume">
