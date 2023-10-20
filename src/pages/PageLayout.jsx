@@ -19,6 +19,7 @@ import {
   useSetLikeMutation,
   useSetUnlikeMutation,
 } from '../store/service/serviceMusicApi'
+import { userLogout } from '../store/slice/userSlice'
 const Layout = () => {
   const { user, isPlay } = useContext(AppContext)
 
@@ -103,6 +104,16 @@ const Layout = () => {
     return () => clearInterval(timeId)
   }, [currentTime, duration])
   /////like or unlike
+  const logout = () => {
+    dispatch(userLogout())
+
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    localStorage.removeItem('id')
+    localStorage.removeItem('email')
+    localStorage.removeItem('refreshToken')
+    navigate('/login')
+  }
   const toggleLike = (track) => {
     if ((track.stared_user ?? []).find((user) => user.id === userId)) {
       console.log('dislike')
