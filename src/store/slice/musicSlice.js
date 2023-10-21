@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { audioRef } from '../../app-src/layout/layout-content/PlayBar'
+import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {

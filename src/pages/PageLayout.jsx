@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTrackById } from '../app-src/api/track'
 import { searchFunc } from '../app-src/helpers/searchFunc'
@@ -11,7 +11,6 @@ import { MyPlaylist } from '../pages/MyPlaylist'
 
 import { AppContext } from '../context'
 
-import { audioRef } from '../app-src/layout/layout-content/PlayBar'
 import { autoNext } from '../store/slice/musicSlice'
 
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
@@ -21,7 +20,11 @@ import {
   useSetUnlikeMutation,
 } from '../store/service/serviceMusicApi'
 import { userLogout } from '../store/slice/userSlice'
+
+export let audioRef = ''
+
 const Layout = () => {
+  audioRef = useRef(null)
   const { user, isPlay } = useContext(AppContext)
 
   const { data = [], isLoading } = useGetAllTracksQuery()
@@ -85,28 +88,26 @@ const Layout = () => {
   useEffect(() => {
     setterSelectMusic()
   }, [music])
-  ///////////////////////продолжительность трека
-  const timeDuration = (time) => {
-    dispatch(autoNext(time))
-  }
+  // ///////////////////////продолжительность трека
+  // const timeDuration = (time) => {
+  //   dispatch(autoNext(time))
+  // }
 
-  const handleTime = () => {
-    audioRef.current.currentTime = currentTime
-  }
+  // const handleTime = () => {
+  //   audioRef.current.currentTime = currentTime
+  // }
 
-  useEffect(() => {
-    const timeId = setInterval(() => {
-      if (audioRef.current !== undefined) {
-        setDuration(audioRef.current.duration)
+  // useEffect(() => {
+  //   const timeId = setInterval(() => {
+  //     setDuration(audioRef.current.duration)
 
-        setCurrentTime(audioRef.current.currentTime)
-        if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
-          timeDuration({ currentTime, duration })
-        }
-      }
-    }, 100)
-    return () => clearInterval(timeId)
-  }, [currentTime, duration])
+  //     setCurrentTime(audioRef.current.currentTime)
+  //     if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
+  //       timeDuration({ currentTime, duration })
+  //     }
+  //   }, 100)
+  //   return () => clearInterval(timeId)
+  // }, [currentTime, duration])
   /////like or unlike
   const logout = () => {
     dispatch(userLogout())
@@ -156,10 +157,6 @@ const Layout = () => {
           track={song}
           handleSelectSong={handleSelectSong}
           user={user}
-          currentTime={currentTime}
-          setCurrentTime={setCurrentTime}
-          handleTime={handleTime}
-          setDuration={setDuration}
           toggleLike={toggleLike}
         />
       ) : (
@@ -167,25 +164,10 @@ const Layout = () => {
           track={song}
           handleSelectSong={handleSelectSong}
           user={user}
-          duration={duration}
-          currentTime={currentTime}
-          setCurrentTime={setCurrentTime}
-          handleTime={handleTime}
-          setDuration={setDuration}
           toggleLike={toggleLike}
         />
       )}
-      {!song.length ? (
-        ''
-      ) : (
-        <PlayerBar
-          isPlay={isPlay}
-          duration={duration}
-          currentTime={currentTime}
-          setCurrentTime={setCurrentTime}
-          handleTime={handleTime}
-        />
-      )}
+      {!song.length ? '' : <PlayerBar isPlay={isPlay} />}
     </>
   )
 }

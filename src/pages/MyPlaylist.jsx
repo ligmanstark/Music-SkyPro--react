@@ -33,14 +33,7 @@ import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
 const MyPlaylist = (props) => {
   const {
     toggleLike = Function.prototype,
-
-    track = [],
     handleSelectSong = Function.prototype,
-    duration,
-    currentTime,
-    setCurrentTime = Function.prototype,
-    handleTime = Function.prototype,
-    setDuration = Function.prototype,
   } = props
 
   const dispatch = useDispatch()

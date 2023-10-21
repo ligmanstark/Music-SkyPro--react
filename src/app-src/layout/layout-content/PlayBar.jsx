@@ -5,6 +5,8 @@ import { VolumeBar } from '../../components/VolumeBar'
 import * as S from '../../components/styles/style'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppContext } from '../../../context'
+import { audioRef } from '../../../pages/PageLayout'
+import { autoNext } from '../../../store/slice/musicSlice'
 
 import {
   shuffle,
@@ -27,16 +29,14 @@ import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
 
-export let audioRef = ''
-
 const PlayerBar = (props) => {
   const {
     toggleLike = Function.prototype,
-    duration,
-    currentTime,
-    setCurrentTime = Function.prototype,
-    handleTime = Function.prototype,
-    setDuration = Function.prototype,
+    // duration,
+    // currentTime,
+    // setCurrentTime = Function.prototype,
+    // handleTime = Function.prototype,
+    // setDuration = Function.prototype,
   } = props
   const { isPlay } = props
   const music = useSelector((state) => state.musicReducer.music)
@@ -45,12 +45,16 @@ const PlayerBar = (props) => {
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
   const currentPage = useSelector((state) => state.musicReducer.currentPage)
 
-  audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(isPlay)
   const [isLooping, setIsLooping] = useState(false)
   const [isShuffle, setIsShuffle] = useState(false)
   const [count, setCount] = useState(1)
   const [startCount, setStartCount] = useState(0)
+
+  const [currentTime, setCurrentTime] = useState(null)
+  const [duration, setDuration] = useState(null)
+
+  const dispatch = useDispatch()
 
   const startPrevCounter = () => {
     if (startCount > 0) {
@@ -76,8 +80,6 @@ const PlayerBar = (props) => {
     }
   }
 
-  const dispatch = useDispatch()
-
   const prevStartTakeCount = () => {
     dispatch(prevTakeStartCount(startCount))
   }
@@ -101,6 +103,27 @@ const PlayerBar = (props) => {
   const isActiveMusic = (status) => {
     dispatch(active(status))
   }
+
+  ///////////////////////продолжительность трека
+  const timeDuration = (time) => {
+    dispatch(autoNext(time))
+  }
+
+  const handleTime = () => {
+    audioRef.current.currentTime = currentTime
+  }
+
+  useEffect(() => {
+    const timeId = setInterval(() => {
+      setDuration(audioRef.current.duration)
+
+      setCurrentTime(audioRef.current.currentTime)
+      if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
+        timeDuration({ currentTime, duration })
+      }
+    }, 100)
+    return () => clearInterval(timeId)
+  }, [currentTime, duration])
 
   const handleNextSong = () => {
     if (currentPage === 'Main') {

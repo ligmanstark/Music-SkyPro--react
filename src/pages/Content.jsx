@@ -15,7 +15,6 @@ const Content = (props) => {
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
-    setDuration = Function.prototype,
   } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
 
@@ -95,7 +94,6 @@ const Content = (props) => {
             nameFilter={nameFilter}
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
-            setDuration={setDuration}
             toggleLike={toggleLike}
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
