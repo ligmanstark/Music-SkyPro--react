@@ -96,11 +96,13 @@ const Layout = () => {
 
   useEffect(() => {
     const timeId = setInterval(() => {
-      setDuration(audioRef.current.duration)
+      if (audioRef.current !== undefined) {
+        setDuration(audioRef.current.duration)
 
-      setCurrentTime(audioRef.current.currentTime)
-      if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
-        timeDuration({ currentTime, duration })
+        setCurrentTime(audioRef.current.currentTime)
+        if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
+          timeDuration({ currentTime, duration })
+        }
       }
     }, 100)
     return () => clearInterval(timeId)
