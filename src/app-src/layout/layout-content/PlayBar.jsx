@@ -30,20 +30,17 @@ import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
 
 const PlayerBar = (props) => {
-  const {
-    toggleLike = Function.prototype,
-    // duration,
-    // currentTime,
-    // setCurrentTime = Function.prototype,
-    // handleTime = Function.prototype,
-    // setDuration = Function.prototype,
-  } = props
+  const { toggleLike = Function.prototype } = props
   const { isPlay } = props
   const music = useSelector((state) => state.musicReducer.music)
   const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
 
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
   const currentPage = useSelector((state) => state.musicReducer.currentPage)
+
+  const currentPlaylist = useSelector(
+    (state) => state.musicReducer.currentPlaylist
+  )
 
   const [isPlaying, setIsPlaying] = useState(isPlay)
   const [isLooping, setIsLooping] = useState(false)
@@ -97,7 +94,7 @@ const PlayerBar = (props) => {
   }
   const shuffleMusic = () => {
     setIsShuffle((prev) => !prev)
-    dispatch(shuffle(music))
+    dispatch(shuffle(currentPlaylist))
   }
 
   const isActiveMusic = (status) => {

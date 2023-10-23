@@ -12,9 +12,12 @@ const Sidebar = () => {
   const navigate = useNavigate()
   const handleLogout = () => {
     setTimeout(() => {
-      navigate('/login')
       localStorage.setItem('user', '')
       localStorage.setItem('token', '')
+      localStorage.setItem('id', '')
+      localStorage.setItem('email', '')
+      localStorage.setItem('refreshToken', '')
+      navigate('/login')
     }, 500)
   }
 

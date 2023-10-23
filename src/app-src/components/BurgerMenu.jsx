@@ -2,11 +2,25 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from './styles/style'
 import { usePostTokenMutation } from '../../store/service/serviceMusicApi'
-import { setPropMusic, setCurrentPage } from '../../store/slice/musicSlice'
+import { setCurrentPage } from '../../store/slice/musicSlice'
 import { useDispatch } from 'react-redux'
+import { userLogout } from '../../store/slice/userSlice'
+import { useGetFavTracksQuery } from '../../store/service/serviceMusicApi'
 const BurgerMenu = () => {
   const dispatch = useDispatch()
   const [postToken, {}] = usePostTokenMutation()
+  const { isError } = useGetFavTracksQuery()
+
+  const logout = () => {
+    dispatch(userLogout())
+
+    localStorage.setItem('user', '')
+    localStorage.setItem('token', '')
+    localStorage.setItem('id', '')
+    localStorage.setItem('email', '')
+    localStorage.setItem('refreshToken', '')
+    navigate('/login')
+  }
 
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -26,8 +40,13 @@ const BurgerMenu = () => {
 
   const handleMyPlaylist = () => {
     setTimeout(() => {
-      navigate('/favorites')
-      dispatch(setCurrentPage('Favorites'))
+      if (!isError) {
+        navigate('/favorites')
+        dispatch(setCurrentPage('Favorites'))
+      } else {
+        navigate('/login')
+        logout()
+      }
     }, 500)
   }
   return (

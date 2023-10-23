@@ -174,26 +174,40 @@ const musicSlice = createSlice({
       let nextSong
       let currentIndex
       if (state.shuffleActive) {
-        if (state.num < 29) {
-          currentIndex = action.payload.selectSong[0][0].id
-
-          nextSong = state.shuffleSongPlaylist[0].slice(
-            state.overNum,
-            state.num
+        if (state.currentPage === 'Main') {
+          const currentTrackIdInList = state.shuffleSongPlaylist[0].findIndex(
+            (track) => track.id == state.selectSong[0][0].id
           )
-
-          if (nextSong === undefined) {
-            nextSong = state.shuffleSongPlaylist[0].find(
-              (findSong) =>
-                findSong.id ===
-                state.shuffleSongPlaylist[0].slice(state.overNum, state.num).id
-            )
-          } else {
-            if (currentIndex < 36) {
+          console.log(currentTrackIdInList, 'music')
+          if (currentTrackIdInList) {
+            nextSong = state.shuffleSongPlaylist[0][currentTrackIdInList + 1]
+            console.log(nextSong)
+            if (nextSong !== undefined) {
+              console.log(nextSong)
               state.selectNextSong.pop()
               state.selectNextSong.push(nextSong)
               state.selectSong.pop()
-              state.selectSong.push([nextSong[0]])
+              state.selectSong.push([nextSong])
+            } else {
+              audioRef.current.pause()
+            }
+          }
+        } else if (state.currentPage === 'Favorites') {
+          const currentTrackIdInList = state.shuffleSongPlaylist[0].findIndex(
+            (track) => track.id == state.selectSong[0][0].id
+          )
+          console.log(currentTrackIdInList, 'Favorites')
+          if (currentTrackIdInList) {
+            nextSong = state.shuffleSongPlaylist[0][currentTrackIdInList + 1]
+            console.log(nextSong)
+            if (nextSong !== undefined) {
+              console.log(nextSong)
+              state.selectNextSong.pop()
+              state.selectNextSong.push(nextSong)
+              state.selectSong.pop()
+              state.selectSong.push([nextSong])
+            } else {
+              audioRef.current.pause()
             }
           }
         }
@@ -229,6 +243,8 @@ const musicSlice = createSlice({
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
                 state.selectSong.push([nextSong])
+              } else {
+                audioRef.current.pause()
               }
             }
           }

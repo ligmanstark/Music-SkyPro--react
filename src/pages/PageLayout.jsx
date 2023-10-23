@@ -14,7 +14,6 @@ import { AppContext } from '../context'
 import { autoNext } from '../store/slice/musicSlice'
 
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
-
 import {
   useSetLikeMutation,
   useSetUnlikeMutation,
@@ -88,37 +87,18 @@ const Layout = () => {
   useEffect(() => {
     setterSelectMusic()
   }, [music])
-  // ///////////////////////продолжительность трека
-  // const timeDuration = (time) => {
-  //   dispatch(autoNext(time))
-  // }
 
-  // const handleTime = () => {
-  //   audioRef.current.currentTime = currentTime
-  // }
-
-  // useEffect(() => {
-  //   const timeId = setInterval(() => {
-  //     setDuration(audioRef.current.duration)
-
-  //     setCurrentTime(audioRef.current.currentTime)
-  //     if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
-  //       timeDuration({ currentTime, duration })
-  //     }
-  //   }, 100)
-  //   return () => clearInterval(timeId)
-  // }, [currentTime, duration])
   /////like or unlike
   const logout = () => {
     dispatch(userLogout())
-
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    localStorage.removeItem('id')
-    localStorage.removeItem('email')
-    localStorage.removeItem('refreshToken')
+    localStorage.setItem('user', '')
+    localStorage.setItem('token', '')
+    localStorage.setItem('id', '')
+    localStorage.setItem('email', '')
+    localStorage.setItem('refreshToken', '')
     navigate('/login')
   }
+
   const toggleLike = (track) => {
     if ((track.stared_user ?? []).find((user) => user.id === userId)) {
       console.log('dislike')

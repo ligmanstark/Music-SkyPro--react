@@ -73,7 +73,7 @@ const LoginContent = () => {
                       refreshToken: token.refresh,
                     })
                   )
-                  if (response.email) {
+                  if (response.email && localStorage.getItem('user') !== null) {
                     navigate('/')
                   }
                   if (!target.id == '') {
