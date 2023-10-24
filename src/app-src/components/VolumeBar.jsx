@@ -1,5 +1,5 @@
 import * as S from './styles/style'
-import { audioRef } from '../layout/layout-content/PlayBar'
+import { audioRef } from '../../pages/PageLayout'
 import { useState, useEffect } from 'react'
 
 const VolumeBar = () => {

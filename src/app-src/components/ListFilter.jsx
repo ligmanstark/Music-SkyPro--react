@@ -1,7 +1,7 @@
 import { ItemFilter } from './ItemFilter'
 import * as S from './styles/style'
 const ListFilter = (props) => {
-  const { music = [], filteredMusic = [], nameFilter } = props
+  const { filteredMusic = [], nameFilter } = props
   return (
     <S.WindowFiltered
       className="window-filtered"

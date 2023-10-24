@@ -11,8 +11,12 @@ import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import { useSelector, useDispatch } from 'react-redux'
-import { setterMusic, setterSong } from '../store/musicSlice'
-
+import { setterMusic, setterSong } from '../store/slice/musicSlice'
+import {
+  useGetAllTracksQuery,
+  useGetSectionTracksQuery,
+  useLazyGetSectionTracksQuery,
+} from '../store/service/serviceMusicApi'
 const Category = () => {
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -24,33 +28,50 @@ const Category = () => {
   const [song, setSelecSong] = useState([])
   const [url, setUrl] = useState('')
   const categoryId = useParams()
+  const [countSection, setCountSection] = useState(categoryId)
+
+  // const { data = [], isLoading } = useGetAllTracksQuery()
+
+  const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
+  const [fetchSelection] = useLazyGetSectionTracksQuery()
 
   const dispatch = useDispatch()
   const setterSelectMusic = () => {
-    dispatch(setterMusic(music))
+    dispatch(setterMusic(data.items))
   }
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
   }
 
+  useEffect(() => {
+    fetchSelection()
+      .unwrap()
+      .then(() => {
+        setterSelectMusic()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [data])
+
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(music.map((e) => e.author))])
-      setLengthFilter([...new Set(music.map((e) => e.author))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.author))])
+      setLengthFilter([...new Set(data.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(music.map((e) => e.release_date))]
+      const arr = [...new Set(data.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
       setFilteredMusic(arr)
       setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(music.map((e) => e.genre))])
-      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
@@ -60,43 +81,57 @@ const Category = () => {
     }
   }
 
-  const handleSelectSong = (event) => {
+  const handleSelectSong = async (event) => {
     const target = event.target
     const valueName = target.innerHTML
 
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
+    await searchFunc(
+      getTrackById,
+      searchID(music, valueName).id + '/',
+      setSelecSong
+    )
   }
 
   useEffect(() => {
     setterSelectMusic()
-  }, [music])
+  }, [data])
 
   useEffect(() => {
     setterSelectSong()
   }, [song])
 
   useEffect(() => {
-    getTrackSelectionById(categoryId.id).then((data) => {
-      setMusic(data.data.items)
-      setFilteredMusic([...new Set(data.data.items.map((e) => e.author))])
-      switch (categoryId.id) {
-        case '1':
-          return setUrl('Плейлист дня')
-        case '2':
-          return setUrl('100 танцевальных хитов')
-        case '3':
-          return setUrl('Инди-заряд')
-      }
-    })
-  }, [categoryId.id])
+    setCountSection(categoryId.id)
+    setMusic(data.items)
+    console.log(data.items)
+    // if (!isLoading) {
+    //   setFilteredMusic([...new Set(data.items.map((e) => e.author))])
+    // }
+    switch (categoryId.id) {
+      case '1':
+        setCountSection(categoryId.id)
+        console.log(categoryId.id)
+        return setUrl('Плейлист дня')
 
+      case '2':
+        setCountSection(categoryId.id)
+
+        return setUrl('100 танцевальных хитов')
+      case '3':
+        setCountSection(categoryId.id)
+
+        return setUrl('Инди-заряд')
+    }
+  }, [categoryId.id, data])
+  ///СЛОМАНО
+  console.log(typeof countSection)
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {
       const flat = [data.data].flat(1)
       setMusic(flat)
     })
   }
-
+  ////
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
@@ -120,9 +155,9 @@ const Category = () => {
             url={url}
             handleSelectSong={handleSelectSong}
           />
-          {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
+          {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar music={music} />}
+        {!song.length ? '' : <PlayerBar />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

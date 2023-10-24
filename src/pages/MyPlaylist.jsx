@@ -14,10 +14,41 @@ import { searchID } from '../app-src/helpers/searchID'
 import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
-import { useSelector, useDispatch } from 'react-redux'
-import { setterMusic, setterSong } from '../store/musicSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setterSong,
+  addCurrentTrack,
+  addMyTracks,
+} from '../store/slice/musicSlice'
 
-const MyPlaylist = () => {
+import {
+  useGetFavTracksQuery,
+  useLazyGetFavTracksQuery,
+  usePostTokenRefreshMutation,
+} from '../store/service/serviceMusicApi'
+
+import { setAccessToken } from '../store/slice/tokenSlice'
+import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
+
+const MyPlaylist = (props) => {
+  const {
+    toggleLike = Function.prototype,
+    handleSelectSong = Function.prototype,
+  } = props
+
+  const dispatch = useDispatch()
+
+  const { data = [], isLoading } = useGetFavTracksQuery()
+  const [fetchFavorite] = useLazyGetFavTracksQuery()
+  const refresh = localStorage.getItem('refreshToken')
+  const [postTokenRefresh, {}] = usePostTokenRefreshMutation()
+
+  const myFavTracks = useSelector(
+    (state) => state.musicReducer.playlistFavorite
+  )
+
+  const myMusic = useSelector((state) => state.musicReducer.music)
+
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -25,36 +56,45 @@ const MyPlaylist = () => {
   const [nameFilter, setNameFilter] = useState('')
   const [filteredMusic, setFilteredMusic] = useState([])
   const [lengthFilter, setLengthFilter] = useState(null)
-  const [song, setSelecSong] = useState([])
 
   const categoryId = useParams()
 
-  const dispatch = useDispatch()
   const setterSelectMusic = () => {
-    dispatch(setterMusic(music))
+    dispatch(addMyTracks(data))
   }
 
-  const setterSelectSong = () => {
-    dispatch(setterSong(song))
+  useEffect(() => {
+    fetchFavorite()
+      .unwrap()
+      .then(() => {
+        setterSelectMusic()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [data])
+
+  if (myFavTracks) {
+    dispatch(setCurrentPage('Favorites'))
   }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(music.map((e) => e.author))])
-      setLengthFilter([...new Set(music.map((e) => e.author))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.author))])
+      setLengthFilter([...new Set(data.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(music.map((e) => e.release_date))]
+      const arr = [...new Set(data.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
       setFilteredMusic(arr)
       setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(music.map((e) => e.genre))])
-      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
@@ -64,38 +104,22 @@ const MyPlaylist = () => {
     }
   }
 
-  const handleSelectSong = (event) => {
-    const target = event.target
-    const valueName = target.innerHTML
-
-    searchFunc(getTrackById, searchID(music, valueName).id + '/', setSelecSong)
-  }
-
   useEffect(() => {
-    getTrackSelectionById('1/').then((data) => {
-      setMusic(data.data.items)
-      setFilteredMusic([...new Set(data.data.items.map((e) => e.author))])
-    })
-  }, [categoryId.id])
+    setMusic(data)
+    setFilteredMusic([...new Set(data.map((e) => e.author))])
+  }, [data])
 
+  ////////////////////////////////////////////////СЛОМАНО
   const searchTrack = (id) => {
     getTrackById(id).then((data) => {
       const flat = [data.data].flat(1)
       setMusic(flat)
     })
   }
-
+  ////////////////////////////////////////////////////
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
-
-  useEffect(() => {
-    setterSelectSong()
-  }, [song])
-
-  useEffect(() => {
-    setterSelectMusic()
-  }, [music])
 
   return (
     <S.Wrapper className="wrapper">
@@ -106,6 +130,7 @@ const MyPlaylist = () => {
             isOpen={isOpen}
           />
           <MiddleContentMyPlaylist
+            toggleLike={toggleLike}
             music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
@@ -115,9 +140,9 @@ const MyPlaylist = () => {
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
           />
-          {!music.length ? <PreloaderSideBar /> : <Sidebar user={user} />}
+          {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar music={music} />}
+
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

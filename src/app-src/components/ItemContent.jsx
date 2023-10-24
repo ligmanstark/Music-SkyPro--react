@@ -3,13 +3,18 @@ import * as S from './styles/style'
 import * as A from './styles/animations'
 import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
-import { useSelector, useDispatch } from 'react-redux'
+import like_active from '../../img/icon/like_active.svg'
+import dislike_active from '../../img/icon/dislike_active.svg'
+import { useSelector } from 'react-redux'
 
 const ItemContent = (props) => {
   const activ = useSelector((state) => state.musicReducer.activeSong)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
-
+  const userId = Number(useSelector((state) => state.user.id))
+  const Page = useSelector((state) => state.musicReducer.currentPage)
   const {
+    el,
+    toggleLike = Function.prototype,
     id,
     name,
     author,
@@ -17,6 +22,85 @@ const ItemContent = (props) => {
     duration_in_seconds,
     handleSelectSong = Function.prototype,
   } = props
+  const LikeStatus = () => {
+    if (Page === 'Main') {
+      if ((el.stared_user ?? []).find((user) => user.id === userId)) {
+        return (
+          <S.TrackTimeSVG
+            src={like_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else if (!el.stared_user) {
+        return (
+          <S.TrackTimeSVG
+            src={like_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else {
+        return (
+          <S.TrackTimeSVG
+            src={like}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      }
+    } else if (Page === 'Favorites') {
+      if ((el.stared_user ?? []).find((user) => user.id === userId)) {
+        return (
+          <S.TrackTimeSVG
+            src={dislike_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else if (!el.stared_user) {
+        return (
+          <S.TrackTimeSVG
+            src={dislike_active}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else {
+        return (
+          <S.TrackTimeSVG
+            src={like}
+            className="track__time-svg"
+            alt="time"
+            onClick={(e) => {
+              toggleLike(el)
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      }
+    }
+  }
   return (
     <S.PlaylistItem
       className="playlist__item"
@@ -26,7 +110,7 @@ const ItemContent = (props) => {
       <S.PlaylistTrack className="playlist__track track">
         <S.TrackTittle className="track__title">
           <S.TrackTittleImage className="track__title-image">
-            {activ && selectSong[0][0].id === id ? (
+            {activ && selectSong[0][0] && selectSong[0][0].id === id ? (
               <A.animationBubble
                 key={id}
                 src={note}
@@ -66,11 +150,7 @@ const ItemContent = (props) => {
           </S.TrackAlbumLink>
         </S.TrackAlbum>
         <div className="track__time">
-          <S.TrackTimeSVG
-            src={like}
-            className="track__time-svg"
-            alt="time"
-          ></S.TrackTimeSVG>
+          <LikeStatus />
           <S.TrackTimeText className="track__time-text">
             {convertTime(duration_in_seconds)}
           </S.TrackTimeText>

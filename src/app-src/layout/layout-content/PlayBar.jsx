@@ -1,9 +1,13 @@
 import { ActiveTrack } from '../../components/ActiveTrack'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import { ProgressBar } from '../../components/ProgressBar'
 import { VolumeBar } from '../../components/VolumeBar'
 import * as S from '../../components/styles/style'
 import { useSelector, useDispatch } from 'react-redux'
+import { AppContext } from '../../../context'
+import { audioRef } from '../../../pages/PageLayout'
+import { autoNext } from '../../../store/slice/musicSlice'
+
 import {
   shuffle,
   nextSong,
@@ -14,7 +18,7 @@ import {
   takeStartCount,
   prevTakeStartCount,
   prevTakeCount,
-} from '../../../store/musicSlice'
+} from '../../../store/slice/musicSlice'
 import prevB from '../../../img/icon/prev.svg'
 import nextB from '../../../img/icon/next.svg'
 import playB from '../../../img/icon/play.svg'
@@ -24,17 +28,30 @@ import repeatB from '../../../img/icon/repeat.svg'
 import shuffleB from '../../../img/icon/shuffle.svg'
 import volumeB from '../../../img/icon/volume.svg'
 import activeshuffleB from '../../../img/icon/activSfuh.svg'
-export let audioRef = ''
-const PlayerBar = () => {
-  const music = useSelector((state) => state.musicReducer.music)
-  const selectSong = useSelector((state) => state.musicReducer.selectSong)
 
-  audioRef = useRef(null)
-  const [isPlaying, setIsPlaying] = useState(false)
+const PlayerBar = (props) => {
+  const { toggleLike = Function.prototype } = props
+  const { isPlay } = props
+  const music = useSelector((state) => state.musicReducer.music)
+  const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
+
+  const selectSong = useSelector((state) => state.musicReducer.selectSong)
+  const currentPage = useSelector((state) => state.musicReducer.currentPage)
+
+  const currentPlaylist = useSelector(
+    (state) => state.musicReducer.currentPlaylist
+  )
+
+  const [isPlaying, setIsPlaying] = useState(isPlay)
   const [isLooping, setIsLooping] = useState(false)
   const [isShuffle, setIsShuffle] = useState(false)
   const [count, setCount] = useState(1)
   const [startCount, setStartCount] = useState(0)
+
+  const [currentTime, setCurrentTime] = useState(null)
+  const [duration, setDuration] = useState(null)
+
+  const dispatch = useDispatch()
 
   const startPrevCounter = () => {
     if (startCount > 0) {
@@ -60,8 +77,6 @@ const PlayerBar = () => {
     }
   }
 
-  const dispatch = useDispatch()
-
   const prevStartTakeCount = () => {
     dispatch(prevTakeStartCount(startCount))
   }
@@ -79,15 +94,40 @@ const PlayerBar = () => {
   }
   const shuffleMusic = () => {
     setIsShuffle((prev) => !prev)
-    dispatch(shuffle(music))
+    dispatch(shuffle(currentPlaylist))
   }
 
   const isActiveMusic = (status) => {
     dispatch(active(status))
   }
 
+  ///////////////////////продолжительность трека
+  const timeDuration = (time) => {
+    dispatch(autoNext(time))
+  }
+
+  const handleTime = () => {
+    audioRef.current.currentTime = currentTime
+  }
+
+  useEffect(() => {
+    const timeId = setInterval(() => {
+      setDuration(audioRef.current.duration)
+
+      setCurrentTime(audioRef.current.currentTime)
+      if (currentTime !== null && currentTime !== NaN && duration !== NaN) {
+        timeDuration({ currentTime, duration })
+      }
+    }, 100)
+    return () => clearInterval(timeId)
+  }, [currentTime, duration])
+
   const handleNextSong = () => {
-    dispatch(nextSong({ music, selectSong }))
+    if (currentPage === 'Main') {
+      dispatch(nextSong({ music, selectSong }))
+    } else if (currentPage === 'Favorites') {
+      dispatch(nextSong({ FavSongs, selectSong }))
+    }
     audioRef.current.play()
     setIsPlaying((prev) => !prev)
     isActiveMusic(isPlaying)
@@ -98,7 +138,11 @@ const PlayerBar = () => {
   }
 
   const handlePrevSong = () => {
-    dispatch(prevSong({ music, selectSong }))
+    if (currentPage === 'Main') {
+      dispatch(prevSong({ music, selectSong }))
+    } else if (currentPage === 'Favorites') {
+      dispatch(prevSong({ FavSongs, selectSong }))
+    }
     audioRef.current.play()
     setIsPlaying(true)
     isActiveMusic(isPlaying)
@@ -117,10 +161,12 @@ const PlayerBar = () => {
       audioRef.current.pause()
       setIsPlaying((prev) => !prev)
       isActiveMusic(isPlaying)
+      localStorage.setItem('IsPlaying', Boolean(false))
     } else {
       audioRef.current.play()
       setIsPlaying((prev) => !prev)
       isActiveMusic(isPlaying)
+      localStorage.setItem('IsPlaying', Boolean(true))
     }
   }
 
@@ -151,7 +197,13 @@ const PlayerBar = () => {
         loop={isLooping ? true : false}
       ></S.AudioStyle>
       <S.BarContent className="bar__content">
-        <ProgressBar />
+        <ProgressBar
+          duration={duration}
+          currentTime={currentTime}
+          setCurrentTime={setCurrentTime}
+          handleTime={handleTime}
+          setDuration={setDuration}
+        />
         <S.BarPlayerProgress className="bar__player-progress"></S.BarPlayerProgress>
         <S.BarPlayerBlock className="bar__player-block">
           <S.BarPlayer className="bar__player player">
@@ -228,12 +280,7 @@ const PlayerBar = () => {
             {!selectSong[0].length ? (
               ''
             ) : (
-              <ActiveTrack
-                key={selectSong.id}
-                name={selectSong.name}
-                author={selectSong.author}
-                track_file={selectSong.track_file}
-              />
+              <ActiveTrack toggleLike={toggleLike} />
             )}
           </S.BarPlayer>
           <S.BarVolumeBlock className="bar__volume-block volume">
