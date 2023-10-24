@@ -6,12 +6,24 @@ import playlist03 from '../../../img/playlist03.png'
 import playlist02 from '../../../img/playlist02.png'
 import playlist01 from '../../../img/playlist01.png'
 import logup from '../../../img/icon/logup.svg'
+import { useParams } from 'react-router-dom'
+import { setCurrentPage } from '../../../store/slice/musicSlice'
+import { userLogout } from '../../../store/slice/userSlice'
+import { useDispatch,useSelector } from 'react-redux'
+import { useGetSectionTracksQuery } from '../../../store/service/serviceMusicApi'
 const Sidebar = () => {
+  const music = useSelector(state => state.musicReducer.music)
+  const dispatch = useDispatch()
+  const categoryId = useParams()
+  console.log(categoryId)
+  const { isError } = useGetSectionTracksQuery()
   const { user } = useContext(AppContext)
 
   const navigate = useNavigate()
+
   const handleLogout = () => {
     setTimeout(() => {
+      dispatch(userLogout)
       localStorage.setItem('user', '')
       localStorage.setItem('token', '')
       localStorage.setItem('id', '')
@@ -20,7 +32,49 @@ const Sidebar = () => {
       navigate('/login')
     }, 500)
   }
+  const handleCategory = () => {
+    if (!isError) {
+      switch (categoryId.id) {
+        case '1':
+          navigate('/category/1')
+          dispatch(setCurrentPage('Category'))
+        case '2':
+          navigate('/category/1')
+          dispatch(setCurrentPage('Category'))
 
+        case '3':
+          navigate('/category/1')
+          dispatch(setCurrentPage('Category'))
+      }
+    } else {
+      navigate('/login')
+      handleLogout()
+    }
+  }
+
+ 
+
+  // useEffect(() => {
+  //   setCountSection(categoryId.id)
+  //   setMusic(data.items)
+  //   console.log(data.items)
+
+  //   switch (categoryId.id) {
+  //     case '1':
+  //       setCountSection(categoryId.id)
+  //       console.log(categoryId.id)
+  //       return setUrl('Плейлист дня')
+
+  //     case '2':
+  //       setCountSection(categoryId.id)
+
+  //       return setUrl('100 танцевальных хитов')
+  //     case '3':
+  //       setCountSection(categoryId.id)
+
+  //       return setUrl('Инди-заряд')
+  //   }
+  // }, [categoryId.id])
   return (
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
@@ -47,6 +101,7 @@ const Sidebar = () => {
                   className="sidebar__img"
                   src={playlist01}
                   alt="day's playlist"
+                  onClick={handleCategory}
                 ></S.SideBarImg>
               </NavLink>
             </S.SideBarLink>
@@ -59,6 +114,7 @@ const Sidebar = () => {
                   className="sidebar__img"
                   src={playlist02}
                   alt="day's playlist"
+                  onClick={handleCategory}
                 ></S.SideBarImg>
               </NavLink>
             </S.SideBarLink>
@@ -70,6 +126,7 @@ const Sidebar = () => {
                   className="sidebar__img"
                   src={playlist03}
                   alt="day's playlist"
+                  onClick={handleCategory}
                 ></S.SideBarImg>
               </NavLink>
             </S.SideBarLink>

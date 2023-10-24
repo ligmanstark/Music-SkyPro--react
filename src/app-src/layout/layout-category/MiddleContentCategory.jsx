@@ -19,6 +19,7 @@ const MiddleContentCategory = (props) => {
     lengthFilter,
     url,
     handleSelectSong = Function.prototype,
+    toggleLike = Function.prototype,
   } = props
 
   return (
@@ -36,7 +37,11 @@ const MiddleContentCategory = (props) => {
       {isLoading ? (
         <PreloaderMiddleContent />
       ) : (
-        <ListContent handleSelectSong={handleSelectSong} music={music} />
+        <ListContent
+          handleSelectSong={handleSelectSong}
+          music={music}
+          toggleLike={toggleLike}
+        />
       )}
     </S.MainCenterblock>
   )

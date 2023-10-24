@@ -16,7 +16,7 @@ const AppRoutes = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Layout />} />
           <Route path="/favorites" element={<Layout />} />
-          <Route path="/category/:id" element={<Category />} />
+          <Route path="/category/:id" element={<Layout />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

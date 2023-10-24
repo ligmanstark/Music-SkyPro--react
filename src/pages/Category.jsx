@@ -17,7 +17,14 @@ import {
   useGetSectionTracksQuery,
   useLazyGetSectionTracksQuery,
 } from '../store/service/serviceMusicApi'
-const Category = () => {
+
+import { setCurrentPage } from '../store/slice/musicSlice'
+
+const Category = (props) => {
+  const {
+    toggleLike = Function.prototype,
+    handleSelectSong = Function.prototype,
+  } = props
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -30,15 +37,21 @@ const Category = () => {
   const categoryId = useParams()
   const [countSection, setCountSection] = useState(categoryId)
 
-  // const { data = [], isLoading } = useGetAllTracksQuery()
-
   const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
   const [fetchSelection] = useLazyGetSectionTracksQuery()
 
   const dispatch = useDispatch()
-  const setterSelectMusic = () => {
-    dispatch(setterMusic(data.items))
+
+  const setCurrent = () => {
+    dispatch(setCurrentPage('Category'))
+    
   }
+
+  useEffect(() => {
+    setCurrent()
+  })
+
+ console.log(countSection);
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
@@ -48,7 +61,7 @@ const Category = () => {
     fetchSelection()
       .unwrap()
       .then(() => {
-        setterSelectMusic()
+        setMusic(data.items)
       })
       .catch((error) => {
         console.log(error)
@@ -81,32 +94,30 @@ const Category = () => {
     }
   }
 
-  const handleSelectSong = async (event) => {
-    const target = event.target
-    const valueName = target.innerHTML
+  // const handleSelectSong = async (event) => {
+  //   const target = event.target
+  //   const valueName = target.innerHTML
 
-    await searchFunc(
-      getTrackById,
-      searchID(music, valueName).id + '/',
-      setSelecSong
-    )
-  }
+  //   await searchFunc(
+  //     getTrackById,
+  //     searchID(music, valueName).id + '/',
+  //     setSelecSong
+  //   )
+  // }
 
   useEffect(() => {
-    setterSelectMusic()
+    setMusic()
   }, [data])
 
-  useEffect(() => {
-    setterSelectSong()
-  }, [song])
+  // useEffect(() => {
+  //   setterSelectSong()
+  // }, [song])
 
   useEffect(() => {
     setCountSection(categoryId.id)
     setMusic(data.items)
     console.log(data.items)
-    // if (!isLoading) {
-    //   setFilteredMusic([...new Set(data.items.map((e) => e.author))])
-    // }
+
     switch (categoryId.id) {
       case '1':
         setCountSection(categoryId.id)
@@ -145,7 +156,7 @@ const Category = () => {
             isOpen={isOpen}
           />
           <MiddleContentCategory
-            music={music}
+            music={data.items}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
@@ -154,10 +165,10 @@ const Category = () => {
             lengthFilter={lengthFilter}
             url={url}
             handleSelectSong={handleSelectSong}
+            toggleLike={toggleLike}
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

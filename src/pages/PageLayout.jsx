@@ -8,6 +8,7 @@ import { setterMusic, setterSong } from '../store/slice/musicSlice'
 import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 import { Content } from '../pages/Content'
 import { MyPlaylist } from '../pages/MyPlaylist'
+import { Category } from '../pages/Category'
 
 import { AppContext } from '../context'
 
@@ -44,7 +45,12 @@ const Layout = () => {
   const navigate = useNavigate()
 
   const setterSelectMusic = () => {
-    dispatch(setterMusic(music))
+    if (Page === 'Main') {
+      dispatch(setterMusic(music))
+    }
+    if (Page === 'Category') {
+      dispatch(setterMusic(music.items))
+    }
   }
 
   const setterSelectSong = (currentPlaylist) => {
@@ -72,6 +78,12 @@ const Layout = () => {
         setSelectSong
       )
       setterSelectSong(FavSongs)
+    } else if (Page === 'Category') {
+      searchFunc(
+        getTrackById,
+        searchID(music, valueName).id + '/',
+        setSelectSong
+      )
     }
   }
   if (Page === 'Main') {
@@ -81,6 +93,10 @@ const Layout = () => {
   } else if (Page === 'Favorites') {
     useEffect(() => {
       setterSelectSong(FavSongs)
+    }, [song])
+  } else if (Page === 'Category') {
+    useEffect(() => {
+      setterSelectSong(music)
     }, [song])
   }
 
@@ -92,10 +108,10 @@ const Layout = () => {
   const logout = () => {
     dispatch(userLogout())
     localStorage.setItem('user', '')
-    localStorage.setItem('token', '')
+    localStorage.removeItem('token')
     localStorage.setItem('id', '')
     localStorage.setItem('email', '')
-    localStorage.setItem('refreshToken', '')
+    localStorage.removeItem('refreshToken')
     navigate('/login')
   }
 
@@ -139,8 +155,15 @@ const Layout = () => {
           user={user}
           toggleLike={toggleLike}
         />
-      ) : (
+      ) : Page === 'Favorites' ? (
         <MyPlaylist
+          track={song}
+          handleSelectSong={handleSelectSong}
+          user={user}
+          toggleLike={toggleLike}
+        />
+      ) : (
+        <Category
           track={song}
           handleSelectSong={handleSelectSong}
           user={user}

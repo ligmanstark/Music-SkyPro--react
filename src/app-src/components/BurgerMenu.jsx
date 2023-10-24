@@ -15,19 +15,23 @@ const BurgerMenu = () => {
     dispatch(userLogout())
 
     localStorage.setItem('user', '')
-    localStorage.setItem('token', '')
+    localStorage.removeItem('token')
     localStorage.setItem('id', '')
     localStorage.setItem('email', '')
-    localStorage.setItem('refreshToken', '')
+    localStorage.removeItem('refreshToken')
     navigate('/login')
   }
 
   const navigate = useNavigate()
   const handleLogout = () => {
     setTimeout(() => {
-      navigate('/login')
+      dispatch(userLogout())
       localStorage.setItem('user', '')
-      localStorage.setItem('token', '')
+      localStorage.removeItem('token')
+      localStorage.setItem('id', '')
+      localStorage.setItem('email', '')
+      localStorage.removeItem('refreshToken')
+      navigate('/login')
     }, 500)
   }
 

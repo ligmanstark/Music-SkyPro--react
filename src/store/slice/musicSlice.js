@@ -31,6 +31,7 @@ const musicSlice = createSlice({
 
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
+      console.log(action);
     },
     addMyTracks(state, action) {
       state.playlistFavorite = action.payload
@@ -42,6 +43,9 @@ const musicSlice = createSlice({
         }
         if (state.currentPage === 'Favorites') {
           state.currentPlaylist = state.playlistFavorite
+        }
+        if (state.currentPage === 'Category') {
+          state.currentPlaylist = state.music
         }
       }
     },
