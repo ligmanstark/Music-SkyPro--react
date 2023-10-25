@@ -5,6 +5,7 @@ const musicSlice = createSlice({
   initialState: {
     propMusic: [],
     currentPlaylist: [],
+    SelectionMusic: [],
     playlistFavorite: [{}],
     currentPage: 'Main',
     selectNextSong: [],
@@ -31,10 +32,14 @@ const musicSlice = createSlice({
 
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
-      console.log(action);
+      console.log(action)
     },
     addMyTracks(state, action) {
-      state.playlistFavorite = action.payload
+      if (state.currentPage === 'Favorites') {
+        state.playlistFavorite = action.payload
+      } else if (state.currentPage === 'Category') {
+        state.SelectionMusic = action.payload
+      }
     },
     addCurrentTrack(state, action) {
       if (action.payload) {
@@ -45,7 +50,7 @@ const musicSlice = createSlice({
           state.currentPlaylist = state.playlistFavorite
         }
         if (state.currentPage === 'Category') {
-          state.currentPlaylist = state.music
+          state.currentPlaylist = state.SelectionMusic
         }
       }
     },
@@ -97,11 +102,14 @@ const musicSlice = createSlice({
         } else {
           currentIndex = state.selectSong[0][0].id
 
-          if (state.currentPage === 'Main') {
+          if (
+            state.currentPage === 'Main' ||
+            state.currentPage === 'Category'
+          ) {
             const currentTrackIdInList = action.payload.music[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList, 'music')
+            console.log(currentTrackIdInList, 'music or category')
             if (currentTrackIdInList) {
               nextSong = action.payload.music[0][currentTrackIdInList + 1]
               if (nextSong !== undefined) {
@@ -153,6 +161,7 @@ const musicSlice = createSlice({
     setterMusic(state, action) {
       state.music.pop()
       state.music.push(action.payload)
+      console.log(action)
     },
     shuffle(state, action) {
       let currentIndex = action.payload[0].length
@@ -178,11 +187,11 @@ const musicSlice = createSlice({
       let nextSong
       let currentIndex
       if (state.shuffleActive) {
-        if (state.currentPage === 'Main') {
+        if (state.currentPage === 'Main' || state.currentPage === 'Category') {
           const currentTrackIdInList = state.shuffleSongPlaylist[0].findIndex(
             (track) => track.id == state.selectSong[0][0].id
           )
-          console.log(currentTrackIdInList, 'music')
+          console.log(currentTrackIdInList, 'music or category')
           if (currentTrackIdInList) {
             nextSong = state.shuffleSongPlaylist[0][currentTrackIdInList + 1]
             console.log(nextSong)
@@ -218,12 +227,12 @@ const musicSlice = createSlice({
       } else {
         currentIndex = action.payload.selectSong[0][0].id
         console.log(action)
-        if (state.currentPage === 'Main') {
+        if (state.currentPage === 'Main' || state.currentPage === 'Category') {
           if (state.currentPlaylist === state.music) {
             const currentTrackIdInList = action.payload.music[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList, 'music')
+            console.log(currentTrackIdInList, 'music or category')
             if (currentTrackIdInList) {
               nextSong = action.payload.music[0][currentTrackIdInList + 1]
               if (nextSong !== undefined) {
@@ -238,7 +247,7 @@ const musicSlice = createSlice({
             const currentTrackIdInList = state.currentPlaylist[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList, 'music')
+            console.log(currentTrackIdInList, 'music or category')
             if (currentTrackIdInList) {
               nextSong = state.currentPlaylist[0][currentTrackIdInList + 1]
               if (nextSong !== undefined) {
@@ -334,12 +343,15 @@ const musicSlice = createSlice({
           }
         } else {
           currentIndex = action.payload.selectSong[0][0].id
-          if (state.currentPage === 'Main') {
+          if (
+            state.currentPage === 'Main' ||
+            state.currentPage === 'Category'
+          ) {
             if (state.currentPlaylist === state.music) {
               const currentTrackIdInList = action.payload.music[0].findIndex(
                 (track) => track.id == state.selectSong[0][0].id
               )
-              console.log(currentTrackIdInList, 'music')
+              console.log(currentTrackIdInList, 'music or category')
               if (currentTrackIdInList) {
                 prevSong = action.payload.music[0][currentTrackIdInList - 1]
                 if (prevSong !== undefined) {
@@ -354,7 +366,7 @@ const musicSlice = createSlice({
               const currentTrackIdInList = state.currentPlaylist[0].findIndex(
                 (track) => track.id == state.selectSong[0][0].id
               )
-              console.log(currentTrackIdInList, 'music')
+              console.log(currentTrackIdInList, 'music or category')
               if (currentTrackIdInList) {
                 prevSong = state.currentPlaylist[0][currentTrackIdInList - 1]
                 if (prevSong !== undefined) {

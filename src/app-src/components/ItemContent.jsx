@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { convertTime } from '../helpers/convertTime'
 import * as S from './styles/style'
 import * as A from './styles/animations'
@@ -23,7 +24,7 @@ const ItemContent = (props) => {
     handleSelectSong = Function.prototype,
   } = props
   const LikeStatus = () => {
-    if (Page === 'Main') {
+    if (Page === 'Main' || Page === 'Category') {
       if ((el.stared_user ?? []).find((user) => user.id === userId)) {
         return (
           <S.TrackTimeSVG
@@ -100,6 +101,45 @@ const ItemContent = (props) => {
         )
       }
     }
+    // else if (Page === 'Category') {
+    //   if ((el.stared_user ?? []).find((user) => user.id === userId)) {
+    //     return (
+    //       <S.TrackTimeSVG
+    //         src={like_active}
+    //         className="track__time-svg"
+    //         alt="time"
+    //         onClick={(e) => {
+    //           toggleLike(el)
+    //           e.stopPropagation()
+    //         }}
+    //       ></S.TrackTimeSVG>
+    //     )
+    //   } else if (!el.stared_user) {
+    //     return (
+    //       <S.TrackTimeSVG
+    //         src={like_active}
+    //         className="track__time-svg"
+    //         alt="time"
+    //         onClick={(e) => {
+    //           toggleLike(el)
+    //           e.stopPropagation()
+    //         }}
+    //       ></S.TrackTimeSVG>
+    //     )
+    //   } else {
+    //     return (
+    //       <S.TrackTimeSVG
+    //         src={like}
+    //         className="track__time-svg"
+    //         alt="time"
+    //         onClick={(e) => {
+    //           toggleLike(el)
+    //           e.stopPropagation()
+    //         }}
+    //       ></S.TrackTimeSVG>
+    //     )
+    //   }
+    // }
   }
   return (
     <S.PlaylistItem

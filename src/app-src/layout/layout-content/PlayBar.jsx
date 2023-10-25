@@ -127,6 +127,8 @@ const PlayerBar = (props) => {
       dispatch(nextSong({ music, selectSong }))
     } else if (currentPage === 'Favorites') {
       dispatch(nextSong({ FavSongs, selectSong }))
+    } else if (currentPage === 'Category') {
+      dispatch(nextSong({ music, selectSong }))
     }
     audioRef.current.play()
     setIsPlaying((prev) => !prev)
@@ -142,6 +144,8 @@ const PlayerBar = (props) => {
       dispatch(prevSong({ music, selectSong }))
     } else if (currentPage === 'Favorites') {
       dispatch(prevSong({ FavSongs, selectSong }))
+    } else if (currentPage === 'Category') {
+      dispatch(prevSong({ music, selectSong }))
     }
     audioRef.current.play()
     setIsPlaying(true)

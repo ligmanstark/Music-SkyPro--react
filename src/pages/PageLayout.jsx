@@ -10,6 +10,9 @@ import { Content } from '../pages/Content'
 import { MyPlaylist } from '../pages/MyPlaylist'
 import { Category } from '../pages/Category'
 
+import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
+import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
+
 import { AppContext } from '../context'
 
 import { autoNext } from '../store/slice/musicSlice'
@@ -31,11 +34,9 @@ const Layout = () => {
   const [song, setSelectSong] = useState([])
   const [music, setMusic] = useState([])
 
-  const [currentTime, setCurrentTime] = useState(null)
-  const [duration, setDuration] = useState(null)
-
   const Page = useSelector((state) => state.musicReducer.currentPage)
   const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
+  const SelectSongs = useSelector((state) => state.musicReducer.SelectionMusic)
   const userId = Number(useSelector((state) => state.user.id))
 
   const [setLike, {}] = useSetLikeMutation()
@@ -49,7 +50,7 @@ const Layout = () => {
       dispatch(setterMusic(music))
     }
     if (Page === 'Category') {
-      dispatch(setterMusic(music.items))
+      dispatch(setterMusic(SelectSongs))
     }
   }
 
@@ -81,9 +82,10 @@ const Layout = () => {
     } else if (Page === 'Category') {
       searchFunc(
         getTrackById,
-        searchID(music, valueName).id + '/',
+        searchID(SelectSongs, valueName).id + '/',
         setSelectSong
       )
+      setterSelectSong(SelectSongs)
     }
   }
   if (Page === 'Main') {
@@ -96,7 +98,7 @@ const Layout = () => {
     }, [song])
   } else if (Page === 'Category') {
     useEffect(() => {
-      setterSelectSong(music)
+      setterSelectSong(SelectSongs)
     }, [song])
   }
 
@@ -146,6 +148,10 @@ const Layout = () => {
     }
   }
 
+  useEffect(() => {
+    setLike()
+    setUnlike()
+  }, []);
   return (
     <>
       {Page === 'Main' ? (

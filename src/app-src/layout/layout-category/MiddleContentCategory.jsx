@@ -4,12 +4,14 @@ import { Search } from '../../components/Search'
 import { PreloaderMiddleContent } from '../../components/PreloaderMiddleContent'
 import { ListFilter } from '../../components/ListFilter'
 import * as S from '../../components/styles/style'
-import { useGetAllTracksQuery } from '../../../store/service/serviceMusicApi'
+import {
+  useGetAllTracksQuery,
+  useGetSectionTracksQuery,
+} from '../../../store/service/serviceMusicApi'
 
 const MiddleContentCategory = (props) => {
-  const { isLoading } = useGetAllTracksQuery()
-
   const {
+    countSection,
     music = [],
     isOpenFilter,
     searchTrack = Function.prototype,
@@ -21,6 +23,8 @@ const MiddleContentCategory = (props) => {
     handleSelectSong = Function.prototype,
     toggleLike = Function.prototype,
   } = props
+
+  const { isLoading } = useGetSectionTracksQuery(countSection)
 
   return (
     <S.MainCenterblock className="main__centerblock ">

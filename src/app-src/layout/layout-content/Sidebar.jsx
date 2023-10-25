@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import * as S from '../../components/styles/style'
 import { useContext } from 'react'
 import { AppContext } from '../../../context'
@@ -9,10 +10,9 @@ import logup from '../../../img/icon/logup.svg'
 import { useParams } from 'react-router-dom'
 import { setCurrentPage } from '../../../store/slice/musicSlice'
 import { userLogout } from '../../../store/slice/userSlice'
-import { useDispatch,useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useGetSectionTracksQuery } from '../../../store/service/serviceMusicApi'
 const Sidebar = () => {
-  const music = useSelector(state => state.musicReducer.music)
   const dispatch = useDispatch()
   const categoryId = useParams()
   console.log(categoryId)
@@ -33,48 +33,11 @@ const Sidebar = () => {
     }, 500)
   }
   const handleCategory = () => {
-    if (!isError) {
-      switch (categoryId.id) {
-        case '1':
-          navigate('/category/1')
-          dispatch(setCurrentPage('Category'))
-        case '2':
-          navigate('/category/1')
-          dispatch(setCurrentPage('Category'))
-
-        case '3':
-          navigate('/category/1')
-          dispatch(setCurrentPage('Category'))
-      }
-    } else {
-      navigate('/login')
-      handleLogout()
+    if (categoryId) {
+      dispatch(setCurrentPage('Category'))
     }
   }
 
- 
-
-  // useEffect(() => {
-  //   setCountSection(categoryId.id)
-  //   setMusic(data.items)
-  //   console.log(data.items)
-
-  //   switch (categoryId.id) {
-  //     case '1':
-  //       setCountSection(categoryId.id)
-  //       console.log(categoryId.id)
-  //       return setUrl('Плейлист дня')
-
-  //     case '2':
-  //       setCountSection(categoryId.id)
-
-  //       return setUrl('100 танцевальных хитов')
-  //     case '3':
-  //       setCountSection(categoryId.id)
-
-  //       return setUrl('Инди-заряд')
-  //   }
-  // }, [categoryId.id])
   return (
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
