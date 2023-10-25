@@ -39,10 +39,10 @@ export const serviceMusicApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.items.map(({ id }) => ({ type: 'Selections', id })),
-              { type: 'Selections', id: 'LIST' },
+              ...result.items.map(({ id }) => ({ type: 'Tracks', id })),
+              { type: 'Tracks', id: 'LIST' },
             ]
-          : [{ type: 'Selections', id: 'LIST' }],
+          : [{ type: 'Tracks', id: 'LIST' }],
     }),
     setSectionTracks: builder.mutation({
       query: (track) => ({

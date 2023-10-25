@@ -148,10 +148,6 @@ const Layout = () => {
     }
   }
 
-  useEffect(() => {
-    setLike()
-    setUnlike()
-  }, []);
   return (
     <>
       {Page === 'Main' ? (
