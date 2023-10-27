@@ -47,8 +47,6 @@ const MyPlaylist = (props) => {
     (state) => state.musicReducer.playlistFavorite
   )
 
-  const myMusic = useSelector((state) => state.musicReducer.music)
-
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)

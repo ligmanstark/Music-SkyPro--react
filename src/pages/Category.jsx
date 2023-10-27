@@ -148,7 +148,7 @@ const Category = (props) => {
           />
           <MiddleContentCategory
             countSection={countSection}
-            music={data.items}
+            music={music}
             searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}

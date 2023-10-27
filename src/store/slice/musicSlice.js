@@ -3,6 +3,8 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    search: [],
+    isSearch: false,
     propMusic: [],
     currentPlaylist: [],
     SelectionMusic: [],
@@ -23,13 +25,20 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    searchBase(state, action) {
+      console.log(action)
+      state.search = action.payload
+    },
+    searchToggle(state, action) {
+      console.log(action)
+      state.isSearch = action.payload
+    },
     setPropMusic(state, action) {
       if (action.payload) {
         state.propMusic.pop()
         state.propMusic.push(state.selectSong)
       }
     },
-
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
       console.log(action)
@@ -434,6 +443,8 @@ const musicSlice = createSlice({
 })
 
 export const {
+  searchBase,
+  searchToggle,
   setPropMusic,
   addMyTracks,
   addCurrentTrack,

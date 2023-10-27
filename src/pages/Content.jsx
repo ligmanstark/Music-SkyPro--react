@@ -7,17 +7,22 @@ import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/components/styles/style'
 import { AppContext } from '../context'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentPage } from '../store/slice/musicSlice'
+import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
 
-import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
+import {
+  useGetAllTracksQuery,
+  useGetTrackByIdMutation,
+} from '../store/service/serviceMusicApi'
 
 const Content = (props) => {
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const searchBase = useSelector((state) => state.musicReducer.search)
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
   } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
-
+  const [getTrackById, {}] = useGetTrackByIdMutation()
   const { user, isPlay } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -33,9 +38,13 @@ const Content = (props) => {
 
   useEffect(() => {
     setCurrent()
-    setMusic(data)
+    if (!isSearch) {
+      setMusic(data)
+    } else {
+      setMusic([searchBase])
+    }
   })
-
+  console.log(isSearch)
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
@@ -66,16 +75,6 @@ const Content = (props) => {
     setFilteredMusic([...new Set(music.map((e) => e.author))])
   }, [])
 
-  ////СЛОМАНО
-  const searchTrack = (id) => {
-    getTrackById(id).then((data) => {
-      const flat = data.data
-      console.log(flat)
-      setMusic(flat)
-    })
-  }
-  /////////////////////////////////////
-
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
@@ -86,8 +85,7 @@ const Content = (props) => {
         <S.Main className="main">
           <Navigation handleChangeMenu={handleChangeMenu} isOpen={isOpen} />
           <MiddleContent
-            music={data}
-            searchTrack={searchTrack}
+            music={music}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
             filteredMusic={filteredMusic}
