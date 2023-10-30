@@ -86,7 +86,6 @@ const ListFilter = (props) => {
 
         break
     }
-
   }
   return (
     <S.WindowFiltered

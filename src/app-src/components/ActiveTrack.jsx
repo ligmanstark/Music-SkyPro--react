@@ -13,9 +13,7 @@ const ActiveTrack = (props) => {
   const Page = useSelector((state) => state.musicReducer.currentPage)
 
   const { id, name, author } = selectSong[0][0]
-  const {
-    toggleLike = Function.prototype,
-   } = props
+  const { toggleLike = Function.prototype } = props
 
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>
