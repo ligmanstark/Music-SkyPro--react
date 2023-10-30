@@ -50,12 +50,15 @@ const Content = (props) => {
       setMusic(data)
     } else if (isSearch) {
       setMusic([searchBase])
-    } 
+    }
+    if (isFilter) {
+      console.log('dddddd')
+      setMusic(filterBase)
+    }
   })
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     console.log(isOpenFilter)
-    dispatch(filterToggle(true))
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
       setFilteredMusic([...new Set(music.map((e) => e.author))])
@@ -80,7 +83,6 @@ const Content = (props) => {
     }
     if (nameFilter === value) {
       setOpenFilter(false)
-      dispatch(filterToggle(false))
 
       setLengthFilter(null)
       setNameFilter('')
