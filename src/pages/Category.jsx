@@ -43,6 +43,8 @@ const Category = (props) => {
   const mySelectionSongs = useSelector(
     (state) => state.musicReducer.SelectionMusic
   )
+  const searchBase = useSelector((state) => state.musicReducer.search)
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
 
   const dispatch = useDispatch()
 
@@ -125,15 +127,16 @@ const Category = (props) => {
         return setUrl('Инди-заряд')
     }
   }, [categoryId.id, data.items])
-  ///СЛОМАНО
-  console.log(typeof countSection)
-  const searchTrack = (id) => {
-    getTrackById(id).then((data) => {
-      const flat = [data.data].flat(1)
-      setMusic(flat)
-    })
-  }
-  ////
+
+  useEffect(() => {
+    setCurrent()
+    if (!isSearch) {
+      setMusic(data.items)
+    } else {
+      setMusic([searchBase])
+    }
+  })
+
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
@@ -149,7 +152,6 @@ const Category = (props) => {
           <MiddleContentCategory
             countSection={countSection}
             music={music}
-            searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
             filteredMusic={filteredMusic}

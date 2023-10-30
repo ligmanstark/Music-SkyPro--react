@@ -7,7 +7,11 @@ import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/components/styles/style'
 import { AppContext } from '../context'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
+import {
+  setCurrentPage,
+  setterMusic,
+  filterToggle,
+} from '../store/slice/musicSlice'
 
 import {
   useGetAllTracksQuery,
@@ -17,6 +21,10 @@ import {
 const Content = (props) => {
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
   const searchBase = useSelector((state) => state.musicReducer.search)
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  console.log(isFilter)
+  console.log(filterBase)
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
@@ -40,24 +48,30 @@ const Content = (props) => {
     setCurrent()
     if (!isSearch) {
       setMusic(data)
-    } else {
+    } else if (isSearch) {
       setMusic([searchBase])
-    }
+    } 
   })
-  console.log(isSearch)
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
+    console.log(isOpenFilter)
+    dispatch(filterToggle(true))
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
       setFilteredMusic([...new Set(music.map((e) => e.author))])
+
       setLengthFilter([...new Set(music.map((e) => e.author))].length)
       setNameFilter('исполнителю')
+      console.log(filteredMusic)
     } else if (value === 'году выпуска') {
       const arr = [...new Set(music.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
-      setFilteredMusic(arr)
-      setLengthFilter(arr.length)
+      let newArr = [...new Set(arr)]
+      setFilteredMusic(newArr)
+      setLengthFilter(newArr.length)
+      console.log(arr)
+      console.log(newArr)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
       setFilteredMusic([...new Set(music.map((e) => e.genre))])
@@ -66,6 +80,8 @@ const Content = (props) => {
     }
     if (nameFilter === value) {
       setOpenFilter(false)
+      dispatch(filterToggle(false))
+
       setLengthFilter(null)
       setNameFilter('')
     }

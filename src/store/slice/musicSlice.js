@@ -3,6 +3,8 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    filterDate: [],
+    isFilter: false,
     search: [],
     isSearch: false,
     propMusic: [],
@@ -25,6 +27,14 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    FilterBase(state, action) {
+      console.log(action)
+      state.filterDate = action.payload
+    },
+    filterToggle(state, action) {
+      console.log(action)
+      state.isFilter = action.payload
+    },
     searchBase(state, action) {
       console.log(action)
       state.search = action.payload
@@ -443,6 +453,8 @@ const musicSlice = createSlice({
 })
 
 export const {
+  FilterBase,
+  filterToggle,
   searchBase,
   searchToggle,
   setPropMusic,

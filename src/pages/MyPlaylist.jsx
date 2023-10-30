@@ -47,6 +47,9 @@ const MyPlaylist = (props) => {
     (state) => state.musicReducer.playlistFavorite
   )
 
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const searchBase = useSelector((state) => state.musicReducer.search)
+
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -107,14 +110,16 @@ const MyPlaylist = (props) => {
     setFilteredMusic([...new Set(data.map((e) => e.author))])
   }, [data])
 
-  ////////////////////////////////////////////////СЛОМАНО
-  const searchTrack = (id) => {
-    getTrackById(id).then((data) => {
-      const flat = [data.data].flat(1)
-      setMusic(flat)
-    })
-  }
-  ////////////////////////////////////////////////////
+  useEffect(() => {
+    dispatch(setCurrentPage('Favorites'))
+    if (!isSearch) {
+      setMusic(data)
+      console.log(isSearch)
+    } else {
+      setMusic([searchBase])
+      console.log(searchBase)
+    }
+  })
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
@@ -130,7 +135,6 @@ const MyPlaylist = (props) => {
           <MiddleContentMyPlaylist
             toggleLike={toggleLike}
             music={music}
-            searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
             filteredMusic={filteredMusic}
