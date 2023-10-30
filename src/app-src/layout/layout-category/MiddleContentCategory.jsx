@@ -36,7 +36,11 @@ const MiddleContentCategory = (props) => {
         lengthFilter={lengthFilter}
       />
       {isOpenFilter && (
-        <ListFilter filteredMusic={filteredMusic} nameFilter={nameFilter} />
+        <ListFilter
+          filteredMusic={filteredMusic}
+          nameFilter={nameFilter}
+          music={music}
+        />
       )}
       {isLoading ? (
         <PreloaderMiddleContent />

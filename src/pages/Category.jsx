@@ -46,13 +46,14 @@ const Category = (props) => {
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
 
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+
   const dispatch = useDispatch()
 
   const setCurrent = () => {
     dispatch(setCurrentPage('Category'))
   }
-
-  console.log(countSection)
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
@@ -79,7 +80,7 @@ const Category = (props) => {
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
       setFilteredMusic([...new Set(data.items.map((e) => e.author))])
-      setLengthFilter([...new Set(data.map((e) => e.author))].length)
+      setLengthFilter([...new Set(data.items.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
       const arr = [...new Set(data.items.map((e) => e.release_date))]
@@ -109,12 +110,10 @@ const Category = (props) => {
   useEffect(() => {
     setCountSection(categoryId.id)
     setMusic(data.items)
-    console.log(data.items)
     setterSelectMusic()
     switch (categoryId.id) {
       case '1':
         setCountSection(categoryId.id)
-        console.log(categoryId.id)
         return setUrl('Плейлист дня')
 
       case '2':
@@ -134,6 +133,9 @@ const Category = (props) => {
       setMusic(data.items)
     } else {
       setMusic([searchBase])
+    }
+    if (isFilter) {
+      setMusic(filterBase)
     }
   })
 

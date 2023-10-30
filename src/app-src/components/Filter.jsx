@@ -23,11 +23,9 @@ const Filter = (props) => {
       SetFilterLand(value)
       if (filterLand !== '') {
         const searchId = searchID(music, filterLand).genre
-        console.log(searchId)
         setFilter(searchId)
           .unwrap()
           .then((data) => {
-            console.log(data)
             dispatch(FilterBase(data))
           })
       }

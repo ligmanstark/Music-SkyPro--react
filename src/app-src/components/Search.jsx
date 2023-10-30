@@ -23,13 +23,11 @@ const Search = (props) => {
   const searchMusic = () => {
     if (search !== '') {
       const searchId = searchID(music, search).id
-      console.log(searchId)
       setMusic(searchId)
         .unwrap()
         .then((data) => {
           setIsSearch((prev) => !prev)
           dispatch(searchToggle(isSearch))
-          console.log(data)
           dispatch(searchBase(data))
           setSearch('')
         })

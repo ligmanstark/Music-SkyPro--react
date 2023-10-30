@@ -23,8 +23,6 @@ const Content = (props) => {
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
-  console.log(isFilter)
-  console.log(filterBase)
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
@@ -52,20 +50,17 @@ const Content = (props) => {
       setMusic([searchBase])
     }
     if (isFilter) {
-      console.log('dddddd')
       setMusic(filterBase)
     }
   })
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
-    console.log(isOpenFilter)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
       setFilteredMusic([...new Set(music.map((e) => e.author))])
 
       setLengthFilter([...new Set(music.map((e) => e.author))].length)
       setNameFilter('исполнителю')
-      console.log(filteredMusic)
     } else if (value === 'году выпуска') {
       const arr = [...new Set(music.map((e) => e.release_date))]
         .filter((word) => word !== null)
@@ -73,8 +68,6 @@ const Content = (props) => {
       let newArr = [...new Set(arr)]
       setFilteredMusic(newArr)
       setLengthFilter(newArr.length)
-      console.log(arr)
-      console.log(newArr)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
       setFilteredMusic([...new Set(music.map((e) => e.genre))])

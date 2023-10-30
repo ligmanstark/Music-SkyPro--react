@@ -119,7 +119,6 @@ const Layout = () => {
 
   const toggleLike = (track) => {
     if ((track.stared_user ?? []).find((user) => user.id === userId)) {
-      console.log('dislike')
       setUnlike(track)
         .unwrap()
         .catch((error) => {
@@ -128,7 +127,6 @@ const Layout = () => {
           logout()
         })
     } else if (!track.stared_user) {
-      console.log('dislike')
       setUnlike(track)
         .unwrap()
         .catch((error) => {
@@ -137,7 +135,6 @@ const Layout = () => {
           logout()
         })
     } else {
-      console.log('like')
       setLike(track)
         .unwrap()
         .catch((error) => {

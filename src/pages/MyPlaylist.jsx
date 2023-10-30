@@ -50,6 +50,9 @@ const MyPlaylist = (props) => {
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
   const searchBase = useSelector((state) => state.musicReducer.search)
 
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -114,10 +117,11 @@ const MyPlaylist = (props) => {
     dispatch(setCurrentPage('Favorites'))
     if (!isSearch) {
       setMusic(data)
-      console.log(isSearch)
     } else {
       setMusic([searchBase])
-      console.log(searchBase)
+    }
+    if (isFilter) {
+      setMusic(filterBase)
     }
   })
   const handleChangeMenu = () => {

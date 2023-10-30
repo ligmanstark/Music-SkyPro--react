@@ -8,7 +8,6 @@ const ListContent = (props) => {
     music = [],
     toggleLike = Function.prototype,
   } = props
-  console.log(music)
   return (
     <S.CenterblockContent className="centerblock__content">
       <S.ContentTittle className="content__title playlist-title">

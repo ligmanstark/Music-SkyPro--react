@@ -17,7 +17,6 @@ const MiddleContent = (props) => {
     lengthFilter,
     handleSelectSong = Function.prototype,
   } = props
-  console.log(music)
 
   return (
     <S.MainCenterblock className="main__centerblock ">

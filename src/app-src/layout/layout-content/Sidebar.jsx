@@ -15,7 +15,6 @@ import { useGetSectionTracksQuery } from '../../../store/service/serviceMusicApi
 const Sidebar = () => {
   const dispatch = useDispatch()
   const categoryId = useParams()
-  console.log(categoryId)
   const { isError } = useGetSectionTracksQuery()
   const { user } = useContext(AppContext)
 
