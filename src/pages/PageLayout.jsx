@@ -147,6 +147,11 @@ const Layout = () => {
     }
   }
 
+  useEffect((event) => {
+    if (event !== undefined) {
+      handleSelectSong()
+    }
+  }, [])
   return (
     <>
       {Page === 'Main' ? (

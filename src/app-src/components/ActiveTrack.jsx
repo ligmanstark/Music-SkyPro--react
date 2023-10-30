@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import * as S from './styles/style'
 import like from '../../img/icon/like.svg'
 import dislike from '../../img/icon/dislike.svg'
@@ -12,67 +13,10 @@ const ActiveTrack = (props) => {
   const Page = useSelector((state) => state.musicReducer.currentPage)
 
   const { id, name, author } = selectSong[0][0]
-  const { toggleLike = Function.prototype } = props
+  const {
+    toggleLike = Function.prototype,
+   } = props
 
-  const LikeStatusActiveTrack = () => {
-    if (Page === 'Main') {
-      if (
-        (selectSong[0][0].stared_user ?? []).find((user) => user.id === userId)
-      ) {
-        return (
-          <S.TrackTimeSVG
-            src={dislike_active}
-            className="track-play__dislike-svg"
-            alt="dislike"
-            onClick={(e) => {
-              toggleLike(selectSong[0][0])
-              e.stopPropagation()
-            }}
-          ></S.TrackTimeSVG>
-        )
-      } else if (!selectSong[0][0].stared_user) {
-        return (
-          <S.TrackTimeSVG
-            src={like}
-            className="track-play__dislike-svg"
-            alt="like"
-            onClick={(e) => {
-              toggleLike(selectSong[0][0])
-              e.stopPropagation()
-            }}
-          ></S.TrackTimeSVG>
-        )
-      } else {
-        return (
-          <S.TrackTimeSVG
-            src={like}
-            className="track-play__dislike-svg"
-            alt="like"
-            onClick={(e) => {
-              toggleLike(selectSong[0][0])
-              e.stopPropagation()
-            }}
-          ></S.TrackTimeSVG>
-        )
-      }
-    } else if (Page === 'Favorites') {
-      if (
-        (selectSong[0][0].stared_user ?? []).find((user) => user.id === userId)
-      ) {
-        return (
-          <S.TrackPlayDislikeSVG
-            src={dislike_active}
-            className="track-play__dislike-svg"
-            alt="dislike"
-            onClick={(e) => {
-              toggleLike(selectSong[0][0])
-              e.stopPropagation()
-            }}
-          ></S.TrackPlayDislikeSVG>
-        )
-      }
-    }
-  }
   return (
     <S.PlayerTrackPlay className="player__track-play track-play" key={id}>
       <S.TrackPlayContain className="track-play__contain">
@@ -103,10 +47,18 @@ const ActiveTrack = (props) => {
 
       <S.TrackPlayLikeDis className="track-play__like-dis">
         <S.TrackPlayLikeAndDis className="track-play__like _btn-icon">
-          <LikeStatusActiveTrack />
+          <S.TrackPlayDislikeSVG
+            src={dislike_active}
+            className="track-play__dislike-svg"
+            alt="like"
+            onClick={(e) => {
+              toggleLike(selectSong[0][0])
+              e.stopPropagation()
+            }}
+          ></S.TrackPlayDislikeSVG>
         </S.TrackPlayLikeAndDis>
         <S.TrackPlayLikeAndDis className="track-play__dislike _btn-icon">
-          {/* <S.TrackPlayDislikeSVG
+          <S.TrackPlayDislikeSVG
             src={like}
             className="track-play__dislike-svg"
             alt="like"
@@ -114,7 +66,7 @@ const ActiveTrack = (props) => {
               toggleLike(selectSong[0][0])
               e.stopPropagation()
             }}
-          ></S.TrackPlayDislikeSVG> */}
+          ></S.TrackPlayDislikeSVG>
         </S.TrackPlayLikeAndDis>
       </S.TrackPlayLikeDis>
     </S.PlayerTrackPlay>
