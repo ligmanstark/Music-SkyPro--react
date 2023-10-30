@@ -101,45 +101,6 @@ const ItemContent = (props) => {
         )
       }
     }
-    // else if (Page === 'Category') {
-    //   if ((el.stared_user ?? []).find((user) => user.id === userId)) {
-    //     return (
-    //       <S.TrackTimeSVG
-    //         src={like_active}
-    //         className="track__time-svg"
-    //         alt="time"
-    //         onClick={(e) => {
-    //           toggleLike(el)
-    //           e.stopPropagation()
-    //         }}
-    //       ></S.TrackTimeSVG>
-    //     )
-    //   } else if (!el.stared_user) {
-    //     return (
-    //       <S.TrackTimeSVG
-    //         src={like_active}
-    //         className="track__time-svg"
-    //         alt="time"
-    //         onClick={(e) => {
-    //           toggleLike(el)
-    //           e.stopPropagation()
-    //         }}
-    //       ></S.TrackTimeSVG>
-    //     )
-    //   } else {
-    //     return (
-    //       <S.TrackTimeSVG
-    //         src={like}
-    //         className="track__time-svg"
-    //         alt="time"
-    //         onClick={(e) => {
-    //           toggleLike(el)
-    //           e.stopPropagation()
-    //         }}
-    //       ></S.TrackTimeSVG>
-    //     )
-    //   }
-    // }
   }
   return (
     <S.PlaylistItem

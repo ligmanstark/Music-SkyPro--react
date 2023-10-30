@@ -20,7 +20,7 @@ const ActiveTrack = (props) => {
         (selectSong[0][0].stared_user ?? []).find((user) => user.id === userId)
       ) {
         return (
-          <S.TrackPlayDislikeSVG
+          <S.TrackTimeSVG
             src={dislike_active}
             className="track-play__dislike-svg"
             alt="dislike"
@@ -28,7 +28,31 @@ const ActiveTrack = (props) => {
               toggleLike(selectSong[0][0])
               e.stopPropagation()
             }}
-          ></S.TrackPlayDislikeSVG>
+          ></S.TrackTimeSVG>
+        )
+      } else if (!selectSong[0][0].stared_user) {
+        return (
+          <S.TrackTimeSVG
+            src={like}
+            className="track-play__dislike-svg"
+            alt="like"
+            onClick={(e) => {
+              toggleLike(selectSong[0][0])
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
+        )
+      } else {
+        return (
+          <S.TrackTimeSVG
+            src={like}
+            className="track-play__dislike-svg"
+            alt="like"
+            onClick={(e) => {
+              toggleLike(selectSong[0][0])
+              e.stopPropagation()
+            }}
+          ></S.TrackTimeSVG>
         )
       }
     } else if (Page === 'Favorites') {
@@ -82,7 +106,7 @@ const ActiveTrack = (props) => {
           <LikeStatusActiveTrack />
         </S.TrackPlayLikeAndDis>
         <S.TrackPlayLikeAndDis className="track-play__dislike _btn-icon">
-          <S.TrackPlayDislikeSVG
+          {/* <S.TrackPlayDislikeSVG
             src={like}
             className="track-play__dislike-svg"
             alt="like"
@@ -90,7 +114,7 @@ const ActiveTrack = (props) => {
               toggleLike(selectSong[0][0])
               e.stopPropagation()
             }}
-          ></S.TrackPlayDislikeSVG>
+          ></S.TrackPlayDislikeSVG> */}
         </S.TrackPlayLikeAndDis>
       </S.TrackPlayLikeDis>
     </S.PlayerTrackPlay>

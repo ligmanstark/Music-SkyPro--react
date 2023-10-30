@@ -135,6 +135,8 @@ const Layout = () => {
           logout()
         })
     } else {
+      console.log('like')
+
       setLike(track)
         .unwrap()
         .catch((error) => {
@@ -169,7 +171,11 @@ const Layout = () => {
           toggleLike={toggleLike}
         />
       )}
-      {!song.length ? '' : <PlayerBar isPlay={isPlay} />}
+      {!song.length ? (
+        ''
+      ) : (
+        <PlayerBar isPlay={isPlay} toggleLike={toggleLike} />
+      )}
     </>
   )
 }
