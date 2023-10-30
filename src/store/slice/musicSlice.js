@@ -22,7 +22,7 @@ const musicSlice = createSlice({
     duration: [],
     five: 5,
     restart: false,
-    activeSong: false,
+    activeSong: true,
     num: 1,
     overNum: 0,
   },
@@ -81,7 +81,9 @@ const musicSlice = createSlice({
       state.num = action.payload + 1
     },
     active(state, action) {
-      state.activeSong = !action.payload
+      if (action.payload) {
+        state.activeSong = !state.activeSong
+      }
     },
     autoNext(state, action) {
       state.duration = action.payload.duration
