@@ -26,8 +26,17 @@ const ListFilter = (props) => {
         const arr = newMusic.filter((el) => el.author === value)
         dispatch(FilterBase(arr))
       } else if (nameFilter === 'году выпуска') {
-        let arr = newMusic.find((el) => el.release_date.slice(0, 4) === value)
-        dispatch(FilterBase([arr]))
+        let newArr = newMusic.map((el) => {
+          console.log(new Date(el.release_date).getFullYear())
+        })
+        console.log(newArr)
+        let arr = newMusic.filter(
+          (el) =>
+            new Date(el.release_date).getFullYear() ===
+            new Date(value).getFullYear()
+        )
+        console.log(arr)
+        dispatch(FilterBase(arr))
       } else if (nameFilter === 'жанру') {
         const arr = newMusic.filter((el) => el.genre === value)
         dispatch(FilterBase(arr))
