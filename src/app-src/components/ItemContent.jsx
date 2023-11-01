@@ -50,6 +50,7 @@ const ItemContent = (props) => {
           ></S.TrackTimeSVG>
         )
       } else {
+        console.log(el.stared_user);
         return (
           <S.TrackTimeSVG
             src={like}

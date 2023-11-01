@@ -47,7 +47,7 @@ const Search = (props) => {
         name="search"
         value={search}
         onChange={(event) => setSearch(event.target.value)}
-        onKeyPress={searchMusic}
+        onKeyDown={searchMusic}
       ></S.SearchText>
     </S.CenterblockSearch>
   )

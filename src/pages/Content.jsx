@@ -53,6 +53,7 @@ const Content = (props) => {
       setMusic(filterBase)
     }
   })
+
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
