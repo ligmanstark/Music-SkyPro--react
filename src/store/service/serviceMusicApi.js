@@ -32,7 +32,10 @@ export const serviceMusicApi = createApi({
         url: `catalog/track/${id}/`,
         method: 'GET',
       }),
-      invalidatesTags: [{ type: 'Track', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'Track', id: 'LIST' },
+        { type: 'Tracks', id: 'LIST' },
+      ],
     }),
     getSectionTracks: builder.query({
       query: (id = '') => `catalog/selection/${id}`,

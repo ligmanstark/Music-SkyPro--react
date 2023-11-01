@@ -16,11 +16,15 @@ import {
   useGetAllTracksQuery,
   useGetSectionTracksQuery,
   useLazyGetSectionTracksQuery,
+  useSetLikeMutation,
+  useSetUnlikeMutation,
 } from '../store/service/serviceMusicApi'
 
 import { setCurrentPage } from '../store/slice/musicSlice'
 
 const Category = (props) => {
+  const [setLike, {}] = useSetLikeMutation()
+  const [setUnlike, {}] = useSetUnlikeMutation()
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
@@ -137,7 +141,7 @@ const Category = (props) => {
     if (isFilter) {
       setMusic(filterBase)
     }
-  })
+  }, [isFilter, isSearch, setLike, setUnlike, data])
 
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)

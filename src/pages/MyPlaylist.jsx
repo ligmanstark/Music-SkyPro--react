@@ -25,12 +25,16 @@ import {
   useGetFavTracksQuery,
   useLazyGetFavTracksQuery,
   usePostTokenRefreshMutation,
+  useSetLikeMutation,
+  useSetUnlikeMutation,
 } from '../store/service/serviceMusicApi'
 
 import { setAccessToken } from '../store/slice/tokenSlice'
 import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
 
 const MyPlaylist = (props) => {
+  const [setLike, {}] = useSetLikeMutation()
+  const [setUnlike, {}] = useSetUnlikeMutation()
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
@@ -123,7 +127,7 @@ const MyPlaylist = (props) => {
     if (isFilter) {
       setMusic(filterBase)
     }
-  })
+  }, [isFilter, isSearch, setLike, setUnlike, data])
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }

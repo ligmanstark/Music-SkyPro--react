@@ -19,7 +19,7 @@ const Search = (props) => {
   const dispatch = useDispatch()
 
   const [setMusic, {}] = useGetTrackByIdMutation()
-
+  const { data = [] } = useGetAllTracksQuery
   const searchMusic = () => {
     if (search !== '') {
       const searchId = searchID(music, search).id
@@ -35,6 +35,7 @@ const Search = (props) => {
       setIsSearch((prev) => !prev)
       dispatch(searchToggle(isSearch))
     }
+    console.log(search)
   }
 
   return (

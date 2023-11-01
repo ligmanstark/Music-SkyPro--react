@@ -16,6 +16,8 @@ import {
 import {
   useGetAllTracksQuery,
   useGetTrackByIdMutation,
+  useSetLikeMutation,
+  useSetUnlikeMutation,
 } from '../store/service/serviceMusicApi'
 
 const Content = (props) => {
@@ -29,6 +31,9 @@ const Content = (props) => {
   } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
   const [getTrackById, {}] = useGetTrackByIdMutation()
+  const [setLike, {}] = useSetLikeMutation()
+  const [setUnlike, {}] = useSetUnlikeMutation()
+
   const { user, isPlay } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -49,10 +54,10 @@ const Content = (props) => {
     } else if (isSearch) {
       setMusic([searchBase])
     }
-    if (isFilter) {
+    if (!!isFilter) {
       setMusic(filterBase)
     }
-  })
+  }, [isFilter, isSearch, setLike, setUnlike, data])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
