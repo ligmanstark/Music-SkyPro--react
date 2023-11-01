@@ -45,7 +45,6 @@ const MyPlaylist = (props) => {
   const { data = [], isLoading } = useGetFavTracksQuery()
   const [fetchFavorite] = useLazyGetFavTracksQuery()
   const refresh = localStorage.getItem('refreshToken')
-  const [postTokenRefresh, {}] = usePostTokenRefreshMutation()
 
   const myFavTracks = useSelector(
     (state) => state.musicReducer.playlistFavorite

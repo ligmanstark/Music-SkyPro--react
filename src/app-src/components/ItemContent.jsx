@@ -51,7 +51,6 @@ const ItemContent = (props) => {
           ></S.TrackTimeSVG>
         )
       } else {
-        console.log(el);
          return (
           <S.TrackTimeSVG
             src={like}
