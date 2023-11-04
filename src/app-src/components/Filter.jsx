@@ -17,21 +17,6 @@ const Filter = (props) => {
   const dispatch = useDispatch()
   const [setFilter, {}] = useGetTrackByIdMutation()
 
-  const filterMusic = (event) => {
-    if (isFilter) {
-      const value = event.target.innerHTML
-      SetFilterLand(value)
-      if (filterLand !== '') {
-        const searchId = searchID(music, filterLand).genre
-        setFilter(searchId)
-          .unwrap()
-          .then((data) => {
-            dispatch(FilterBase(data))
-          })
-      }
-    }
-  }
-
   return (
     <S.CenterblockFilter className="centerblock__filter filter">
       <S.FilterTittle className="filter__title">Искать по:</S.FilterTittle>

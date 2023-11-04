@@ -1,8 +1,16 @@
 import { ItemContent } from './ItemContent'
 import * as S from './styles/style'
 import watch from '../../img/icon/watch.svg'
-
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 const ListContent = (props) => {
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  console.log(isFilter)
+  console.log(filterBase);
+  useEffect(() => {
+    filterBase
+  })
   const {
     handleSelectSong = Function.prototype,
     music = [],
@@ -29,8 +37,18 @@ const ListContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {music.length
+        {!isFilter & music.length
           ? music.map((el) => (
+              <ItemContent
+                el={el}
+                key={el.id}
+                {...el}
+                handleSelectSong={handleSelectSong}
+                toggleLike={toggleLike}
+              />
+            ))
+          : filterBase.length
+          ? filterBase.map((el) => (
               <ItemContent
                 el={el}
                 key={el.id}

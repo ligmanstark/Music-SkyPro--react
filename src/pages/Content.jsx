@@ -11,6 +11,7 @@ import {
   setCurrentPage,
   setterMusic,
   filterToggle,
+  setBaseMusic,
 } from '../store/slice/musicSlice'
 
 import {
@@ -56,19 +57,21 @@ const Content = (props) => {
     }
     if (!!isFilter) {
       setMusic(filterBase)
+      console.log(music)
     }
+    dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(music.map((e) => e.author))])
+      setFilteredMusic([...new Set(data.map((e) => e.author))])
 
-      setLengthFilter([...new Set(music.map((e) => e.author))].length)
+      setLengthFilter([...new Set(data.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(music.map((e) => e.release_date))]
+      const arr = [...new Set(data.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
       let newArr = [...new Set(arr)]
@@ -76,8 +79,8 @@ const Content = (props) => {
       setLengthFilter(newArr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(music.map((e) => e.genre))])
-      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
+      setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {

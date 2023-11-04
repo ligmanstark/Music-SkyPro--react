@@ -6,6 +6,8 @@ import { FilterBase, filterToggle } from '../../store/slice/musicSlice'
 import { compareNew, compareOld } from '../helpers/compare'
 const ListFilter = (props) => {
   const musicBack = useSelector((state) => state.musicReducer.music)
+  const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
+console.log(musicSaver);
   const SelectionBack = useSelector(
     (state) => state.musicReducer.SelectionMusic
   )
@@ -14,7 +16,7 @@ const ListFilter = (props) => {
   )
   const currentPage = useSelector((state) => state.musicReducer.currentPage)
   const { filteredMusic = [], nameFilter, music = [] } = props
-  let newMusic = music
+  let newMusic = musicSaver
   const [filterLand, SetFilterLand] = useState()
   const dispatch = useDispatch()
 

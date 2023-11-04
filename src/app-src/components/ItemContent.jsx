@@ -24,7 +24,6 @@ const ItemContent = (props) => {
     handleSelectSong = Function.prototype,
   } = props
   const LikeStatus = () => {
-
     if (Page === 'Main' || Page === 'Category') {
       if ((el.stared_user ?? []).find((user) => user.id === userId)) {
         return (
@@ -51,7 +50,7 @@ const ItemContent = (props) => {
           ></S.TrackTimeSVG>
         )
       } else {
-         return (
+        return (
           <S.TrackTimeSVG
             src={like}
             className="track__time-svg"

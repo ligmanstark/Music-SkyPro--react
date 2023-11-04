@@ -7,7 +7,7 @@ const musicSlice = createSlice({
     isFilter: false,
     search: [],
     isSearch: false,
-    propMusic: [],
+    baseMusic: [],
     currentPlaylist: [],
     SelectionMusic: [],
     playlistFavorite: [{}],
@@ -28,7 +28,10 @@ const musicSlice = createSlice({
   },
   reducers: {
     FilterBase(state, action) {
-      state.filterDate = action.payload
+      state.filterDate.push(...action.payload)
+      if (!state.isFilter) {
+        state.filterDate.length = 0
+      }
     },
     filterToggle(state, action) {
       state.isFilter = action.payload
@@ -39,11 +42,8 @@ const musicSlice = createSlice({
     searchToggle(state, action) {
       state.isSearch = action.payload
     },
-    setPropMusic(state, action) {
-      if (action.payload) {
-        state.propMusic.pop()
-        state.propMusic.push(state.selectSong)
-      }
+    setBaseMusic(state, action) {
+      state.baseMusic = action.payload
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
@@ -417,7 +417,7 @@ export const {
   filterToggle,
   searchBase,
   searchToggle,
-  setPropMusic,
+  setBaseMusic,
   addMyTracks,
   addCurrentTrack,
   prevTakeStartCount,
