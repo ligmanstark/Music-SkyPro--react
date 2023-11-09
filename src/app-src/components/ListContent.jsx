@@ -7,14 +7,12 @@ const ListContent = (props) => {
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
 
-  useEffect(() => {
-    filterBase
-  })
   const {
     handleSelectSong = Function.prototype,
     music = [],
     toggleLike = Function.prototype,
   } = props
+  console.log(music)
   return (
     <S.CenterblockContent className="centerblock__content">
       <S.ContentTittle className="content__title playlist-title">
@@ -36,7 +34,7 @@ const ListContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {!isFilter & music.length
+        {!isFilter && music.length
           ? music.map((el) => (
               <ItemContent
                 el={el}

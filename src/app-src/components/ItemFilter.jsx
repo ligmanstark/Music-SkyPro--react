@@ -2,7 +2,7 @@ import * as S from './styles/style'
 import { useDispatch, useSelector } from 'react-redux'
 import { unickedFiltredDate } from '../../store/slice/musicSlice'
 const ItemFilter = (props) => {
-  const { author, filterMusic = Function.prototype, filteredMusic } = props
+  const { author, filterMusic = Function.prototype } = props
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
 
   const filterBase = useSelector((state) => state.musicReducer.filterDate)

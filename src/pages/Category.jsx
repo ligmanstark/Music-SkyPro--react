@@ -20,7 +20,12 @@ import {
   useSetUnlikeMutation,
 } from '../store/service/serviceMusicApi'
 
-import { setCurrentPage } from '../store/slice/musicSlice'
+import {
+  setCurrentPage,
+  setBaseMusic,
+  setOpenedFilter,
+  setNameFiltered,
+} from '../store/slice/musicSlice'
 
 const Category = (props) => {
   const [setLike, {}] = useSetLikeMutation()
@@ -43,10 +48,11 @@ const Category = (props) => {
 
   const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
   const [fetchSelection] = useLazyGetSectionTracksQuery()
-
   const mySelectionSongs = useSelector(
     (state) => state.musicReducer.SelectionMusic
   )
+  console.log(mySelectionSongs)
+  console.log(data)
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
 
@@ -78,15 +84,21 @@ const Category = (props) => {
         console.log(error)
       })
   }, [data.items])
-
+  console.log(music)
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
+    dispatch(setOpenedFilter(true))
+
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
+      dispatch(setNameFiltered('исполнителю'))
+
       setFilteredMusic([...new Set(data.items.map((e) => e.author))])
-      setLengthFilter([...new Set(data.items.map((e) => e.author))].length)
+
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
+      dispatch(setNameFiltered('году выпуска'))
+
       const arr = [...new Set(data.items.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
@@ -94,16 +106,22 @@ const Category = (props) => {
       setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
+      dispatch(setNameFiltered('жанру'))
       setFilteredMusic([...new Set(data.items.map((e) => e.genre))])
-      setLengthFilter([...new Set(data.items.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
       setOpenFilter(false)
+      dispatch(setOpenedFilter(false))
+
       setLengthFilter(null)
       setNameFilter('')
     }
   }
+
+  useEffect(() => {
+    setLengthFilter(filterBase.length)
+  })
 
   useEffect(() => {
     setMusic()
@@ -141,6 +159,7 @@ const Category = (props) => {
     if (isFilter) {
       setMusic(filterBase)
     }
+    dispatch(setBaseMusic(data.items))
   }, [isFilter, isSearch, setLike, setUnlike, data])
 
   const handleChangeMenu = () => {

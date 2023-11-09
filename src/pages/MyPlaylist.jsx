@@ -19,6 +19,11 @@ import {
   setterSong,
   addCurrentTrack,
   addMyTracks,
+  setCurrentPage,
+  setterMusic,
+  setBaseMusic,
+  setOpenedFilter,
+  setNameFiltered,
 } from '../store/slice/musicSlice'
 
 import {
@@ -30,7 +35,6 @@ import {
 } from '../store/service/serviceMusicApi'
 
 import { setAccessToken } from '../store/slice/tokenSlice'
-import { setCurrentPage, setterMusic } from '../store/slice/musicSlice'
 
 const MyPlaylist = (props) => {
   const [setLike, {}] = useSetLikeMutation()
@@ -87,12 +91,17 @@ const MyPlaylist = (props) => {
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
+    dispatch(setOpenedFilter(true))
+
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
+      dispatch(setNameFiltered('исполнителю'))
+
       setFilteredMusic([...new Set(data.map((e) => e.author))])
-      setLengthFilter([...new Set(data.map((e) => e.author))].length)
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
+      dispatch(setNameFiltered('году выпуска'))
+
       const arr = [...new Set(data.map((e) => e.release_date))]
         .filter((word) => word !== null)
         .map((e) => e.slice(0, 4))
@@ -100,17 +109,23 @@ const MyPlaylist = (props) => {
       setLengthFilter(arr.length)
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
+      dispatch(setNameFiltered('жанру'))
+
       setFilteredMusic([...new Set(data.map((e) => e.genre))])
-      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
       setOpenFilter(false)
+      dispatch(setOpenedFilter(false))
+
       setLengthFilter(null)
       setNameFilter('')
     }
   }
 
+  useEffect(() => {
+    setLengthFilter(filterBase.length)
+  })
   useEffect(() => {
     setMusic(data)
     setFilteredMusic([...new Set(data.map((e) => e.author))])
@@ -126,6 +141,7 @@ const MyPlaylist = (props) => {
     if (isFilter) {
       setMusic(filterBase)
     }
+    dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
