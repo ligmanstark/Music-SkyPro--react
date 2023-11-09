@@ -83,8 +83,7 @@ const Content = (props) => {
 
       setFilteredMusic([...new Set(data.map((e) => e.author))])
 
-      // setLengthFilter(filterBase.length)
-      setNameFilter('исполнителю')
+       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
       dispatch(setNameFiltered('году выпуска'))
 
@@ -98,8 +97,7 @@ const Content = (props) => {
     } else if (value === 'жанру') {
       dispatch(setNameFiltered('жанру'))
       setFilteredMusic([...new Set(data.map((e) => e.genre))])
-      // setLengthFilter([...new Set(filterBase.map((e) => e.genre))].length)
-      setNameFilter('жанру')
+       setNameFilter('жанру')
     }
     if (nameFilter === value) {
       setOpenFilter(false)

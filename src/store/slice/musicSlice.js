@@ -74,9 +74,9 @@ const musicSlice = createSlice({
             state.filterDate.push(...action.payload[0])
           }
         }
+        state.filteredByGenge.push(action.payload[0][0])
       } else if (action.payload[1] === 'жанру') {
         state.filteredName = 'жанру'
-
         if (
           state.filterDate.find((el) => el.genre === action.payload[0][0].genre)
         ) {
@@ -88,7 +88,10 @@ const musicSlice = createSlice({
           state.filterDate.push(...action.payload[0])
         }
         state.filteredByGenge = action.payload[0]
+      } else {
+        state.filterDate = action.payload
       }
+
       if (!state.isFilter) {
         state.filterDate.length = 0
         state.filteredName = ''
