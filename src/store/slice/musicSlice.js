@@ -93,7 +93,7 @@ const musicSlice = createSlice({
       }
 
       if (!state.isFilter) {
-        state.filterDate.length = 0
+        state.filterDate = []
         state.filteredName = ''
       }
     },
