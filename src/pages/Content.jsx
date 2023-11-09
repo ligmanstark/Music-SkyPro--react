@@ -26,6 +26,17 @@ const Content = (props) => {
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const filteredByGenge = useSelector(
+    (state) => state.musicReducer.filteredByGenge
+  )
+  const filteredByYear = useSelector(
+    (state) => state.musicReducer.filteredByYear
+  )
+  const filteredByName = useSelector(
+    (state) => state.musicReducer.filteredByName
+  )
+  const filteredName = useSelector((state) => state.musicReducer.filteredName)
+
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
@@ -57,7 +68,6 @@ const Content = (props) => {
     }
     if (!!isFilter) {
       setMusic(filterBase)
-      console.log(music)
     }
     dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
@@ -66,6 +76,7 @@ const Content = (props) => {
     setOpenFilter(true)
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
+      
       setFilteredMusic([...new Set(data.map((e) => e.author))])
 
       setLengthFilter([...new Set(data.map((e) => e.author))].length)

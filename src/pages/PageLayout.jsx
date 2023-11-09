@@ -10,13 +10,10 @@ import { Content } from '../pages/Content'
 import { MyPlaylist } from '../pages/MyPlaylist'
 import { Category } from '../pages/Category'
 
-import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
-import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
-
+  
 import { AppContext } from '../context'
 
-import { autoNext } from '../store/slice/musicSlice'
-
+ 
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import {
   useSetLikeMutation,
@@ -38,6 +35,7 @@ const Layout = () => {
   const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
   const SelectSongs = useSelector((state) => state.musicReducer.SelectionMusic)
   const userId = Number(useSelector((state) => state.user.id))
+  const filterName = useSelector((state) => state.musicReducer.qnuicFilterDate)
 
   const [setLike, {}] = useSetLikeMutation()
   const [setUnlike, {}] = useSetUnlikeMutation()

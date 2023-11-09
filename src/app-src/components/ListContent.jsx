@@ -6,8 +6,7 @@ import { useEffect } from 'react'
 const ListContent = (props) => {
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
-  console.log(isFilter)
-  console.log(filterBase);
+
   useEffect(() => {
     filterBase
   })

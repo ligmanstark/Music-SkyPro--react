@@ -34,7 +34,6 @@ const Search = (props) => {
       setIsSearch((prev) => !prev)
       dispatch(searchToggle(isSearch))
     }
-    console.log(search)
   }
 
   return (

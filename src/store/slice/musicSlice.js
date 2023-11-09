@@ -3,6 +3,11 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    filteredName: '',
+    filteredByGenge: [],
+    filteredByYear: [],
+    filteredByName: [],
+    qnuicFilterDate: '',
     filterDate: [],
     isFilter: false,
     search: [],
@@ -27,8 +32,40 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    unickedFiltredDate(state, action) {
+      const findLie = state.qnuicFilterDate.find((el) => el === action.payload)
+      state.qnuicFilterDate.push(...action.payload)
+    },
     FilterBase(state, action) {
-      state.filterDate.push(...action.payload)
+      console.log(action.payload[0])
+
+      if (action.payload[1] === 'исполнителю') {
+        // if (state.filterDate === 'жанру')
+          if (
+            state.filterDate.find((el) => el.id === action.payload[0][0].id)
+          ) {
+            state.filterDate.pop()
+          } else {
+            state.filterDate.push(...action.payload[0])
+          }
+      } else if (action.payload[1] === 'жанру') {
+        // state.filterDate = 'жанру'
+
+        state.filterDate = action.payload[0]
+        state.filteredByGenge = action.payload[0]
+        // if (
+        //   state.filteredByGenge.find((el) => el.id === action.payload[0][0].id)
+        // ) {
+        //   state.filteredByGenge = state.filterDate
+        // } else {
+        //   state.filteredByGenge = state.filterDate
+        // }
+      } else {
+        state.filteredName = 'году выпуска'
+
+        state.filterDate = action.payload[0]
+      }
+      console.log(state.isFilter)
       if (!state.isFilter) {
         state.filterDate.length = 0
       }
@@ -413,6 +450,7 @@ const musicSlice = createSlice({
 })
 
 export const {
+  unickedFiltredDate,
   FilterBase,
   filterToggle,
   searchBase,

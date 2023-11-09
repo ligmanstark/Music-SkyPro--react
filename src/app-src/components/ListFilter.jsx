@@ -2,12 +2,19 @@ import { ItemFilter } from './ItemFilter'
 import * as S from './styles/style'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { FilterBase, filterToggle } from '../../store/slice/musicSlice'
+import {
+  FilterBase,
+  filterToggle,
+  unickedFiltredDate,
+} from '../../store/slice/musicSlice'
 import { compareNew, compareOld } from '../helpers/compare'
 const ListFilter = (props) => {
+  let value
+  let arr
   const musicBack = useSelector((state) => state.musicReducer.music)
   const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
-console.log(musicSaver);
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+
   const SelectionBack = useSelector(
     (state) => state.musicReducer.SelectionMusic
   )
@@ -18,33 +25,50 @@ console.log(musicSaver);
   const { filteredMusic = [], nameFilter, music = [] } = props
   let newMusic = musicSaver
   const [filterLand, SetFilterLand] = useState()
+  const [filter, setFilter] = useState('исполнителю')
   const dispatch = useDispatch()
 
   let copyForSortNew = [...music]
   let copyForSortOld = [...music]
+  // useEffect(() => {
+  //   if (filterBase.length > 0) {
+  //     copyForSortNew = [...filterBase]
+  //     copyForSortOld = [...filterBase]
+  //   } else if (filterBase.length === 0) {
+  //     copyForSortNew = [...music]
+  //     copyForSortOld = [...music]
+  //   }
+  // })
+
+  useEffect(() => {
+    nameFilter
+  });
+  const FilteredBase = (arr, filter) => {
+    dispatch(FilterBase(arr, filter))
+  }
+
   const filterMusic = (event) => {
-    const value = event.target.innerHTML
+    value = event.target.innerHTML
     SetFilterLand(value)
     dispatch(filterToggle(true))
     if (filterLand !== '') {
       if (nameFilter === 'исполнителю') {
-        const arr = newMusic.filter((el) => el.author === value)
-        dispatch(FilterBase(arr))
+        setFilter('исполнителю')
+        arr = newMusic.filter((el) => el.author === value)
+        FilteredBase([arr, filter])
       } else if (nameFilter === 'году выпуска') {
-        let arr = newMusic.filter(
+        setFilter('году')
+        arr = newMusic.filter(
           (el) =>
             new Date(el.release_date).getFullYear() ===
             new Date(value).getFullYear()
         )
         console.log(arr)
-
-        console.log(copyForSortNew.sort(compareNew))
-        console.log(copyForSortOld.sort(compareOld))
-
-        dispatch(FilterBase(arr))
+        FilteredBase([arr, filter])
       } else if (nameFilter === 'жанру') {
-        const arr = newMusic.filter((el) => el.genre === value)
-        dispatch(FilterBase(arr))
+        setFilter('жанру')
+        arr = newMusic.filter((el) => el.genre === value)
+        FilteredBase([arr, filter])
       }
     }
   }
@@ -53,6 +77,7 @@ console.log(musicSaver);
     switch (currentPage) {
       case 'Main':
         dispatch(filterToggle(false))
+
         return dispatch(FilterBase(musicBack[0]))
 
       case 'Category':
@@ -131,6 +156,7 @@ console.log(musicSaver);
             image="img/icon/sprite.svg#icon-note"
             tackTimeIcon="img/icon/sprite.svg#icon-like"
             filterMusic={filterMusic}
+            filteredMusic={filteredMusic}
           />
         ))}
     </S.WindowFiltered>
