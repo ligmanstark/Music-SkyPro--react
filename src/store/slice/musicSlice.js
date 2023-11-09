@@ -3,6 +3,7 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    isOpenedFilter: false,
     filteredName: '',
     filteredByGenge: [],
     filteredByYear: [],
@@ -32,42 +33,65 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    setNameFiltered(state, action) {
+      state.filteredName = action.payload
+    },
+    setOpenedFilter(state, action) {
+      state.isOpenedFilter = action.payload
+    },
     unickedFiltredDate(state, action) {
       const findLie = state.qnuicFilterDate.find((el) => el === action.payload)
       state.qnuicFilterDate.push(...action.payload)
     },
     FilterBase(state, action) {
-      console.log(action.payload[0])
+      console.log(action.payload)
 
       if (action.payload[1] === 'исполнителю') {
-        // if (state.filterDate === 'жанру')
+        if (state.filteredName === 'жанру') {
           if (
-            state.filterDate.find((el) => el.id === action.payload[0][0].id)
+            state.filterDate.find(
+              (el) => el.author === action.payload[0][0].author
+            )
           ) {
-            state.filterDate.pop()
+            state.filteredByName = action.payload[0][0]
+          } else {
+            console.log('удалить')
+            state.filterDate = state.filterDate.filter(
+              (el) => el.author !== action.payload[0][0].author
+            )
+          }
+        } else {
+          if (
+            state.filterDate.find(
+              (el) => el.author === action.payload[0][0].author
+            )
+          ) {
+            state.filterDate = state.filterDate.filter(
+              (el) => el.author !== action.payload[0][0].author
+            )
+            console.log('удалить2')
           } else {
             state.filterDate.push(...action.payload[0])
           }
+        }
       } else if (action.payload[1] === 'жанру') {
-        // state.filterDate = 'жанру'
+        state.filteredName = 'жанру'
 
-        state.filterDate = action.payload[0]
+        if (
+          state.filterDate.find((el) => el.genre === action.payload[0][0].genre)
+        ) {
+          state.filterDate = state.filterDate.filter(
+            (el) => el.genre !== action.payload[0][0].genre
+          )
+          console.log('удалить2')
+        } else {
+          state.filterDate.push(...action.payload[0])
+        }
         state.filteredByGenge = action.payload[0]
-        // if (
-        //   state.filteredByGenge.find((el) => el.id === action.payload[0][0].id)
-        // ) {
-        //   state.filteredByGenge = state.filterDate
-        // } else {
-        //   state.filteredByGenge = state.filterDate
-        // }
-      } else {
-        state.filteredName = 'году выпуска'
-
-        state.filterDate = action.payload[0]
       }
-      console.log(state.isFilter)
       if (!state.isFilter) {
         state.filterDate.length = 0
+        state.filteredName = ''
       }
     },
     filterToggle(state, action) {
@@ -450,6 +474,8 @@ const musicSlice = createSlice({
 })
 
 export const {
+  setNameFiltered,
+  setOpenedFilter,
   unickedFiltredDate,
   FilterBase,
   filterToggle,

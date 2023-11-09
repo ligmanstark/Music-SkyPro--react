@@ -10,10 +10,8 @@ import { Content } from '../pages/Content'
 import { MyPlaylist } from '../pages/MyPlaylist'
 import { Category } from '../pages/Category'
 
-  
 import { AppContext } from '../context'
 
- 
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import {
   useSetLikeMutation,

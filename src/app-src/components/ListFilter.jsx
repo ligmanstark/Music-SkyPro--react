@@ -25,7 +25,7 @@ const ListFilter = (props) => {
   const { filteredMusic = [], nameFilter, music = [] } = props
   let newMusic = musicSaver
   const [filterLand, SetFilterLand] = useState()
-  const [filter, setFilter] = useState('исполнителю')
+  // const [filter, setFilter] = useState('исполнителю')
   const dispatch = useDispatch()
 
   let copyForSortNew = [...music]
@@ -42,7 +42,7 @@ const ListFilter = (props) => {
 
   useEffect(() => {
     nameFilter
-  });
+  })
   const FilteredBase = (arr, filter) => {
     dispatch(FilterBase(arr, filter))
   }
@@ -53,11 +53,11 @@ const ListFilter = (props) => {
     dispatch(filterToggle(true))
     if (filterLand !== '') {
       if (nameFilter === 'исполнителю') {
-        setFilter('исполнителю')
+        // setFilter('исполнителю')
         arr = newMusic.filter((el) => el.author === value)
-        FilteredBase([arr, filter])
+        FilteredBase([arr, 'исполнителю'])
       } else if (nameFilter === 'году выпуска') {
-        setFilter('году')
+        // setFilter('году')
         arr = newMusic.filter(
           (el) =>
             new Date(el.release_date).getFullYear() ===
@@ -66,9 +66,9 @@ const ListFilter = (props) => {
         console.log(arr)
         FilteredBase([arr, filter])
       } else if (nameFilter === 'жанру') {
-        setFilter('жанру')
+        // setFilter('жанру')
         arr = newMusic.filter((el) => el.genre === value)
-        FilteredBase([arr, filter])
+        FilteredBase([arr, 'жанру'])
       }
     }
   }
