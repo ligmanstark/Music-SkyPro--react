@@ -59,6 +59,7 @@ const MyPlaylist = (props) => {
 
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const searchData = useSelector((state) => state.musicReducer.search)
 
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -97,21 +98,38 @@ const MyPlaylist = (props) => {
     if (value === 'исполнителю') {
       dispatch(setNameFiltered('исполнителю'))
 
-      setFilteredMusic([...new Set(data.map((e) => e.author))])
+      if (!isSearch) {
+        setFilteredMusic([...new Set(data.map((e) => e.author))])
+      } else {
+        setFilteredMusic([searchData.author])
+      }
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
       dispatch(setNameFiltered('году выпуска'))
-
-      const arr = [...new Set(data.map((e) => e.release_date))]
-        .filter((word) => word !== null)
-        .map((e) => e.slice(0, 4))
-      setFilteredMusic(arr)
-      setLengthFilter(arr.length)
+      if (!isSearch) {
+        const arr = [...new Set(data.map((e) => e.release_date))]
+          .filter((word) => word !== null)
+          .map((e) => e.slice(0, 4))
+        let newArr = [...new Set(arr)]
+        setFilteredMusic(newArr)
+        setLengthFilter(newArr.length)
+      } else {
+        const arr = [searchData.release_date]
+          .filter((word) => word !== null)
+          .map((e) => e.slice(0, 4))
+        let newArr = [arr]
+        setFilteredMusic(newArr)
+        setLengthFilter(newArr.length)
+      }
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
       dispatch(setNameFiltered('жанру'))
 
-      setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      if (!isSearch) {
+        setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      } else {
+        setFilteredMusic([searchData.genre])
+      }
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
