@@ -95,7 +95,7 @@ const Category = (props) => {
       dispatch(setNameFiltered('исполнителю'))
 
       if (!isSearch) {
-        setFilteredMusic([...new Set(data.map((e) => e.author))])
+        setFilteredMusic([...new Set(data.items.map((e) => e.author))])
       } else {
         setFilteredMusic([searchData.author])
       }
@@ -104,7 +104,7 @@ const Category = (props) => {
       dispatch(setNameFiltered('году выпуска'))
 
       if (!isSearch) {
-        const arr = [...new Set(data.map((e) => e.release_date))]
+        const arr = [...new Set(data.items.map((e) => e.release_date))]
           .filter((word) => word !== null)
           .map((e) => e.slice(0, 4))
         let newArr = [...new Set(arr)]
@@ -122,7 +122,7 @@ const Category = (props) => {
     } else if (value === 'жанру') {
       dispatch(setNameFiltered('жанру'))
       if (!isSearch) {
-        setFilteredMusic([...new Set(data.map((e) => e.genre))])
+        setFilteredMusic([...new Set(data.items.map((e) => e.genre))])
       } else {
         setFilteredMusic([searchData.genre])
       }
@@ -176,6 +176,8 @@ const Category = (props) => {
     }
     if (isFilter) {
       setMusic(filterBase)
+    } else if (filterBase.length < 1 && isSearch) {
+      setMusic([searchBase])
     }
     dispatch(setBaseMusic(data.items))
   }, [isFilter, isSearch, setLike, setUnlike, data])

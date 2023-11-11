@@ -65,12 +65,16 @@ const Content = (props) => {
     setCurrent()
     if (!isSearch) {
       setMusic(data)
+      console.log(filterBase)
     } else if (isSearch) {
       setMusic([searchBase])
     }
-    if (!!isFilter) {
+    if (!!isFilter && !isSearch) {
       setMusic(filterBase)
+    } else if (filterBase.length < 1 && isSearch) {
+      setMusic([searchBase])
     }
+
     dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
 

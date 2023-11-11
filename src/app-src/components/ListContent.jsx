@@ -6,6 +6,8 @@ import { useEffect } from 'react'
 const ListContent = (props) => {
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const searchBase = useSelector((state) => state.musicReducer.search)
 
   const {
     handleSelectSong = Function.prototype,
@@ -44,8 +46,18 @@ const ListContent = (props) => {
                 toggleLike={toggleLike}
               />
             ))
-          : filterBase.length
+          : filterBase.length && isFilter && !isSearch
           ? filterBase.map((el) => (
+              <ItemContent
+                el={el}
+                key={el.id}
+                {...el}
+                handleSelectSong={handleSelectSong}
+                toggleLike={toggleLike}
+              />
+            ))
+          : isSearch
+          ? music.map((el) => (
               <ItemContent
                 el={el}
                 key={el.id}

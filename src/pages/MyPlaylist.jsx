@@ -158,6 +158,8 @@ const MyPlaylist = (props) => {
     }
     if (isFilter) {
       setMusic(filterBase)
+    } else if (filterBase.length < 1 && isSearch) {
+      setMusic([searchBase])
     }
     dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])

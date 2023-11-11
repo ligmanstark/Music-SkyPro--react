@@ -17,10 +17,14 @@ const Search = (props) => {
   const { music = [] } = props
   const [search, setSearch] = useState('')
   const dispatch = useDispatch()
-
+  console.log(music)
   const [setMusic, {}] = useGetTrackByIdMutation()
   const searchMusic = () => {
     if (search !== '') {
+      console.log(music, search)
+
+      console.log(searchID(music, search).id)
+
       const searchId = searchID(music, search).id
       setMusic(searchId)
         .unwrap()
