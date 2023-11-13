@@ -6,11 +6,12 @@ const ItemFilter = (props) => {
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
 
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  console.log(author)
   return (
     <>
       {filterBase &&
       isFilter &&
-      filterBase.find((el) => el.author === author) ? (
+      filterBase.find((el) => el.author === author || el.genre === author) ? (
         <div className="">
           <S.FilterAuthorList
             className="track__author-link filter-list"

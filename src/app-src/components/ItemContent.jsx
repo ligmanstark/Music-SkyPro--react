@@ -23,7 +23,6 @@ const ItemContent = (props) => {
     duration_in_seconds,
     handleSelectSong = Function.prototype,
   } = props
-  console.log(el)
   const LikeStatus = () => {
     if (Page === 'Main' || Page === 'Category') {
       if ((el.stared_user ?? []).find((user) => user.id === userId)) {

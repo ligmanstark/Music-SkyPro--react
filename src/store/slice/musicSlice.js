@@ -3,6 +3,7 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    musicSearch: [],
     isOpenedFilter: false,
     filteredName: '',
     filteredByGenge: [],
@@ -33,6 +34,9 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    setMusicSearch(state, action) {
+      state.musicSearch = action.payload
+    },
     setNameFiltered(state, action) {
       state.filteredName = action.payload
     },
@@ -186,12 +190,16 @@ const musicSlice = createSlice({
             state.currentPage === 'Main' ||
             state.currentPage === 'Category'
           ) {
-            const currentTrackIdInList = action.payload.music[0].findIndex(
+            const currentTrackIdInList = state.music[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
             if (currentTrackIdInList) {
-              nextSong = action.payload.music[0][currentTrackIdInList + 1]
-              if (nextSong !== undefined) {
+              nextSong = state.music[0][currentTrackIdInList + 1]
+
+              if (
+                nextSong !== undefined &&
+                action.payload.duration === action.payload.currentTime
+              ) {
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
@@ -199,16 +207,20 @@ const musicSlice = createSlice({
               }
             }
           } else if (state.currentPage === 'Favorites') {
-            const currentTrackIdInList = action.payload.FavSongs.findIndex(
+            const currentTrackIdInList = state.FavSongs.findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
             if (currentTrackIdInList) {
-              nextSong = action.payload.FavSongs[currentTrackIdInList + 1]
-              if (nextSong !== undefined) {
+              nextSong = state.FavSongs[currentTrackIdInList + 1]
+              if (
+                nextSong !== undefined &&
+                action.payload.duration === action.payload.currentTime
+              ) {
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
                 state.selectSong.push([nextSong])
+                state.currentTime = 0
               }
             }
           }
@@ -477,6 +489,7 @@ const musicSlice = createSlice({
 })
 
 export const {
+  setMusicSearch,
   setNameFiltered,
   setOpenedFilter,
   unickedFiltredDate,

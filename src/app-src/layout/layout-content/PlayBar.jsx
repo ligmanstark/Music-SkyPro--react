@@ -284,7 +284,7 @@ const PlayerBar = (props) => {
             {!selectSong[0].length ? (
               ''
             ) : (
-              <ActiveTrack toggleLike={toggleLike} />
+              <ActiveTrack toggleLike={toggleLike} selectSong={selectSong} />
             )}
           </S.BarPlayer>
           <S.BarVolumeBlock className="bar__volume-block volume">

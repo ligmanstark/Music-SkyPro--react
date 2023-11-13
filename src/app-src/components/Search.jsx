@@ -11,29 +11,37 @@ import {
   addCurrentTrack,
   searchBase,
 } from '../../store/slice/musicSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 const Search = (props) => {
   const [isSearch, setIsSearch] = useState(false)
   const { music = [] } = props
   const [search, setSearch] = useState('')
+  const musicSearch = useSelector((state) => state.musicReducer.musicSearch)
   const dispatch = useDispatch()
   console.log(music)
   const [setMusic, {}] = useGetTrackByIdMutation()
   const searchMusic = () => {
     if (search !== '') {
-      console.log(music, search)
+      if (search.length > 3) {
+        console.log(music, search)
 
-      console.log(searchID(music, search).id)
+        console.log(searchID(music, search).id)
 
-      const searchId = searchID(music, search).id
-      setMusic(searchId)
-        .unwrap()
-        .then((data) => {
-          setIsSearch((prev) => !prev)
-          dispatch(searchToggle(isSearch))
-          dispatch(searchBase(data))
-          setSearch('')
-        })
+        const searchId = searchID(music, search).id
+
+        setMusic(searchId)
+          .unwrap()
+          .then((data) => {
+            setIsSearch((prev) => !prev)
+            dispatch(searchToggle(isSearch))
+            dispatch(searchBase(data))
+          })
+
+        setSearch('')
+      } else {
+        setIsSearch((prev) => !prev)
+        dispatch(searchToggle(isSearch))
+      }
     } else {
       setIsSearch((prev) => !prev)
       dispatch(searchToggle(isSearch))

@@ -2,11 +2,7 @@ import { ItemFilter } from './ItemFilter'
 import * as S from './styles/style'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  FilterBase,
-  filterToggle,
-  unickedFiltredDate,
-} from '../../store/slice/musicSlice'
+import { FilterBase, filterToggle } from '../../store/slice/musicSlice'
 import { compareNew, compareOld } from '../helpers/compare'
 const ListFilter = (props) => {
   let value
@@ -24,10 +20,13 @@ const ListFilter = (props) => {
     (state) => state.musicReducer.playlistFavorite
   )
   const currentPage = useSelector((state) => state.musicReducer.currentPage)
+
   const { filteredMusic = [], nameFilter, music = [] } = props
   let newMusic = musicSaver
   const [filterLand, SetFilterLand] = useState()
   // const [filter, setFilter] = useState('исполнителю')
+  const [newest, setNewest] = useState(false)
+  const [oldest, setOldest] = useState(false)
   const dispatch = useDispatch()
 
   let copyForSortNew
@@ -104,14 +103,20 @@ const ListFilter = (props) => {
     console.log(value)
     switch (value) {
       case 'По умолчанию':
+        setNewest(false)
+        setOldest(false)
         return dispatch(FilterBase(copyForDefault))
 
       case 'Сначала новые':
         copyForSortNew.sort(compareNew)
+        setNewest(true)
+        setOldest(false)
         return dispatch(FilterBase(copyForSortNew))
 
       case 'Сначала старые':
         copyForSortOld.sort(compareOld)
+        setNewest(false)
+        setOldest(true)
         return dispatch(FilterBase(copyForSortOld))
 
       default:
@@ -139,13 +144,31 @@ const ListFilter = (props) => {
             По умолчанию
           </S.FilterAuthorList>
           <br />
-          <S.FilterAuthorList onClick={handleYears}>
-            Сначала новые
-          </S.FilterAuthorList>
+          {newest ? (
+            <S.FilterAuthorList
+              onClick={handleYears}
+              style={{ color: 'purple' }}
+            >
+              Сначала новые
+            </S.FilterAuthorList>
+          ) : (
+            <S.FilterAuthorList onClick={handleYears}>
+              Сначала новые
+            </S.FilterAuthorList>
+          )}
           <br />
-          <S.FilterAuthorList onClick={handleYears}>
-            Сначала старые
-          </S.FilterAuthorList>
+          {oldest ? (
+            <S.FilterAuthorList
+              onClick={handleYears}
+              style={{ color: 'purple' }}
+            >
+              Сначала старые
+            </S.FilterAuthorList>
+          ) : (
+            <S.FilterAuthorList onClick={handleYears}>
+              Сначала старые
+            </S.FilterAuthorList>
+          )}
           <br />
         </>
       ) : (

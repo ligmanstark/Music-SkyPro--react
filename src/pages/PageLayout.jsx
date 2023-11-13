@@ -16,16 +16,21 @@ import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import {
   useSetLikeMutation,
   useSetUnlikeMutation,
+  useGetTrackByIdMutation,
 } from '../store/service/serviceMusicApi'
 import { userLogout } from '../store/slice/userSlice'
 
 export let audioRef = ''
 
 const Layout = () => {
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const searchBase = useSelector((state) => state.musicReducer.search)
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
   audioRef = useRef(null)
   const { user, isPlay } = useContext(AppContext)
 
-  const { data = [], isLoading } = useGetAllTracksQuery()
+  const { data = [] } = useGetAllTracksQuery()
   const [song, setSelectSong] = useState([])
   const [music, setMusic] = useState([])
 
@@ -84,19 +89,6 @@ const Layout = () => {
       setterSelectSong(SelectSongs)
     }
   }
-  if (Page === 'Main') {
-    useEffect(() => {
-      setterSelectSong(music)
-    }, [song])
-  } else if (Page === 'Favorites') {
-    useEffect(() => {
-      setterSelectSong(FavSongs)
-    }, [song])
-  } else if (Page === 'Category') {
-    useEffect(() => {
-      setterSelectSong(SelectSongs)
-    }, [song])
-  }
 
   useEffect(() => {
     setterSelectMusic()
@@ -115,6 +107,8 @@ const Layout = () => {
 
   const toggleLike = (track) => {
     if ((track.stared_user ?? []).find((user) => user.id === userId)) {
+      console.log('unlike')
+
       setUnlike(track)
         .unwrap()
         .catch((error) => {
@@ -123,6 +117,7 @@ const Layout = () => {
           logout()
         })
     } else if (!track.stared_user) {
+      console.log('unlike')
       setUnlike(track)
         .unwrap()
         .catch((error) => {
@@ -148,6 +143,19 @@ const Layout = () => {
       handleSelectSong()
     }
   }, [])
+  if (Page === 'Main') {
+    useEffect(() => {
+      setterSelectSong(music)
+    }, [song])
+  } else if (Page === 'Favorites') {
+    useEffect(() => {
+      setterSelectSong(FavSongs)
+    }, [song])
+  } else if (Page === 'Category') {
+    useEffect(() => {
+      setterSelectSong(SelectSongs)
+    }, [song])
+  }
   return (
     <>
       {Page === 'Main' ? (

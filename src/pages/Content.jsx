@@ -14,6 +14,7 @@ import {
   setBaseMusic,
   setOpenedFilter,
   setNameFiltered,
+  setMusicSearch,
 } from '../store/slice/musicSlice'
 
 import {
@@ -65,18 +66,25 @@ const Content = (props) => {
     setCurrent()
     if (!isSearch) {
       setMusic(data)
+      dispatch(setMusicSearch(data))
       console.log(filterBase)
     } else if (isSearch) {
       setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
     }
     if (!!isFilter && !isSearch) {
       setMusic(filterBase)
+      dispatch(setMusicSearch(filterBase))
     } else if (filterBase.length < 1 && isSearch) {
       setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
     }
 
     dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
+  useEffect(() => {
+    setMusic(data)
+  }, [])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
