@@ -20,32 +20,32 @@ const Search = (props) => {
   const dispatch = useDispatch()
   console.log(music)
   const [setMusic, {}] = useGetTrackByIdMutation()
-  const searchMusic = () => {
+  const searchMusic = (event) => {
+    console.log(event.keyCode)
+    const targer = event.targer
+    console.log(targer)
     if (search !== '') {
-      if (search.length > 3) {
-        console.log(music, search)
+      const newSearch = search[0].toUpperCase() + search.slice(1)
+      console.log(musicSearch, newSearch)
 
-        console.log(searchID(music, search).id)
+      console.log(searchID(musicSearch, newSearch).id)
 
-        const searchId = searchID(music, search).id
+      const searchId = searchID(musicSearch, newSearch).id
 
+      if (event.keyCode === 13) {
+        setIsSearch(true)
         setMusic(searchId)
           .unwrap()
           .then((data) => {
-            setIsSearch((prev) => !prev)
-            dispatch(searchToggle(isSearch))
+            dispatch(searchToggle(true))
             dispatch(searchBase(data))
           })
-
-        setSearch('')
-      } else {
-        setIsSearch((prev) => !prev)
-        dispatch(searchToggle(isSearch))
       }
     } else {
-      setIsSearch((prev) => !prev)
-      dispatch(searchToggle(isSearch))
+      setIsSearch(false)
+      dispatch(searchToggle(false))
     }
+    setSearch('')
   }
 
   return (

@@ -45,7 +45,6 @@ const Content = (props) => {
     handleSelectSong = Function.prototype,
   } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
-  const [getTrackById, {}] = useGetTrackByIdMutation()
   const [setLike, {}] = useSetLikeMutation()
   const [setUnlike, {}] = useSetUnlikeMutation()
 
@@ -82,9 +81,9 @@ const Content = (props) => {
 
     dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
-  useEffect(() => {
-    setMusic(data)
-  }, [])
+  // useEffect(() => {
+  //   setMusic(data)
+  // }, [])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
