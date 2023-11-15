@@ -29,7 +29,7 @@ const RegisterContent = () => {
   const navigate = useNavigate()
   if (isActiveSecondButton) {
     setTimeout(() => {
-      navigate('/', { replace: true })
+      navigate('/login', { replace: true })
     }, 1500)
   }
 
@@ -49,7 +49,7 @@ const RegisterContent = () => {
               username: inpLoginRef.current.value,
             })
               .unwrap()
-              .then((response) => {
+              .then(async (response) => {
                 dispatch(
                   userLogin({
                     email: response.email,
@@ -61,17 +61,17 @@ const RegisterContent = () => {
                 localStorage.setItem('email', response.email)
                 localStorage.setItem('id', response.id)
 
-                postToken({
+                await postToken({
                   email: inpEmailRef.current.value,
                   password: inpPasswordRef.current.value,
                 })
                   .unwrap()
                   .then((token) => {
-                    localStorage.setItem('token', token.acceess)
+                    localStorage.setItem('token', token.access)
                     localStorage.setItem('refreshToken', token.refresh)
                     dispatch(
                       setAccessToken({
-                        token: token.acceess,
+                        token: token.access,
                         refreshToken: token.refresh,
                       })
                     )

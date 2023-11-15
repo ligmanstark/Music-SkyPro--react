@@ -4,7 +4,7 @@ import { unickedFiltredDate } from '../../store/slice/musicSlice'
 const ItemFilter = (props) => {
   const { author, filterMusic = Function.prototype } = props
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
-
+  console.log(filterMusic)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
   console.log(author)
   return (

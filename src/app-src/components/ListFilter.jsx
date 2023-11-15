@@ -2,7 +2,11 @@ import { ItemFilter } from './ItemFilter'
 import * as S from './styles/style'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { FilterBase, filterToggle } from '../../store/slice/musicSlice'
+import {
+  FilterBase,
+  filterToggle,
+  setNameFiltered,
+} from '../../store/slice/musicSlice'
 import { compareNew, compareOld } from '../helpers/compare'
 const ListFilter = (props) => {
   let value
@@ -22,6 +26,7 @@ const ListFilter = (props) => {
   const currentPage = useSelector((state) => state.musicReducer.currentPage)
 
   const { filteredMusic = [], nameFilter, music = [] } = props
+  console.log(music)
   let newMusic = musicSaver
   const [filterLand, SetFilterLand] = useState()
   // const [filter, setFilter] = useState('исполнителю')
@@ -54,26 +59,31 @@ const ListFilter = (props) => {
     dispatch(FilterBase(arr, filter))
   }
 
+  console.log(nameFilter)
   const filterMusic = (event) => {
-    value = event.target.innerHTML
-    SetFilterLand(value)
-    dispatch(filterToggle(true))
-    if (filterLand !== '') {
-      if (nameFilter === 'исполнителю') {
-        arr = newMusic.filter((el) => el.author === value)
-        FilteredBase([arr, 'исполнителю'])
-      } else if (nameFilter === 'году выпуска') {
-        arr = newMusic.filter(
-          (el) =>
-            new Date(el.release_date).getFullYear() ===
-            new Date(value).getFullYear()
-        )
-        console.log(arr)
-        FilteredBase([arr, filter])
-      } else if (nameFilter === 'жанру') {
-        arr = newMusic.filter((el) => el.genre === value)
-        FilteredBase([arr, 'жанру'])
+    if (music[0] !== 'Ничего не получилось найти') {
+      value = event.target.innerHTML
+      SetFilterLand(value)
+      dispatch(filterToggle(true))
+      if (filterLand !== '') {
+        if (nameFilter === 'исполнителю') {
+          arr = newMusic.filter((el) => el.author === value)
+          FilteredBase([arr, 'исполнителю'])
+        } else if (nameFilter === 'году выпуска') {
+          arr = newMusic.filter(
+            (el) =>
+              new Date(el.release_date).getFullYear() ===
+              new Date(value).getFullYear()
+          )
+          console.log(arr)
+          FilteredBase([arr, filter])
+        } else if (nameFilter === 'жанру') {
+          arr = newMusic.filter((el) => el.genre === value)
+          FilteredBase([arr, 'жанру'])
+        }
       }
+    } else {
+      dispatch(filterToggle(false))
     }
   }
 
@@ -138,56 +148,68 @@ const ListFilter = (props) => {
           : { left: '' }
       }
     >
-      {nameFilter === 'году выпуска' ? (
+      {music[0] !== 'Ничего не получилось найти' ? (
         <>
-          <S.FilterAuthorList onClick={handleYears}>
-            По умолчанию
-          </S.FilterAuthorList>
-          <br />
-          {newest ? (
-            <S.FilterAuthorList
-              onClick={handleYears}
-              style={{ color: 'purple' }}
-            >
-              Сначала новые
-            </S.FilterAuthorList>
-          ) : (
-            <S.FilterAuthorList onClick={handleYears}>
-              Сначала новые
-            </S.FilterAuthorList>
-          )}
-          <br />
-          {oldest ? (
-            <S.FilterAuthorList
-              onClick={handleYears}
-              style={{ color: 'purple' }}
-            >
-              Сначала старые
-            </S.FilterAuthorList>
-          ) : (
-            <S.FilterAuthorList onClick={handleYears}>
-              Сначала старые
-            </S.FilterAuthorList>
-          )}
-          <br />
+          <>
+            {nameFilter === 'году выпуска' ? (
+              <>
+                <S.FilterAuthorList onClick={handleYears}>
+                  По умолчанию
+                </S.FilterAuthorList>
+                <br />
+                {newest ? (
+                  <S.FilterAuthorList
+                    onClick={handleYears}
+                    style={{ color: 'purple' }}
+                  >
+                    Сначала новые
+                  </S.FilterAuthorList>
+                ) : (
+                  <S.FilterAuthorList onClick={handleYears}>
+                    Сначала новые
+                  </S.FilterAuthorList>
+                )}
+                <br />
+                {oldest ? (
+                  <S.FilterAuthorList
+                    onClick={handleYears}
+                    style={{ color: 'purple' }}
+                  >
+                    Сначала старые
+                  </S.FilterAuthorList>
+                ) : (
+                  <S.FilterAuthorList onClick={handleYears}>
+                    Сначала старые
+                  </S.FilterAuthorList>
+                )}
+                <br />
+              </>
+            ) : (
+              <S.FilterAuthorList onClick={handleAllTracks}>
+                Все треки
+              </S.FilterAuthorList>
+            )}
+          </>
+          <>
+            {nameFilter !== 'году выпуска' &&
+              filteredMusic &&
+              filteredMusic.map((el) => (
+                <ItemFilter
+                  key={el.el}
+                  author={el}
+                  image="img/icon/sprite.svg#icon-note"
+                  tackTimeIcon="img/icon/sprite.svg#icon-like"
+                  filterMusic={filterMusic}
+                  filteredMusic={filteredMusic}
+                />
+              ))}
+          </>
         </>
       ) : (
-        <S.FilterAuthorList onClick={handleAllTracks}>
-          Все треки
-        </S.FilterAuthorList>
+        <>
+          <p></p>
+        </>
       )}
-
-      {nameFilter !== 'году выпуска' &&
-        filteredMusic.map((el) => (
-          <ItemFilter
-            key={el.el}
-            author={el}
-            image="img/icon/sprite.svg#icon-note"
-            tackTimeIcon="img/icon/sprite.svg#icon-like"
-            filterMusic={filterMusic}
-            filteredMusic={filteredMusic}
-          />
-        ))}
     </S.WindowFiltered>
   )
 }

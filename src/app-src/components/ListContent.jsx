@@ -36,7 +36,7 @@ const ListContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {!isFilter && music.length
+        {!isFilter && music.length > 1
           ? music.map((el) => (
               <ItemContent
                 el={el}
@@ -66,7 +66,8 @@ const ListContent = (props) => {
                 toggleLike={toggleLike}
               />
             ))
-          : 'упс'}
+          : music[0] === 'Ничего не получилось найти' &&
+            'Ничего не получилось найти'}
       </S.ContentPlaylist>
     </S.CenterblockContent>
   )

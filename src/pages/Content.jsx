@@ -81,9 +81,6 @@ const Content = (props) => {
 
     dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
-  // useEffect(() => {
-  //   setMusic(data)
-  // }, [])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)

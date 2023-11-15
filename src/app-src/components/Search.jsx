@@ -17,35 +17,65 @@ const Search = (props) => {
   const { music = [] } = props
   const [search, setSearch] = useState('')
   const musicSearch = useSelector((state) => state.musicReducer.musicSearch)
+  const currentPage = useSelector((state) => state.musicReducer.currentPage)
+  const baseMusic = useSelector((state) => state.musicReducer.baseMusic)
   const dispatch = useDispatch()
   console.log(music)
   const [setMusic, {}] = useGetTrackByIdMutation()
   const searchMusic = (event) => {
     console.log(event.keyCode)
-    const targer = event.targer
-    console.log(targer)
+    let found
+    console.log(musicSearch)
     if (search !== '') {
       const newSearch = search[0].toUpperCase() + search.slice(1)
-      console.log(musicSearch, newSearch)
+      if (currentPage === 'Main' || currentPage === 'Favorites') {
+        found = musicSearch.find((e) => e.name === newSearch)
+      } else {
+        found = musicSearch.find((e) => e.name === newSearch)
+      }
 
-      console.log(searchID(musicSearch, newSearch).id)
+      if (found !== undefined) {
+        const searchId = searchID(musicSearch, newSearch).id
 
-      const searchId = searchID(musicSearch, newSearch).id
-
-      if (event.keyCode === 13) {
-        setIsSearch(true)
-        setMusic(searchId)
-          .unwrap()
-          .then((data) => {
-            dispatch(searchToggle(true))
-            dispatch(searchBase(data))
-          })
+        if (event.keyCode === 13) {
+          setIsSearch(true)
+          setMusic(searchId)
+            .unwrap()
+            .then((data) => {
+              dispatch(searchToggle(true))
+              dispatch(searchBase(data))
+              setSearch('')
+            })
+            .catch((e) => {
+              console.log(e)
+              dispatch(searchToggle(true))
+              dispatch(searchBase('Ничего не получилось найти'))
+            })
+        }
+      } else {
+        console.log('object')
+        setIsSearch(false)
+        dispatch(searchToggle(false))
+        if (event.keyCode === 13) {
+          setIsSearch(true)
+          setMusic(0)
+            .unwrap()
+            .then((data) => {
+              dispatch(searchToggle(true))
+              dispatch(searchBase(data))
+              setSearch('')
+            })
+            .catch((e) => {
+              console.log(e)
+              dispatch(searchToggle(true))
+              dispatch(searchBase('Ничего не получилось найти'))
+            })
+        }
       }
     } else {
-      setIsSearch(false)
+      dispatch(searchBase(baseMusic))
       dispatch(searchToggle(false))
     }
-    setSearch('')
   }
 
   return (

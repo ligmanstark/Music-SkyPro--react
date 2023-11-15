@@ -24,6 +24,7 @@ import {
   setBaseMusic,
   setOpenedFilter,
   setNameFiltered,
+  setMusicSearch,
 } from '../store/slice/musicSlice'
 
 import {
@@ -153,13 +154,17 @@ const MyPlaylist = (props) => {
     dispatch(setCurrentPage('Favorites'))
     if (!isSearch) {
       setMusic(data)
+      dispatch(setMusicSearch(data))
     } else {
       setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
     }
     if (isFilter) {
       setMusic(filterBase)
+      dispatch(setMusicSearch(filterBase))
     } else if (filterBase.length < 1 && isSearch) {
       setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
     }
     dispatch(setBaseMusic(data))
   }, [isFilter, isSearch, setLike, setUnlike, data])
