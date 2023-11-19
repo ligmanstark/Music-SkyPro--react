@@ -25,12 +25,7 @@ const ListFilter = (props) => {
   )
   const currentPage = useSelector((state) => state.musicReducer.currentPage)
 
-  const {
-    filteredMusic = [],
-    nameFilter,
-    music = [],
-    filterMusic = Function.prototype,
-  } = props
+  const { filteredMusic = [], nameFilter, music = [] } = props
   console.log(music)
   let newMusic = musicSaver
   const [filterLand, SetFilterLand] = useState()
@@ -51,7 +46,7 @@ const ListFilter = (props) => {
     } else {
       copyForSortNew = [...musicSaver]
       copyForSortOld = [...musicSaver]
-      copyForDefault = [...newMusic]
+      copyForDefault = [...musicSaver]
     }
     console.log(copyForDefault)
   })
@@ -63,32 +58,32 @@ const ListFilter = (props) => {
     dispatch(FilterBase(arr, filter))
   }
 
-  // const filterMusic = (event) => {
-  //   if (music[0] !== 'Ничего не получилось найти') {
-  //     value = event.target.innerHTML
-  //     SetFilterLand(value)
-  //     dispatch(filterToggle(true))
-  //     if (filterLand !== '') {
-  //       if (nameFilter === 'исполнителю') {
-  //         arr = newMusic.filter((el) => el.author === value)
-  //         FilteredBase([arr, 'исполнителю'])
-  //       } else if (nameFilter === 'году выпуска') {
-  //         arr = newMusic.filter(
-  //           (el) =>
-  //             new Date(el.release_date).getFullYear() ===
-  //             new Date(value).getFullYear()
-  //         )
-  //         console.log(arr)
-  //         FilteredBase([arr, filter])
-  //       } else if (nameFilter === 'жанру') {
-  //         arr = newMusic.filter((el) => el.genre === value)
-  //         FilteredBase([arr, 'жанру'])
-  //       }
-  //     }
-  //   } else {
-  //     dispatch(filterToggle(false))
-  //   }
-  // }
+  const filterMusic = (event) => {
+    if (music[0] !== 'Ничего не получилось найти') {
+      value = event.target.innerHTML
+      SetFilterLand(value)
+      dispatch(filterToggle(true))
+      if (filterLand !== '') {
+        if (nameFilter === 'исполнителю') {
+          arr = newMusic.filter((el) => el.author === value)
+          FilteredBase([arr, 'исполнителю'])
+        } else if (nameFilter === 'году выпуска') {
+          arr = newMusic.filter(
+            (el) =>
+              new Date(el.release_date).getFullYear() ===
+              new Date(value).getFullYear()
+          )
+          console.log(arr)
+          FilteredBase([arr, filter])
+        } else if (nameFilter === 'жанру') {
+          arr = newMusic.filter((el) => el.genre === value)
+          FilteredBase([arr, 'жанру'])
+        }
+      }
+    } else {
+      dispatch(filterToggle(false))
+    }
+  }
 
   const handleAllTracks = () => {
     switch (currentPage) {

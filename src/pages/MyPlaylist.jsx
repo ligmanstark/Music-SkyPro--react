@@ -173,40 +173,40 @@ const MyPlaylist = (props) => {
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
-  let value
-  let arr
-  const [filterLand, SetFilterLand] = useState()
+  // let value
+  // let arr
+  // const [filterLand, SetFilterLand] = useState()
 
-  const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
-  const FilteredBase = (arr, filter) => {
-    dispatch(FilterBase(arr, filter))
-  }
-  const filterMusic = (event) => {
-    if (music[0] !== 'Ничего не получилось найти') {
-      value = event.target.innerHTML
-      SetFilterLand(value)
-      dispatch(filterToggle(true))
-      if (filterLand !== '') {
-        if (nameFilter === 'исполнителю') {
-          arr = musicSaver.filter((el) => el.author === value)
-          FilteredBase([arr, 'исполнителю'])
-        } else if (nameFilter === 'году выпуска') {
-          arr = musicSaver.filter(
-            (el) =>
-              new Date(el.release_date).getFullYear() ===
-              new Date(value).getFullYear()
-          )
-          console.log(arr)
-          FilteredBase([arr, 'году выпуска'])
-        } else if (nameFilter === 'жанру') {
-          arr = musicSaver.filter((el) => el.genre === value)
-          FilteredBase([arr, 'жанру'])
-        }
-      }
-    } else {
-      dispatch(filterToggle(false))
-    }
-  }
+  // const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
+  // const FilteredBase = (arr, filter) => {
+  //   dispatch(FilterBase(arr, filter))
+  // }
+  // const filterMusic = (event) => {
+  //   if (music[0] !== 'Ничего не получилось найти') {
+  //     value = event.target.innerHTML
+  //     SetFilterLand(value)
+  //     dispatch(filterToggle(true))
+  //     if (filterLand !== '') {
+  //       if (nameFilter === 'исполнителю') {
+  //         arr = musicSaver.filter((el) => el.author === value)
+  //         FilteredBase([arr, 'исполнителю'])
+  //       } else if (nameFilter === 'году выпуска') {
+  //         arr = musicSaver.filter(
+  //           (el) =>
+  //             new Date(el.release_date).getFullYear() ===
+  //             new Date(value).getFullYear()
+  //         )
+  //         console.log(arr)
+  //         FilteredBase([arr, 'году выпуска'])
+  //       } else if (nameFilter === 'жанру') {
+  //         arr = musicSaver.filter((el) => el.genre === value)
+  //         FilteredBase([arr, 'жанру'])
+  //       }
+  //     }
+  //   } else {
+  //     dispatch(filterToggle(false))
+  //   }
+  // }
 
   return (
     <S.Wrapper className="wrapper">
@@ -225,8 +225,7 @@ const MyPlaylist = (props) => {
             nameFilter={nameFilter}
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
-            filterMusic={filterMusic}
-          />
+           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
 

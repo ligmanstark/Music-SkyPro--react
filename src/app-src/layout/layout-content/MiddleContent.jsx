@@ -16,8 +16,7 @@ const MiddleContent = (props) => {
     nameFilter,
     lengthFilter,
     handleSelectSong = Function.prototype,
-    filterMusic = Function.prototype,
-  } = props
+   } = props
 
   return (
     <S.MainCenterblock className="main__centerblock ">
@@ -33,8 +32,7 @@ const MiddleContent = (props) => {
           filteredMusic={filteredMusic}
           nameFilter={nameFilter}
           music={music}
-          filterMusic={filterMusic}
-        />
+         />
       )}
       {isLoading ? (
         <PreloaderMiddleContent />
