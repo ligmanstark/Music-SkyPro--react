@@ -22,9 +22,9 @@ const MiddleContentCategory = (props) => {
     url,
     handleSelectSong = Function.prototype,
     toggleLike = Function.prototype,
+    filterMusic = Function.prototype,
   } = props
-
-  const { isLoading } = useGetSectionTracksQuery(countSection)
+   const { isLoading } = useGetSectionTracksQuery(countSection)
 
   return (
     <S.MainCenterblock className="main__centerblock ">
@@ -40,6 +40,7 @@ const MiddleContentCategory = (props) => {
           filteredMusic={filteredMusic}
           nameFilter={nameFilter}
           music={music}
+          filterMusic={filterMusic}
         />
       )}
       {isLoading ? (

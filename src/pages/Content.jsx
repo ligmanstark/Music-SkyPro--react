@@ -15,6 +15,7 @@ import {
   setOpenedFilter,
   setNameFiltered,
   setMusicSearch,
+  FilterBase,
 } from '../store/slice/musicSlice'
 
 import {
@@ -143,6 +144,46 @@ const Content = (props) => {
     setOpen((prev) => !prev)
   }
 
+  let value
+  let arr
+  const [filterLand, SetFilterLand] = useState()
+
+  const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
+   const FilteredBase = (arr, filter) => {
+    dispatch(FilterBase(arr, filter))
+  }
+  const filterMusic = (event) => {
+    if (music[0] !== 'Ничего не получилось найти') {
+      value = event.target.innerHTML
+      SetFilterLand(value)
+      dispatch(filterToggle(true))
+      if (filterLand !== '') {
+        if (nameFilter === 'исполнителю') {
+          arr = musicSaver.filter((el) => el.author === value)
+          FilteredBase([arr, 'исполнителю'])
+        } else if (nameFilter === 'году выпуска') {
+          arr = musicSaver.filter(
+            (el) =>
+              new Date(el.release_date).getFullYear() ===
+              new Date(value).getFullYear()
+          )
+          console.log(arr)
+          FilteredBase([arr, 'году выпуска'])
+        } else if (nameFilter === 'жанру') {
+          arr = musicSaver.filter((el) => el.genre === value)
+          FilteredBase([arr, 'жанру'])
+        }
+      }
+    } else {
+      dispatch(filterToggle(false))
+    }
+  }
+
+  useEffect(() => {
+    // arr=data.filter((el)=>el.author===filterBase.author)
+    console.log('dsssdsasssa');
+  }, [data]);
+
   return (
     <S.Wrapper className="wrapper">
       <S.Container className="container">
@@ -157,6 +198,7 @@ const Content = (props) => {
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
             toggleLike={toggleLike}
+            filterMusic={filterMusic}
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>

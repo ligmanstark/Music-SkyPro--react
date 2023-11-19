@@ -16,6 +16,7 @@ const MiddleContent = (props) => {
     nameFilter,
     lengthFilter,
     handleSelectSong = Function.prototype,
+    filterMusic = Function.prototype,
   } = props
 
   return (
@@ -32,6 +33,7 @@ const MiddleContent = (props) => {
           filteredMusic={filteredMusic}
           nameFilter={nameFilter}
           music={music}
+          filterMusic={filterMusic}
         />
       )}
       {isLoading ? (
