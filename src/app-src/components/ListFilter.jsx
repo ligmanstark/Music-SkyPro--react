@@ -59,8 +59,7 @@ const ListFilter = (props) => {
     dispatch(FilterBase(arr, filter))
   }
 
-  console.log(nameFilter)
-  const filterMusic = (event) => {
+   const filterMusic = (event) => {
     if (music[0] !== 'Ничего не получилось найти') {
       value = event.target.innerHTML
       SetFilterLand(value)
