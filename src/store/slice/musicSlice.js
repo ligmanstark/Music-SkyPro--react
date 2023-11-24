@@ -3,6 +3,7 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    idTrack: null,
     musicSearch: [],
     isOpenedFilter: false,
     filteredName: '',
@@ -34,6 +35,20 @@ const musicSlice = createSlice({
     overNum: 0,
   },
   reducers: {
+    setNumberTrack(state, action) {
+      state.idTrack = action.payload
+    },
+    setUpdateMusic(state, action) {
+      // console.log(action.payload)
+      // const newDat = state.filterDate.filter(
+      //   (el) => el.id === action.payload[0].id
+      // )
+      // console.log(
+      //   state.filterDate.filter((el) => el.id === action.payload.id)
+      // )
+      console.log(action.payload)
+      state.filterDate = action.payload
+    },
     setMusicSearch(state, action) {
       state.musicSearch = action.payload
     },
@@ -489,6 +504,8 @@ const musicSlice = createSlice({
 })
 
 export const {
+  setNumberTrack,
+  setUpdateMusic,
   setMusicSearch,
   setNameFiltered,
   setOpenedFilter,

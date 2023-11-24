@@ -16,6 +16,7 @@ import {
   setNameFiltered,
   setMusicSearch,
   FilterBase,
+  setUpdateMusic,
 } from '../store/slice/musicSlice'
 
 import {
@@ -30,6 +31,7 @@ const Content = (props) => {
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const idNumber = useSelector((state) => state.musicReducer.idTrack)
   const filteredByGenge = useSelector(
     (state) => state.musicReducer.filteredByGenge
   )
@@ -184,6 +186,22 @@ const Content = (props) => {
   // //   console.log('dsssdsasssa');
   // // }, [data]);
 
+  useEffect(() => {
+    if (filterBase[0] || searchBase.id) {
+      if (idNumber !== NaN) {
+        let newDat = [data.find((el) => el.id == idNumber)]
+        let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
+        let newSearch = [searchBase].filter((el) => el.id !== Number(idNumber))
+
+        let newFilterDate = [...newAr, ...newDat]
+        let newSearchDate = [...newSearch, ...newDat]
+
+        dispatch(FilterBase(newFilterDate))
+        dispatch(setMusicSearch(newSearchDate))
+        setMusic(newSearchDate)
+      }
+    }
+  }, [data])
   return (
     <S.Wrapper className="wrapper">
       <S.Container className="container">
@@ -198,7 +216,7 @@ const Content = (props) => {
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
             toggleLike={toggleLike}
-           />
+          />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
 

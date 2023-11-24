@@ -59,6 +59,7 @@ const MyPlaylist = (props) => {
 
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
   const searchBase = useSelector((state) => state.musicReducer.search)
+  const idNumber = useSelector((state) => state.musicReducer.idTrack)
 
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
@@ -208,6 +209,30 @@ const MyPlaylist = (props) => {
   //   }
   // }
 
+  // useEffect(() => {
+  //   if (filterBase[0] || searchBase.id) {
+  //     if (idNumber !== NaN) {
+  //       let newDat = [data.find((el) => el.id == idNumber)]
+  //       let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
+  //       let newSearch = [searchBase].filter((el) => el.id !== Number(idNumber))
+
+  //       let newFilterDate = [...newAr, ...newDat, ...data]
+  //       let newSearchDate = [...newSearch, ...newDat]
+  //       fetchFavorite()
+  //         .unwrap()
+  //         .then(() => {
+  //           setterSelectMusic()
+  //         })
+  //         .catch((error) => {
+  //           console.log(error)
+  //         })
+  //       dispatch(FilterBase(newFilterDate))
+  //       dispatch(setMusicSearch(newSearchDate))
+  //       setMusic(newSearchDate)
+  //     }
+  //   }
+  // }, [data])
+
   return (
     <S.Wrapper className="wrapper">
       <S.Container className="container">
@@ -225,7 +250,7 @@ const MyPlaylist = (props) => {
             nameFilter={nameFilter}
             lengthFilter={lengthFilter}
             handleSelectSong={handleSelectSong}
-           />
+          />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
 

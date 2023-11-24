@@ -22,8 +22,8 @@ const MiddleContentCategory = (props) => {
     url,
     handleSelectSong = Function.prototype,
     toggleLike = Function.prototype,
-   } = props
-   const { isLoading } = useGetSectionTracksQuery(countSection)
+  } = props
+  const { isLoading } = useGetSectionTracksQuery(countSection)
 
   return (
     <S.MainCenterblock className="main__centerblock ">
@@ -39,7 +39,7 @@ const MiddleContentCategory = (props) => {
           filteredMusic={filteredMusic}
           nameFilter={nameFilter}
           music={music}
-         />
+        />
       )}
       {isLoading ? (
         <PreloaderMiddleContent />

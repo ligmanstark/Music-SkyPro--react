@@ -6,9 +6,10 @@ import like from '../../img/icon/like.svg'
 import note from '../../img/icon/note.svg'
 import like_active from '../../img/icon/like_active.svg'
 import dislike_active from '../../img/icon/dislike_active.svg'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { setNumberTrack } from '../../store/slice/musicSlice'
 const ItemContent = (props) => {
+  const dispatch = useDispatch()
   const activ = useSelector((state) => state.musicReducer.activeSong)
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
   const userId = Number(useSelector((state) => state.user.id))
@@ -31,9 +32,12 @@ const ItemContent = (props) => {
             <S.TrackTimeSVG
               src={like_active}
               className="track__time-svg"
-              alt="time"
+              alt={id}
+              key={id}
               onClick={(e) => {
                 toggleLike(el)
+                console.log(e.target.alt)
+                dispatch(setNumberTrack(e.target.alt))
                 e.stopPropagation()
               }}
             ></S.TrackTimeSVG>
@@ -43,9 +47,11 @@ const ItemContent = (props) => {
             <S.TrackTimeSVG
               src={like_active}
               className="track__time-svg"
-              alt="time"
+              alt={id}
               onClick={(e) => {
                 toggleLike(el)
+                dispatch(setNumberTrack(e.target.alt))
+
                 e.stopPropagation()
               }}
             ></S.TrackTimeSVG>
@@ -55,9 +61,11 @@ const ItemContent = (props) => {
             <S.TrackTimeSVG
               src={like}
               className="track__time-svg"
-              alt="time"
+              alt={id}
               onClick={(e) => {
                 toggleLike(el)
+                dispatch(setNumberTrack(e.target.alt))
+
                 e.stopPropagation()
               }}
             ></S.TrackTimeSVG>
@@ -69,9 +77,11 @@ const ItemContent = (props) => {
             <S.TrackTimeSVG
               src={dislike_active}
               className="track__time-svg"
-              alt="time"
+              alt={id}
               onClick={(e) => {
                 toggleLike(el)
+                dispatch(setNumberTrack(e.target.alt))
+
                 e.stopPropagation()
               }}
             ></S.TrackTimeSVG>
@@ -81,9 +91,11 @@ const ItemContent = (props) => {
             <S.TrackTimeSVG
               src={dislike_active}
               className="track__time-svg"
-              alt="time"
+              alt={id}
               onClick={(e) => {
                 toggleLike(el)
+                dispatch(setNumberTrack(e.target.alt))
+
                 e.stopPropagation()
               }}
             ></S.TrackTimeSVG>
@@ -93,9 +105,11 @@ const ItemContent = (props) => {
             <S.TrackTimeSVG
               src={like}
               className="track__time-svg"
-              alt="time"
+              alt={id}
               onClick={(e) => {
                 toggleLike(el)
+                dispatch(setNumberTrack(e.target.alt))
+
                 e.stopPropagation()
               }}
             ></S.TrackTimeSVG>
@@ -122,21 +136,30 @@ const ItemContent = (props) => {
                     key={id}
                     src={note}
                     className="track__title-svg"
-                    alt="music"
+                    alt={id}
+                    onClick={(e) => {
+                      dispatch(setNumberTrack(e.target.alt))
+                    }}
                   ></A.animationBubble>
                 ) : !activ && selectSong[0][0] && selectSong[0][0].id === id ? (
                   <A.animationBubbleStop
                     key={id}
                     src={note}
                     className="track__title-svg"
-                    alt="music"
+                    alt={id}
+                    onClick={(e) => {
+                      dispatch(setNumberTrack(e.target.alt))
+                    }}
                   ></A.animationBubbleStop>
                 ) : (
                   <S.TrackTittleSVG
                     key={id}
                     src={note}
                     className="track__title-svg"
-                    alt="music"
+                    alt={id}
+                    onClick={(e) => {
+                      dispatch(setNumberTrack(e.target.alt))
+                    }}
                   ></S.TrackTittleSVG>
                 )}
               </S.TrackTittleImage>

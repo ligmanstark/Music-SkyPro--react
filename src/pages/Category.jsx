@@ -58,6 +58,7 @@ const Category = (props) => {
   console.log(data)
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const idNumber = useSelector((state) => state.musicReducer.idTrack)
 
   const isFilter = useSelector((state) => state.musicReducer.isFilter)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
@@ -228,6 +229,25 @@ const Category = (props) => {
   //   }
   // }
 
+  useEffect(() => {
+    if (filterBase[0] || searchBase.id) {
+      if (idNumber !== NaN) {
+        console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
+
+        let newDat = [data.items.find((el) => el.id == idNumber)]
+        let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
+        let newSearch = [searchBase].filter((el) => el.id !== Number(idNumber))
+        let newFilterDate = [...newAr, ...newDat]
+        let newSearchDate = [...newSearch, ...newDat]
+
+        dispatch(FilterBase(newFilterDate))
+        dispatch(setMusicSearch(newSearchDate))
+        setMusic(newSearchDate)
+        console.log(newSearchDate)
+      }
+    }
+  }, [data.items])
+
   return (
     <S.Wrapper className="wrapper">
       <S.Container className="container">
@@ -247,7 +267,7 @@ const Category = (props) => {
             url={url}
             handleSelectSong={handleSelectSong}
             toggleLike={toggleLike}
-           />
+          />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
         <footer className="footer"></footer>

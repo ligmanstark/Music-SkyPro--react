@@ -6,9 +6,12 @@ import {
   FilterBase,
   filterToggle,
   setNameFiltered,
+  setUpdateMusic,
 } from '../../store/slice/musicSlice'
 import { compareNew, compareOld } from '../helpers/compare'
+import { useGetAllTracksQuery } from '../../store/service/serviceMusicApi'
 const ListFilter = (props) => {
+  const { data = [] } = useGetAllTracksQuery()
   let value
   let arr
   const musicBack = useSelector((state) => state.musicReducer.music)
@@ -134,6 +137,9 @@ const ListFilter = (props) => {
     }
   }
 
+  // useEffect(() => {
+  //   dispatch(FilterBase(data))
+  // }, [useGetAllTracksQuery()])
   return (
     <S.WindowFiltered
       className="window-filtered"
