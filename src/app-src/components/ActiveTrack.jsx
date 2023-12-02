@@ -32,7 +32,6 @@ const ActiveTrack = (props) => {
 
   const toggleUnlike = (track) => {
     console.log('unlike')
-
     setUnlike(track)
       .unwrap()
       .catch((error) => {
@@ -43,7 +42,6 @@ const ActiveTrack = (props) => {
   }
   const toggleLike = (track) => {
     console.log('like')
-
     setLike(track)
       .unwrap()
       .catch((error) => {

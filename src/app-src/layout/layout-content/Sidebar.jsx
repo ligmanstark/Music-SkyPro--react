@@ -17,17 +17,13 @@ const Sidebar = () => {
   const categoryId = useParams()
   const { isError } = useGetSectionTracksQuery()
   const { user } = useContext(AppContext)
-
+  console.log(categoryId)
   const navigate = useNavigate()
 
   const handleLogout = () => {
     setTimeout(() => {
       dispatch(userLogout)
-      localStorage.setItem('user', '')
-      localStorage.setItem('token', '')
-      localStorage.setItem('id', '')
-      localStorage.setItem('email', '')
-      localStorage.setItem('refreshToken', '')
+      localStorage.clear()
       navigate('/login')
     }, 500)
   }
@@ -41,9 +37,11 @@ const Sidebar = () => {
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
         <S.SideBarPersonalName className="sidebar__personal-name">
-          {user ? `Hello, ${localStorage.getItem('user')}` : ''}
+          {localStorage.user && localStorage.user !== null
+            ? `Hello, ${localStorage.getItem('user')}`
+            : ''}
         </S.SideBarPersonalName>
-        {user ? (
+        {localStorage.user && localStorage.user !== null ? (
           <S.SideBarAvatar
             className="sidebar__avatar"
             src={logup}

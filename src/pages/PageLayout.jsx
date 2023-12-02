@@ -170,7 +170,7 @@ const Layout = () => {
           user={user}
           toggleLike={toggleLike}
         />
-      ) : (
+      ) : Page === 'Catagory' (
         <Category
           track={song}
           handleSelectSong={handleSelectSong}

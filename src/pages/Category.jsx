@@ -228,10 +228,10 @@ const Category = (props) => {
   // }
 
   useEffect(() => {
+    console.log(data);
     if (filterBase[0] || searchBase.id) {
       if (idNumber !== NaN) {
         console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
-
         let newDat = [data.items.find((el) => el.id == idNumber)]
         let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
         let newSearch = [searchBase].filter((el) => el.id !== Number(idNumber))
