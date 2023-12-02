@@ -143,9 +143,7 @@ const ListFilter = (props) => {
     }
   }
 
-  // useEffect(() => {
-  //   dispatch(FilterBase(data))
-  // }, [useGetAllTracksQuery()])
+ 
   return (
     <S.WindowFiltered
       className="window-filtered"

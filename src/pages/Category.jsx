@@ -50,12 +50,11 @@ const Category = (props) => {
   const [countSection, setCountSection] = useState(categoryId)
 
   const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
-  const [fetchSelection] = useLazyGetSectionTracksQuery()
+   const [fetchSelection] = useLazyGetSectionTracksQuery()
   const mySelectionSongs = useSelector(
     (state) => state.musicReducer.SelectionMusic
   )
-  console.log(mySelectionSongs)
-  console.log(data)
+ 
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
   const idNumber = useSelector((state) => state.musicReducer.idTrack)
@@ -89,8 +88,7 @@ const Category = (props) => {
         console.log(error)
       })
   }, [data.items])
-  console.log(music)
-  const handleOpenFilter = (event) => {
+   const handleOpenFilter = (event) => {
     setOpenFilter(true)
     dispatch(setOpenedFilter(true))
 
@@ -126,7 +124,7 @@ const Category = (props) => {
     } else if (value === 'жанру') {
       dispatch(setNameFiltered('жанру'))
       if (!isSearch) {
-        setFilteredMusic([...new Set(data.items.map((e) => e.genre))])
+        setFilteredMusicategoryIdc([...new Set(data.items.map((e) => e.genre))])
       } else {
         setFilteredMusic([searchData.genre])
       }

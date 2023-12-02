@@ -18,8 +18,8 @@ const ActiveTrack = (props) => {
   const selectSong = useSelector((state) => state.musicReducer.selectSong)
   const userId = Number(useSelector((state) => state.user.id))
   const Page = useSelector((state) => state.musicReducer.currentPage)
-  console.log(selectSong)
   const { id, name, author } = selectSong[0][0]
+
   const logout = () => {
     dispatch(userLogout())
     localStorage.setItem('user', '')

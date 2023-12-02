@@ -3,8 +3,7 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
-    saveFilter: [],
-    idTrack: null,
+     idTrack: null,
     musicSearch: [],
     isOpenedFilter: false,
     filteredName: '',
@@ -72,12 +71,12 @@ const musicSlice = createSlice({
             )
           ) {
             state.filteredByName = action.payload[0][0]
-            state.saveFilter = state.filteredByName
+            // state.saveFilter = state.filteredByName
           } else {
             state.filterDate = state.filterDate.filter(
               (el) => el.author !== action.payload[0][0].author
             )
-            state.saveFilter = state.filterDate
+            // state.saveFilter = state.filterDate
           }
         } else {
           if (
@@ -88,14 +87,14 @@ const musicSlice = createSlice({
             state.filterDate = state.filterDate.filter(
               (el) => el.author !== action.payload[0][0].author
             )
-            state.saveFilter = state.filterDate
+            // state.saveFilter = state.filterDate
           } else {
-            state.saveFilter = state.filterDate
+            // state.saveFilter = state.filterDate
             state.filterDate.push(...action.payload[0])
           }
         }
         state.filteredByGenge = action.payload[0]
-        state.saveFilter = state.filterDate
+        // state.saveFilter = state.filterDate
       } else if (action.payload[1] === 'жанру') {
         state.filteredName = 'жанру'
         if (
@@ -115,7 +114,7 @@ const musicSlice = createSlice({
           state.filterDate = state.music[0]
         }
       }
-      state.saveFilter = state.filterDate
+      // state.saveFilter = state.filterDate
 
       if (!state.isFilter) {
         state.filterDate = []
