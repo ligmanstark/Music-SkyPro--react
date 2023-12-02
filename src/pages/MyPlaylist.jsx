@@ -90,9 +90,25 @@ const MyPlaylist = (props) => {
       })
   }, [data])
 
-  if (myFavTracks) {
-    dispatch(setCurrentPage('Favorites'))
-  }
+  useEffect(() => {
+    if (myFavTracks) {
+      if (navigation.currentEntry.url.length === 52) {
+        dispatch(setCurrentPage('Category'))
+      } else if (navigation.currentEntry.url.length === 41) {
+        dispatch(setCurrentPage('Main'))
+      } else if (navigation.currentEntry.url.length === 51) {
+        dispatch(setCurrentPage('Favorites'))
+      }  }
+  });
+
+  // if (myFavTracks) {
+  //   if (navigation.currentEntry.url.length === 52) {
+  //     dispatch(setCurrentPage('Category'))
+  //   } else if (navigation.currentEntry.url.length === 41) {
+  //     dispatch(setCurrentPage('Main'))
+  //   } else if (navigation.currentEntry.url.length === 51) {
+  //     dispatch(setCurrentPage('Favorites'))
+  //   }  }
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
@@ -154,8 +170,13 @@ const MyPlaylist = (props) => {
   }, [data])
 
   useEffect(() => {
-    dispatch(setCurrentPage('Favorites'))
-    if (!isSearch) {
+    if (navigation.currentEntry.url.length == 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length == 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length == 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }    if (!isSearch) {
       setMusic(data)
       dispatch(setMusicSearch(data))
     } else {

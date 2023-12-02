@@ -61,8 +61,24 @@ const Content = (props) => {
 
   const dispatch = useDispatch()
   const setCurrent = () => {
-    dispatch(setCurrentPage('Main'))
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
   }
+
+  useEffect(() => {
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
+  })
 
   useEffect(() => {
     setCurrent()

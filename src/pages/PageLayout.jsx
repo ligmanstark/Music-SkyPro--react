@@ -45,8 +45,7 @@ const Layout = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  const setterSelectMusic = () => {
+   const setterSelectMusic = () => {
     if (Page === 'Main') {
       dispatch(setterMusic(music))
     }
@@ -170,13 +169,15 @@ const Layout = () => {
           user={user}
           toggleLike={toggleLike}
         />
-      ) : Page === 'Catagory' (
+      ) : Page === 'Category' ? (
         <Category
           track={song}
           handleSelectSong={handleSelectSong}
           user={user}
           toggleLike={toggleLike}
         />
+      ) : (
+        ''
       )}
       {!song.length ? (
         ''

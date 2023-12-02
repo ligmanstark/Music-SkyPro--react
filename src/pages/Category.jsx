@@ -50,11 +50,11 @@ const Category = (props) => {
   const [countSection, setCountSection] = useState(categoryId)
 
   const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
-   const [fetchSelection] = useLazyGetSectionTracksQuery()
+  const [fetchSelection] = useLazyGetSectionTracksQuery()
   const mySelectionSongs = useSelector(
     (state) => state.musicReducer.SelectionMusic
   )
- 
+
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
   const idNumber = useSelector((state) => state.musicReducer.idTrack)
@@ -64,10 +64,27 @@ const Category = (props) => {
   const searchData = useSelector((state) => state.musicReducer.search)
 
   const dispatch = useDispatch()
-
+  console.log(navigation.currentEntry.url.length)
   const setCurrent = () => {
-    dispatch(setCurrentPage('Category'))
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
   }
+
+  useEffect(() => {
+       if (navigation.currentEntry.url.length === 52) {
+        dispatch(setCurrentPage('Category'))
+      } else if (navigation.currentEntry.url.length === 41) {
+        dispatch(setCurrentPage('Main'))
+      } else if (navigation.currentEntry.url.length === 51) {
+        dispatch(setCurrentPage('Favorites'))
+      }  
+  });
+
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
@@ -88,7 +105,7 @@ const Category = (props) => {
         console.log(error)
       })
   }, [data.items])
-   const handleOpenFilter = (event) => {
+  const handleOpenFilter = (event) => {
     setOpenFilter(true)
     dispatch(setOpenedFilter(true))
 
@@ -228,7 +245,7 @@ const Category = (props) => {
   // }
 
   useEffect(() => {
-    console.log(data);
+    console.log(data)
     if (filterBase[0] || searchBase.id) {
       if (idNumber !== NaN) {
         console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
