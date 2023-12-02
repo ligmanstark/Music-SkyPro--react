@@ -36,7 +36,7 @@ const ListContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {!isFilter && music.length > 1
+        {!isFilter && music.length > 0
           ? music.map((el) => (
               <ItemContent
                 el={el}
