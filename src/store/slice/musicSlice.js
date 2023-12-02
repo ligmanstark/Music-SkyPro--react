@@ -3,6 +3,7 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
+    saveFilter: [],
     idTrack: null,
     musicSearch: [],
     isOpenedFilter: false,
@@ -63,8 +64,6 @@ const musicSlice = createSlice({
       state.qnuicFilterDate.push(...action.payload)
     },
     FilterBase(state, action) {
-      console.log(action.payload)
-
       if (action.payload[1] === 'исполнителю') {
         if (state.filteredName === 'жанру') {
           if (
@@ -73,11 +72,12 @@ const musicSlice = createSlice({
             )
           ) {
             state.filteredByName = action.payload[0][0]
+            state.saveFilter = state.filteredByName
           } else {
-            console.log('удалить')
             state.filterDate = state.filterDate.filter(
               (el) => el.author !== action.payload[0][0].author
             )
+            state.saveFilter = state.filterDate
           }
         } else {
           if (
@@ -88,12 +88,14 @@ const musicSlice = createSlice({
             state.filterDate = state.filterDate.filter(
               (el) => el.author !== action.payload[0][0].author
             )
-            console.log('удалить2')
+            state.saveFilter = state.filterDate
           } else {
+            state.saveFilter = state.filterDate
             state.filterDate.push(...action.payload[0])
           }
         }
-        state.filteredByGenge.push(action.payload[0][0])
+        state.filteredByGenge = action.payload[0]
+        state.saveFilter = state.filterDate
       } else if (action.payload[1] === 'жанру') {
         state.filteredName = 'жанру'
         if (
@@ -109,7 +111,11 @@ const musicSlice = createSlice({
         state.filteredByGenge = action.payload[0]
       } else {
         state.filterDate = action.payload
+        if (!action.payload.length) {
+          state.filterDate = state.music[0]
+        }
       }
+      state.saveFilter = state.filterDate
 
       if (!state.isFilter) {
         state.filterDate = []

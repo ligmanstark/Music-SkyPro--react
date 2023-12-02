@@ -17,6 +17,7 @@ const ListFilter = (props) => {
   const musicBack = useSelector((state) => state.musicReducer.music)
   const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
   const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const searchBase = useSelector((state) => state.musicReducer.musicSearch)
   const filterDefault = useSelector(
     (state) => state.musicReducer.filteredByGenge
   )
@@ -33,6 +34,7 @@ const ListFilter = (props) => {
   let newMusic = musicSaver
   const [filterLand, SetFilterLand] = useState()
   // const [filter, setFilter] = useState('исполнителю')
+  const [base, setBase] = useState()
   const [newest, setNewest] = useState(false)
   const [oldest, setOldest] = useState(false)
   const dispatch = useDispatch()
@@ -40,18 +42,18 @@ const ListFilter = (props) => {
   let copyForSortNew
   let copyForSortOld
   let copyForDefault
+  let newFilterBase = filterBase
 
   useEffect(() => {
     if (filterBase.length > 0) {
-      copyForSortNew = [...filterBase]
-      copyForSortOld = [...filterBase]
-      copyForDefault = [...filterDefault]
+      copyForSortNew = [...newFilterBase]
+      copyForSortOld = [...newFilterBase]
+      copyForDefault = [...newMusic]
     } else {
       copyForSortNew = [...musicSaver]
       copyForSortOld = [...musicSaver]
       copyForDefault = [...musicSaver]
     }
-    console.log(copyForDefault)
   })
 
   useEffect(() => {
@@ -111,20 +113,24 @@ const ListFilter = (props) => {
   const handleYears = (event) => {
     dispatch(filterToggle(true))
     const value = event.target.innerHTML
-    console.log(value)
     switch (value) {
       case 'По умолчанию':
+        setBase('По умолчанию')
         setNewest(false)
         setOldest(false)
         return dispatch(FilterBase(copyForDefault))
 
       case 'Сначала новые':
+        setBase('Сначала новые')
+
         copyForSortNew.sort(compareNew)
         setNewest(true)
         setOldest(false)
         return dispatch(FilterBase(copyForSortNew))
 
       case 'Сначала старые':
+        setBase('Сначала старые')
+
         copyForSortOld.sort(compareOld)
         setNewest(false)
         setOldest(true)
