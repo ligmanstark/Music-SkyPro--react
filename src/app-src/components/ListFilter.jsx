@@ -1,10 +1,11 @@
 import { ItemFilter } from './ItemFilter'
 import * as S from './styles/style'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   FilterBase,
   filterToggle,
+  setOpenedFilter,
   setNameFiltered,
   setUpdateMusic,
 } from '../../store/slice/musicSlice'
@@ -143,7 +144,8 @@ const ListFilter = (props) => {
     }
   }
 
- 
+
+
   return (
     <S.WindowFiltered
       className="window-filtered"

@@ -79,10 +79,10 @@ const Content = (props) => {
       dispatch(setCurrentPage('Favorites'))
     }
   })
-
+  console.log(data)
   useEffect(() => {
     setCurrent()
-    if (!isSearch) {
+    if (!isSearch && !isFilter) {
       setMusic(data)
       dispatch(setMusicSearch(data))
       console.log(filterBase)

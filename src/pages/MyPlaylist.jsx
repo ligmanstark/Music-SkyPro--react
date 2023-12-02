@@ -1,6 +1,6 @@
 import { NavigationMyPlaylist } from '../app-src/layout/layout-myPlaylist/NavigationMyPlaylist'
 import { MiddleContentMyPlaylist } from '../app-src/layout/layout-myPlaylist/MiddleMyPlaylist'
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useLayoutEffect } from 'react'
 import {
   getAllTracks,
   getTrackById,
@@ -98,8 +98,9 @@ const MyPlaylist = (props) => {
         dispatch(setCurrentPage('Main'))
       } else if (navigation.currentEntry.url.length === 51) {
         dispatch(setCurrentPage('Favorites'))
-      }  }
-  });
+      }
+    }
+  })
 
   // if (myFavTracks) {
   //   if (navigation.currentEntry.url.length === 52) {
@@ -176,7 +177,8 @@ const MyPlaylist = (props) => {
       dispatch(setCurrentPage('Main'))
     } else if (navigation.currentEntry.url.length == 51) {
       dispatch(setCurrentPage('Favorites'))
-    }    if (!isSearch) {
+    }
+    if (!isSearch) {
       setMusic(data)
       dispatch(setMusicSearch(data))
     } else {
@@ -195,7 +197,7 @@ const MyPlaylist = (props) => {
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
-  
+
   // let value
   // let arr
   // const [filterLand, SetFilterLand] = useState()
@@ -254,6 +256,12 @@ const MyPlaylist = (props) => {
   //     }
   //   }
   // }, [data])
+
+  useEffect(() => {
+    dispatch(setOpenedFilter(false))
+    dispatch(filterToggle(false))
+   
+  }, [navigation.currentEntry.url.length])
 
   return (
     <S.Wrapper className="wrapper">
