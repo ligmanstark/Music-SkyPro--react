@@ -1,6 +1,6 @@
 import { ItemFilter } from './ItemFilter'
 import * as S from './styles/style'
-import React, { useState, useEffect,useLayoutEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   FilterBase,
@@ -143,8 +143,6 @@ const ListFilter = (props) => {
         break
     }
   }
-
-
 
   return (
     <S.WindowFiltered

@@ -45,7 +45,7 @@ const Layout = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-   const setterSelectMusic = () => {
+  const setterSelectMusic = () => {
     if (Page === 'Main') {
       dispatch(setterMusic(music))
     }

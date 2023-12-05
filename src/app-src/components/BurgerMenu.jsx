@@ -6,7 +6,7 @@ import { setCurrentPage } from '../../store/slice/musicSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLogout } from '../../store/slice/userSlice'
 import { useGetFavTracksQuery } from '../../store/service/serviceMusicApi'
-import { FilterBase,filterToggle } from '../../store/slice/musicSlice';
+import { FilterBase, filterToggle } from '../../store/slice/musicSlice'
 const BurgerMenu = () => {
   const currentPage = useSelector((state) => state.musicReducer.currentPage)
   const musicBack = useSelector((state) => state.musicReducer.music)
@@ -17,7 +17,6 @@ const BurgerMenu = () => {
     (state) => state.musicReducer.playlistFavorite
   )
 
-  
   const dispatch = useDispatch()
   const [postToken, {}] = usePostTokenMutation()
   const { isError } = useGetFavTracksQuery()
@@ -50,25 +49,25 @@ const BurgerMenu = () => {
     setTimeout(() => {
       navigate('/')
       dispatch(setCurrentPage('Main'))
-         switch (currentPage) {
-          case 'Main':
-            dispatch(filterToggle(false))
-    
-            return dispatch(FilterBase(musicBack[0]))
-    
-          case 'Category':
-            dispatch(filterToggle(false))
-            return dispatch(FilterBase(SelectionBack))
-    
-          case 'Favorites':
-            dispatch(filterToggle(false))
-            return dispatch(FilterBase(playlistFavoriteBack))
-    
-          default:
-            break
-        }
-        dispatch(FilterBase(musicBack[0]))
-     }, 500)
+      switch (currentPage) {
+        case 'Main':
+          dispatch(filterToggle(false))
+
+          return dispatch(FilterBase(musicBack[0]))
+
+        case 'Category':
+          dispatch(filterToggle(false))
+          return dispatch(FilterBase(SelectionBack))
+
+        case 'Favorites':
+          dispatch(filterToggle(false))
+          return dispatch(FilterBase(playlistFavoriteBack))
+
+        default:
+          break
+      }
+      dispatch(FilterBase(musicBack[0]))
+    }, 500)
   }
 
   const handleMyPlaylist = () => {

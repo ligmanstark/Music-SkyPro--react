@@ -3,7 +3,7 @@ import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
   name: 'music',
   initialState: {
-     idTrack: null,
+    idTrack: null,
     musicSearch: [],
     isOpenedFilter: false,
     filteredName: '',

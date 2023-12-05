@@ -8,7 +8,7 @@ import {
   useGetAllTracksQuery,
   useGetSectionTracksQuery,
 } from '../../../store/service/serviceMusicApi'
-
+import { useSelector } from 'react-redux'
 const MiddleContentCategory = (props) => {
   const {
     countSection,
@@ -24,16 +24,11 @@ const MiddleContentCategory = (props) => {
     toggleLike = Function.prototype,
   } = props
   const { isLoading } = useGetSectionTracksQuery(countSection)
-
+  const Page = useSelector((state) => state.musicReducer.currentPage)
   return (
     <S.MainCenterblock className="main__centerblock ">
       <Search music={music} />
       <S.CenterblockH2 className="centerblock__h2">{url}</S.CenterblockH2>
-      <Filter
-        handleOpenFilter={handleOpenFilter}
-        nameFilter={nameFilter}
-        lengthFilter={lengthFilter}
-      />
       {isOpenFilter && (
         <ListFilter
           filteredMusic={filteredMusic}

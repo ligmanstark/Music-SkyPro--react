@@ -198,70 +198,10 @@ const MyPlaylist = (props) => {
     setOpen((prev) => !prev)
   }
 
-  // let value
-  // let arr
-  // const [filterLand, SetFilterLand] = useState()
-
-  // const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
-  // const FilteredBase = (arr, filter) => {
-  //   dispatch(FilterBase(arr, filter))
-  // }
-  // const filterMusic = (event) => {
-  //   if (music[0] !== 'Ничего не получилось найти') {
-  //     value = event.target.innerHTML
-  //     SetFilterLand(value)
-  //     dispatch(filterToggle(true))
-  //     if (filterLand !== '') {
-  //       if (nameFilter === 'исполнителю') {
-  //         arr = musicSaver.filter((el) => el.author === value)
-  //         FilteredBase([arr, 'исполнителю'])
-  //       } else if (nameFilter === 'году выпуска') {
-  //         arr = musicSaver.filter(
-  //           (el) =>
-  //             new Date(el.release_date).getFullYear() ===
-  //             new Date(value).getFullYear()
-  //         )
-  //         console.log(arr)
-  //         FilteredBase([arr, 'году выпуска'])
-  //       } else if (nameFilter === 'жанру') {
-  //         arr = musicSaver.filter((el) => el.genre === value)
-  //         FilteredBase([arr, 'жанру'])
-  //       }
-  //     }
-  //   } else {
-  //     dispatch(filterToggle(false))
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (filterBase[0] || searchBase.id) {
-  //     if (idNumber !== NaN) {
-  //       let newDat = [data.find((el) => el.id == idNumber)]
-  //       let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
-  //       let newSearch = [searchBase].filter((el) => el.id !== Number(idNumber))
-
-  //       let newFilterDate = [...newAr, ...newDat, ...data]
-  //       let newSearchDate = [...newSearch, ...newDat]
-  //       fetchFavorite()
-  //         .unwrap()
-  //         .then(() => {
-  //           setterSelectMusic()
-  //         })
-  //         .catch((error) => {
-  //           console.log(error)
-  //         })
-  //       dispatch(FilterBase(newFilterDate))
-  //       dispatch(setMusicSearch(newSearchDate))
-  //       setMusic(newSearchDate)
-  //     }
-  //   }
-  // }, [data])
-
   useEffect(() => {
     dispatch(setOpenedFilter(false))
     dispatch(filterToggle(false))
-   
-  }, [navigation.currentEntry.url.length])
+  }, [navigation.currentEntry.url])
 
   return (
     <S.Wrapper className="wrapper">

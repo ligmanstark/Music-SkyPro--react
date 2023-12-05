@@ -48,13 +48,13 @@ const Category = (props) => {
   const [url, setUrl] = useState('')
   const categoryId = useParams()
   const [countSection, setCountSection] = useState(categoryId)
-
+  console.log(categoryId)
   const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
   const [fetchSelection] = useLazyGetSectionTracksQuery()
   const mySelectionSongs = useSelector(
     (state) => state.musicReducer.SelectionMusic
   )
-
+  console.log(data)
   const searchBase = useSelector((state) => state.musicReducer.search)
   const isSearch = useSelector((state) => state.musicReducer.isSearch)
   const idNumber = useSelector((state) => state.musicReducer.idTrack)
@@ -76,15 +76,19 @@ const Category = (props) => {
   }
 
   useEffect(() => {
-       if (navigation.currentEntry.url.length === 52) {
-        dispatch(setCurrentPage('Category'))
-      } else if (navigation.currentEntry.url.length === 41) {
-        dispatch(setCurrentPage('Main'))
-      } else if (navigation.currentEntry.url.length === 51) {
-        dispatch(setCurrentPage('Favorites'))
-      }  
-  });
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
+  })
 
+  useEffect(() => {
+    dispatch(setOpenedFilter(false))
+    dispatch(filterToggle(false))
+  }, [navigation.currentEntry.url])
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
@@ -209,59 +213,29 @@ const Category = (props) => {
     setOpen((prev) => !prev)
   }
 
-  // let value
-  // let arr
-  // const [filterLand, SetFilterLand] = useState()
-
-  // const musicSaver = useSelector((state) => state.musicReducer.baseMusic)
-  // const FilteredBase = (arr, filter) => {
-  //   dispatch(FilterBase(arr, filter))
-  // }
-  // const filterMusic = (event) => {
-  //   if (music[0] !== 'Ничего не получилось найти') {
-  //     value = event.target.innerHTML
-  //     SetFilterLand(value)
-  //     dispatch(filterToggle(true))
-  //     if (filterLand !== '') {
-  //       if (nameFilter === 'исполнителю') {
-  //         arr = musicSaver.items.filter((el) => el.author === value)
-  //         FilteredBase([arr, 'исполнителю'])
-  //       } else if (nameFilter === 'году выпуска') {
-  //         arr = musicSaver.items.filter(
-  //           (el) =>
-  //             new Date(el.release_date).getFullYear() ===
-  //             new Date(value).getFullYear()
-  //         )
-  //         console.log(arr)
-  //         FilteredBase([arr, 'году выпуска'])
-  //       } else if (nameFilter === 'жанру') {
-  //         arr = musicSaver.items.filter((el) => el.genre === value)
-  //         FilteredBase([arr, 'жанру'])
-  //       }
-  //     }
-  //   } else {
-  //     dispatch(filterToggle(false))
-  //   }
-  // }
-
   useEffect(() => {
-    console.log(data)
+    console.log(data, idNumber)
     if (filterBase[0] || searchBase.id) {
-      if (idNumber !== NaN) {
-        console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
-        let newDat = [data.items.find((el) => el.id == idNumber)]
-        let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
-        let newSearch = [searchBase].filter((el) => el.id !== Number(idNumber))
-        let newFilterDate = [...newAr, ...newDat]
-        let newSearchDate = [...newSearch, ...newDat]
+      if (data.length) {
+        if (idNumber !== NaN && idNumber !== undefined && idNumber !== null) {
+          console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
+          let newDat = [data.items.find((el) => el.id == idNumber)]
+          let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
+          console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
+          let newSearch = [searchBase].filter(
+            (el) => el.id !== Number(idNumber)
+          )
+          let newFilterDate = [...newAr, ...newDat]
+          let newSearchDate = [...newSearch, ...newDat]
 
-        dispatch(FilterBase(newFilterDate))
-        dispatch(setMusicSearch(newSearchDate))
-        setMusic(newSearchDate)
-        console.log(newSearchDate)
+          dispatch(FilterBase(newFilterDate))
+          dispatch(setMusicSearch(newSearchDate))
+          setMusic(newSearchDate)
+          console.log(newSearchDate)
+        }
       }
     }
-  }, [data.items])
+  }, [data])
 
   return (
     <S.Wrapper className="wrapper">
