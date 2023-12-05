@@ -11,13 +11,32 @@ import { searchFunc } from '../app-src/helpers/searchFunc'
 import { AppContext } from '../context'
 import { Sidebar } from '../app-src/layout/layout-content/Sidebar'
 import { useSelector, useDispatch } from 'react-redux'
-import { setterMusic, setterSong } from '../store/slice/musicSlice'
+import { setterMusic, setterSong, addMyTracks } from '../store/slice/musicSlice'
 import {
   useGetAllTracksQuery,
   useGetSectionTracksQuery,
   useLazyGetSectionTracksQuery,
+  useSetLikeMutation,
+  useSetUnlikeMutation,
 } from '../store/service/serviceMusicApi'
-const Category = () => {
+
+import {
+  setCurrentPage,
+  setBaseMusic,
+  setOpenedFilter,
+  setNameFiltered,
+  setMusicSearch,
+  FilterBase,
+  filterToggle,
+} from '../store/slice/musicSlice'
+
+const Category = (props) => {
+  const [setLike, {}] = useSetLikeMutation()
+  const [setUnlike, {}] = useSetUnlikeMutation()
+  const {
+    toggleLike = Function.prototype,
+    handleSelectSong = Function.prototype,
+  } = props
   const { user } = useContext(AppContext)
   const [music, setMusic] = useState([])
   const [isOpen, setOpen] = useState(false)
@@ -29,88 +48,135 @@ const Category = () => {
   const [url, setUrl] = useState('')
   const categoryId = useParams()
   const [countSection, setCountSection] = useState(categoryId)
-
-  // const { data = [], isLoading } = useGetAllTracksQuery()
-
+  console.log(categoryId)
   const { data = [], isLoading } = useGetSectionTracksQuery(countSection)
   const [fetchSelection] = useLazyGetSectionTracksQuery()
+  const mySelectionSongs = useSelector(
+    (state) => state.musicReducer.SelectionMusic
+  )
+  console.log(data)
+  const searchBase = useSelector((state) => state.musicReducer.search)
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const idNumber = useSelector((state) => state.musicReducer.idTrack)
+
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const searchData = useSelector((state) => state.musicReducer.search)
 
   const dispatch = useDispatch()
-  const setterSelectMusic = () => {
-    dispatch(setterMusic(data.items))
+  console.log(navigation.currentEntry.url.length)
+  const setCurrent = () => {
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
   }
+
+  useEffect(() => {
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
+  })
+
+  useEffect(() => {
+    dispatch(setOpenedFilter(false))
+    dispatch(filterToggle(false))
+  }, [navigation.currentEntry.url])
 
   const setterSelectSong = () => {
     dispatch(setterSong(song))
+  }
+
+  const setterSelectMusic = () => {
+    dispatch(addMyTracks(data.items))
   }
 
   useEffect(() => {
     fetchSelection()
       .unwrap()
       .then(() => {
+        setMusic(data.items)
         setterSelectMusic()
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [data])
-
+  }, [data.items])
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
+    dispatch(setOpenedFilter(true))
+
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(data.map((e) => e.author))])
-      setLengthFilter([...new Set(data.map((e) => e.author))].length)
+      dispatch(setNameFiltered('исполнителю'))
+
+      if (!isSearch) {
+        setFilteredMusic([...new Set(data.items.map((e) => e.author))])
+      } else {
+        setFilteredMusic([searchData.author])
+      }
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(data.map((e) => e.release_date))]
-        .filter((word) => word !== null)
-        .map((e) => e.slice(0, 4))
-      setFilteredMusic(arr)
-      setLengthFilter(arr.length)
+      dispatch(setNameFiltered('году выпуска'))
+
+      if (!isSearch) {
+        const arr = [...new Set(data.items.map((e) => e.release_date))]
+          .filter((word) => word !== null)
+          .map((e) => e.slice(0, 4))
+        let newArr = [...new Set(arr)]
+        setFilteredMusic(newArr)
+        setLengthFilter(newArr.length)
+      } else {
+        const arr = [searchData.release_date]
+          .filter((word) => word !== null)
+          .map((e) => e.slice(0, 4))
+        let newArr = [arr]
+        setFilteredMusic(newArr)
+        setLengthFilter(newArr.length)
+      }
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(data.map((e) => e.genre))])
-      setLengthFilter([...new Set(data.map((e) => e.genre))].length)
+      dispatch(setNameFiltered('жанру'))
+      if (!isSearch) {
+        setFilteredMusicategoryIdc([...new Set(data.items.map((e) => e.genre))])
+      } else {
+        setFilteredMusic([searchData.genre])
+      }
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
       setOpenFilter(false)
+      dispatch(setOpenedFilter(false))
+
       setLengthFilter(null)
       setNameFilter('')
     }
   }
 
-  const handleSelectSong = async (event) => {
-    const target = event.target
-    const valueName = target.innerHTML
-
-    await searchFunc(
-      getTrackById,
-      searchID(music, valueName).id + '/',
-      setSelecSong
-    )
-  }
+  useEffect(() => {
+    setLengthFilter(filterBase.length)
+  })
 
   useEffect(() => {
+    setMusic()
+    setCurrent()
     setterSelectMusic()
-  }, [data])
-
-  useEffect(() => {
-    setterSelectSong()
-  }, [song])
+  }, [data.items])
 
   useEffect(() => {
     setCountSection(categoryId.id)
     setMusic(data.items)
-    console.log(data.items)
-    // if (!isLoading) {
-    //   setFilteredMusic([...new Set(data.items.map((e) => e.author))])
-    // }
+    setterSelectMusic()
     switch (categoryId.id) {
       case '1':
         setCountSection(categoryId.id)
-        console.log(categoryId.id)
         return setUrl('Плейлист дня')
 
       case '2':
@@ -122,19 +188,54 @@ const Category = () => {
 
         return setUrl('Инди-заряд')
     }
-  }, [categoryId.id, data])
-  ///СЛОМАНО
-  console.log(typeof countSection)
-  const searchTrack = (id) => {
-    getTrackById(id).then((data) => {
-      const flat = [data.data].flat(1)
-      setMusic(flat)
-    })
-  }
-  ////
+  }, [categoryId.id, data.items])
+
+  useEffect(() => {
+    setCurrent()
+    if (!isSearch) {
+      setMusic(data.items)
+      dispatch(setMusicSearch(data.items))
+    } else {
+      setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
+    }
+    if (isFilter) {
+      setMusic(filterBase)
+      dispatch(setMusicSearch(filterBase))
+    } else if (filterBase.length < 1 && isSearch) {
+      setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
+    }
+    dispatch(setBaseMusic(data.items))
+  }, [isFilter, isSearch, setLike, setUnlike, data])
+
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
+
+  useEffect(() => {
+    console.log(data, idNumber)
+    if (filterBase[0] || searchBase.id) {
+      if (data.length) {
+        if (idNumber !== NaN && idNumber !== undefined && idNumber !== null) {
+          console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
+          let newDat = [data.items.find((el) => el.id == idNumber)]
+          let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
+          console.log([searchBase].filter((el) => el.id !== Number(idNumber)))
+          let newSearch = [searchBase].filter(
+            (el) => el.id !== Number(idNumber)
+          )
+          let newFilterDate = [...newAr, ...newDat]
+          let newSearchDate = [...newSearch, ...newDat]
+
+          dispatch(FilterBase(newFilterDate))
+          dispatch(setMusicSearch(newSearchDate))
+          setMusic(newSearchDate)
+          console.log(newSearchDate)
+        }
+      }
+    }
+  }, [data])
 
   return (
     <S.Wrapper className="wrapper">
@@ -145,8 +246,8 @@ const Category = () => {
             isOpen={isOpen}
           />
           <MiddleContentCategory
+            countSection={countSection}
             music={music}
-            searchTrack={searchTrack}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
             filteredMusic={filteredMusic}
@@ -154,10 +255,10 @@ const Category = () => {
             lengthFilter={lengthFilter}
             url={url}
             handleSelectSong={handleSelectSong}
+            toggleLike={toggleLike}
           />
           {isLoading ? <PreloaderSideBar /> : <Sidebar user={user} />}
         </S.Main>
-        {!song.length ? '' : <PlayerBar />}
         <footer className="footer"></footer>
       </S.Container>
     </S.Wrapper>

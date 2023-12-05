@@ -8,43 +8,50 @@ import { setterMusic, setterSong } from '../store/slice/musicSlice'
 import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
 import { Content } from '../pages/Content'
 import { MyPlaylist } from '../pages/MyPlaylist'
+import { Category } from '../pages/Category'
 
 import { AppContext } from '../context'
-
-import { autoNext } from '../store/slice/musicSlice'
 
 import { PlayerBar } from '../app-src/layout/layout-content/PlayBar'
 import {
   useSetLikeMutation,
   useSetUnlikeMutation,
+  useGetTrackByIdMutation,
 } from '../store/service/serviceMusicApi'
 import { userLogout } from '../store/slice/userSlice'
 
 export let audioRef = ''
 
 const Layout = () => {
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const searchBase = useSelector((state) => state.musicReducer.search)
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
   audioRef = useRef(null)
   const { user, isPlay } = useContext(AppContext)
 
-  const { data = [], isLoading } = useGetAllTracksQuery()
+  const { data = [] } = useGetAllTracksQuery()
   const [song, setSelectSong] = useState([])
   const [music, setMusic] = useState([])
 
-  const [currentTime, setCurrentTime] = useState(null)
-  const [duration, setDuration] = useState(null)
-
   const Page = useSelector((state) => state.musicReducer.currentPage)
   const FavSongs = useSelector((state) => state.musicReducer.playlistFavorite)
+  const SelectSongs = useSelector((state) => state.musicReducer.SelectionMusic)
   const userId = Number(useSelector((state) => state.user.id))
+  const filterName = useSelector((state) => state.musicReducer.qnuicFilterDate)
 
   const [setLike, {}] = useSetLikeMutation()
   const [setUnlike, {}] = useSetUnlikeMutation()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
   const setterSelectMusic = () => {
-    dispatch(setterMusic(music))
+    if (Page === 'Main') {
+      dispatch(setterMusic(music))
+    }
+    if (Page === 'Category') {
+      dispatch(setterMusic(SelectSongs))
+    }
   }
 
   const setterSelectSong = (currentPlaylist) => {
@@ -72,16 +79,14 @@ const Layout = () => {
         setSelectSong
       )
       setterSelectSong(FavSongs)
+    } else if (Page === 'Category') {
+      searchFunc(
+        getTrackById,
+        searchID(SelectSongs, valueName).id + '/',
+        setSelectSong
+      )
+      setterSelectSong(SelectSongs)
     }
-  }
-  if (Page === 'Main') {
-    useEffect(() => {
-      setterSelectSong(music)
-    }, [song])
-  } else if (Page === 'Favorites') {
-    useEffect(() => {
-      setterSelectSong(FavSongs)
-    }, [song])
   }
 
   useEffect(() => {
@@ -92,16 +97,16 @@ const Layout = () => {
   const logout = () => {
     dispatch(userLogout())
     localStorage.setItem('user', '')
-    localStorage.setItem('token', '')
+    localStorage.removeItem('token')
     localStorage.setItem('id', '')
     localStorage.setItem('email', '')
-    localStorage.setItem('refreshToken', '')
+    localStorage.removeItem('refreshToken')
     navigate('/login')
   }
 
   const toggleLike = (track) => {
     if ((track.stared_user ?? []).find((user) => user.id === userId)) {
-      console.log('dislike')
+      console.log('unlike')
       setUnlike(track)
         .unwrap()
         .catch((error) => {
@@ -110,7 +115,7 @@ const Layout = () => {
           logout()
         })
     } else if (!track.stared_user) {
-      console.log('dislike')
+      console.log('unlike')
       setUnlike(track)
         .unwrap()
         .catch((error) => {
@@ -130,6 +135,24 @@ const Layout = () => {
     }
   }
 
+  useEffect((event) => {
+    if (event !== undefined) {
+      handleSelectSong()
+    }
+  }, [])
+  if (Page === 'Main') {
+    useEffect(() => {
+      setterSelectSong(music)
+    }, [song])
+  } else if (Page === 'Favorites') {
+    useEffect(() => {
+      setterSelectSong(FavSongs)
+    }, [song])
+  } else if (Page === 'Category') {
+    useEffect(() => {
+      setterSelectSong(SelectSongs)
+    }, [song])
+  }
   return (
     <>
       {Page === 'Main' ? (
@@ -139,15 +162,28 @@ const Layout = () => {
           user={user}
           toggleLike={toggleLike}
         />
-      ) : (
+      ) : Page === 'Favorites' ? (
         <MyPlaylist
           track={song}
           handleSelectSong={handleSelectSong}
           user={user}
           toggleLike={toggleLike}
         />
+      ) : Page === 'Category' ? (
+        <Category
+          track={song}
+          handleSelectSong={handleSelectSong}
+          user={user}
+          toggleLike={toggleLike}
+        />
+      ) : (
+        ''
       )}
-      {!song.length ? '' : <PlayerBar isPlay={isPlay} />}
+      {!song.length ? (
+        ''
+      ) : (
+        <PlayerBar isPlay={isPlay} toggleLike={toggleLike} />
+      )}
     </>
   )
 }

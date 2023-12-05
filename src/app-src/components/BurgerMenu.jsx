@@ -3,10 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import * as S from './styles/style'
 import { usePostTokenMutation } from '../../store/service/serviceMusicApi'
 import { setCurrentPage } from '../../store/slice/musicSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userLogout } from '../../store/slice/userSlice'
 import { useGetFavTracksQuery } from '../../store/service/serviceMusicApi'
+import { FilterBase, filterToggle } from '../../store/slice/musicSlice'
 const BurgerMenu = () => {
+  const currentPage = useSelector((state) => state.musicReducer.currentPage)
+  const musicBack = useSelector((state) => state.musicReducer.music)
+  const SelectionBack = useSelector(
+    (state) => state.musicReducer.SelectionMusic
+  )
+  const playlistFavoriteBack = useSelector(
+    (state) => state.musicReducer.playlistFavorite
+  )
+
   const dispatch = useDispatch()
   const [postToken, {}] = usePostTokenMutation()
   const { isError } = useGetFavTracksQuery()
@@ -15,19 +25,23 @@ const BurgerMenu = () => {
     dispatch(userLogout())
 
     localStorage.setItem('user', '')
-    localStorage.setItem('token', '')
+    localStorage.removeItem('token')
     localStorage.setItem('id', '')
     localStorage.setItem('email', '')
-    localStorage.setItem('refreshToken', '')
+    localStorage.removeItem('refreshToken')
     navigate('/login')
   }
 
   const navigate = useNavigate()
   const handleLogout = () => {
     setTimeout(() => {
-      navigate('/login')
+      dispatch(userLogout())
       localStorage.setItem('user', '')
-      localStorage.setItem('token', '')
+      localStorage.removeItem('token')
+      localStorage.setItem('id', '')
+      localStorage.setItem('email', '')
+      localStorage.removeItem('refreshToken')
+      navigate('/login')
     }, 500)
   }
 
@@ -35,6 +49,24 @@ const BurgerMenu = () => {
     setTimeout(() => {
       navigate('/')
       dispatch(setCurrentPage('Main'))
+      switch (currentPage) {
+        case 'Main':
+          dispatch(filterToggle(false))
+
+          return dispatch(FilterBase(musicBack[0]))
+
+        case 'Category':
+          dispatch(filterToggle(false))
+          return dispatch(FilterBase(SelectionBack))
+
+        case 'Favorites':
+          dispatch(filterToggle(false))
+          return dispatch(FilterBase(playlistFavoriteBack))
+
+        default:
+          break
+      }
+      dispatch(FilterBase(musicBack[0]))
     }, 500)
   }
 

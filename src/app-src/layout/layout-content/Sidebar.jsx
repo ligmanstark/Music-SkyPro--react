@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import * as S from '../../components/styles/style'
 import { useContext } from 'react'
 import { AppContext } from '../../../context'
@@ -6,28 +7,41 @@ import playlist03 from '../../../img/playlist03.png'
 import playlist02 from '../../../img/playlist02.png'
 import playlist01 from '../../../img/playlist01.png'
 import logup from '../../../img/icon/logup.svg'
+import { useParams } from 'react-router-dom'
+import { setCurrentPage } from '../../../store/slice/musicSlice'
+import { userLogout } from '../../../store/slice/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useGetSectionTracksQuery } from '../../../store/service/serviceMusicApi'
 const Sidebar = () => {
+  const dispatch = useDispatch()
+  const categoryId = useParams()
+  const { isError } = useGetSectionTracksQuery()
   const { user } = useContext(AppContext)
-
+  console.log(categoryId)
   const navigate = useNavigate()
+
   const handleLogout = () => {
     setTimeout(() => {
-      localStorage.setItem('user', '')
-      localStorage.setItem('token', '')
-      localStorage.setItem('id', '')
-      localStorage.setItem('email', '')
-      localStorage.setItem('refreshToken', '')
+      dispatch(userLogout)
+      localStorage.clear()
       navigate('/login')
     }, 500)
+  }
+  const handleCategory = () => {
+    if (categoryId) {
+      dispatch(setCurrentPage('Category'))
+    }
   }
 
   return (
     <S.MainSideBar className="main__sidebar sidebar">
       <S.SideBarPersonal className="sidebar__personal">
         <S.SideBarPersonalName className="sidebar__personal-name">
-          {user ? `Hello, ${localStorage.getItem('user')}` : ''}
+          {localStorage.user && localStorage.user !== null
+            ? `Hello, ${localStorage.getItem('user')}`
+            : ''}
         </S.SideBarPersonalName>
-        {user ? (
+        {localStorage.user && localStorage.user !== null ? (
           <S.SideBarAvatar
             className="sidebar__avatar"
             src={logup}
@@ -47,6 +61,7 @@ const Sidebar = () => {
                   className="sidebar__img"
                   src={playlist01}
                   alt="day's playlist"
+                  onClick={handleCategory}
                 ></S.SideBarImg>
               </NavLink>
             </S.SideBarLink>
@@ -59,6 +74,7 @@ const Sidebar = () => {
                   className="sidebar__img"
                   src={playlist02}
                   alt="day's playlist"
+                  onClick={handleCategory}
                 ></S.SideBarImg>
               </NavLink>
             </S.SideBarLink>
@@ -70,6 +86,7 @@ const Sidebar = () => {
                   className="sidebar__img"
                   src={playlist03}
                   alt="day's playlist"
+                  onClick={handleCategory}
                 ></S.SideBarImg>
               </NavLink>
             </S.SideBarLink>

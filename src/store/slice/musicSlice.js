@@ -1,10 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { audioRef } from '../../pages/PageLayout'
 const musicSlice = createSlice({
+  
   name: 'music',
   initialState: {
-    propMusic: [],
+    idTrack: null,
+    musicSearch: [],
+    isOpenedFilter: false,
+    filteredName: '',
+    filteredByGenge: [],
+    filteredByYear: [],
+    filteredByName: [],
+    qnuicFilterDate: '',
+    filterDate: [],
+    isFilter: false,
+    search: [],
+    isSearch: false,
+    baseMusic: [],
     currentPlaylist: [],
+    SelectionMusic: [],
     playlistFavorite: [{}],
     currentPage: 'Main',
     selectNextSong: [],
@@ -17,23 +31,118 @@ const musicSlice = createSlice({
     duration: [],
     five: 5,
     restart: false,
-    activeSong: false,
+    activeSong: true,
     num: 1,
     overNum: 0,
   },
   reducers: {
-    setPropMusic(state, action) {
-      if (action.payload) {
-        state.propMusic.pop()
-        state.propMusic.push(state.selectSong)
+    setNumberTrack(state, action) {
+      state.idTrack = action.payload
+    },
+    setUpdateMusic(state, action) {
+      // console.log(action.payload)
+      // const newDat = state.filterDate.filter(
+      //   (el) => el.id === action.payload[0].id
+      // )
+      // console.log(
+      //   state.filterDate.filter((el) => el.id === action.payload.id)
+      // )
+      console.log(action.payload)
+      state.filterDate = action.payload
+    },
+    setMusicSearch(state, action) {
+      state.musicSearch = action.payload
+    },
+    setNameFiltered(state, action) {
+      state.filteredName = action.payload
+    },
+    setOpenedFilter(state, action) {
+      state.isOpenedFilter = action.payload
+    },
+    unickedFiltredDate(state, action) {
+      const findLie = state.qnuicFilterDate.find((el) => el === action.payload)
+      state.qnuicFilterDate.push(...action.payload)
+    },
+    FilterBase(state, action) {
+      if (action.payload[1] === 'исполнителю') {
+        if (state.filteredName === 'жанру') {
+          if (
+            state.filterDate.find(
+              (el) => el.author === action.payload[0][0].author
+            )
+          ) {
+            state.filteredByName = action.payload[0][0]
+            // state.saveFilter = state.filteredByName
+          } else {
+            state.filterDate = state.filterDate.filter(
+              (el) => el.author !== action.payload[0][0].author
+            )
+            // state.saveFilter = state.filterDate
+          }
+        } else {
+          if (
+            state.filterDate.find(
+              (el) => el.author === action.payload[0][0].author
+            )
+          ) {
+            state.filterDate = state.filterDate.filter(
+              (el) => el.author !== action.payload[0][0].author
+            )
+            // state.saveFilter = state.filterDate
+          } else {
+            // state.saveFilter = state.filterDate
+            state.filterDate.push(...action.payload[0])
+          }
+        }
+        state.filteredByGenge = action.payload[0]
+        // state.saveFilter = state.filterDate
+      } else if (action.payload[1] === 'жанру') {
+        state.filteredName = 'жанру'
+        if (
+          state.filterDate.find((el) => el.genre === action.payload[0][0].genre)
+        ) {
+          state.filterDate = state.filterDate.filter(
+            (el) => el.genre !== action.payload[0][0].genre
+          )
+          console.log('удалить2')
+        } else {
+          state.filterDate.push(...action.payload[0])
+        }
+        state.filteredByGenge = action.payload[0]
+      } else {
+        state.filterDate = action.payload
+        if (!action.payload.length) {
+          state.filterDate = state.music[0]
+        }
+      }
+      // state.saveFilter = state.filterDate
+
+      if (!state.isFilter) {
+        state.filterDate = []
+        state.filteredName = ''
       }
     },
-
+    filterToggle(state, action) {
+      state.isFilter = action.payload
+    },
+    searchBase(state, action) {
+      state.search = action.payload
+    },
+    searchToggle(state, action) {
+      state.isSearch = action.payload
+    },
+    setBaseMusic(state, action) {
+      state.baseMusic = action.payload
+    },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
     },
     addMyTracks(state, action) {
-      state.playlistFavorite = action.payload
+      if (state.currentPage === 'Favorites') {
+        state.playlistFavorite = action.payload
+      } else if (state.currentPage === 'Category') {
+        state.SelectionMusic = action.payload
+      }
     },
     addCurrentTrack(state, action) {
       if (action.payload) {
@@ -42,6 +151,9 @@ const musicSlice = createSlice({
         }
         if (state.currentPage === 'Favorites') {
           state.currentPlaylist = state.playlistFavorite
+        }
+        if (state.currentPage === 'Category') {
+          state.currentPlaylist = state.SelectionMusic
         }
       }
     },
@@ -58,7 +170,9 @@ const musicSlice = createSlice({
       state.num = action.payload + 1
     },
     active(state, action) {
-      state.activeSong = !action.payload
+      if (action.payload) {
+        state.activeSong = !state.activeSong
+      }
     },
     autoNext(state, action) {
       state.duration = action.payload.duration
@@ -93,15 +207,20 @@ const musicSlice = createSlice({
         } else {
           currentIndex = state.selectSong[0][0].id
 
-          if (state.currentPage === 'Main') {
-            const currentTrackIdInList = action.payload.music[0].findIndex(
+          if (
+            state.currentPage === 'Main' ||
+            state.currentPage === 'Category'
+          ) {
+            const currentTrackIdInList = state.music[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList, 'music')
             if (currentTrackIdInList) {
-              nextSong = action.payload.music[0][currentTrackIdInList + 1]
-              if (nextSong !== undefined) {
-                console.log(nextSong)
+              nextSong = state.music[0][currentTrackIdInList + 1]
+
+              if (
+                nextSong !== undefined &&
+                action.payload.duration === action.payload.currentTime
+              ) {
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
@@ -109,20 +228,20 @@ const musicSlice = createSlice({
               }
             }
           } else if (state.currentPage === 'Favorites') {
-            const currentTrackIdInList = action.payload.FavSongs.findIndex(
+            const currentTrackIdInList = state.FavSongs.findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList)
-            console.log(action.payload.FavSongs)
-            console.log([[action.payload.FavSongs[currentTrackIdInList + 1]]])
             if (currentTrackIdInList) {
-              nextSong = action.payload.FavSongs[currentTrackIdInList + 1]
-              if (nextSong !== undefined) {
-                console.log(nextSong)
+              nextSong = state.FavSongs[currentTrackIdInList + 1]
+              if (
+                nextSong !== undefined &&
+                action.payload.duration === action.payload.currentTime
+              ) {
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
                 state.selectSong.push([nextSong])
+                state.currentTime = 0
               }
             }
           }
@@ -140,7 +259,6 @@ const musicSlice = createSlice({
       state.shuffleActive = action.payload
     },
     setterSong(state, action) {
-      console.log(action)
       state.selectSong.pop(action.payload.song)
       state.selectSong.push(action.payload.song)
       state.currentPlaylist.pop(action.payload.currentPlaylist)
@@ -174,16 +292,13 @@ const musicSlice = createSlice({
       let nextSong
       let currentIndex
       if (state.shuffleActive) {
-        if (state.currentPage === 'Main') {
+        if (state.currentPage === 'Main' || state.currentPage === 'Category') {
           const currentTrackIdInList = state.shuffleSongPlaylist[0].findIndex(
             (track) => track.id == state.selectSong[0][0].id
           )
-          console.log(currentTrackIdInList, 'music')
           if (currentTrackIdInList) {
             nextSong = state.shuffleSongPlaylist[0][currentTrackIdInList + 1]
-            console.log(nextSong)
             if (nextSong !== undefined) {
-              console.log(nextSong)
               state.selectNextSong.pop()
               state.selectNextSong.push(nextSong)
               state.selectSong.pop()
@@ -196,12 +311,9 @@ const musicSlice = createSlice({
           const currentTrackIdInList = state.shuffleSongPlaylist[0].findIndex(
             (track) => track.id == state.selectSong[0][0].id
           )
-          console.log(currentTrackIdInList, 'Favorites')
           if (currentTrackIdInList) {
             nextSong = state.shuffleSongPlaylist[0][currentTrackIdInList + 1]
-            console.log(nextSong)
             if (nextSong !== undefined) {
-              console.log(nextSong)
               state.selectNextSong.pop()
               state.selectNextSong.push(nextSong)
               state.selectSong.pop()
@@ -213,17 +325,14 @@ const musicSlice = createSlice({
         }
       } else {
         currentIndex = action.payload.selectSong[0][0].id
-        console.log(action)
-        if (state.currentPage === 'Main') {
+        if (state.currentPage === 'Main' || state.currentPage === 'Category') {
           if (state.currentPlaylist === state.music) {
             const currentTrackIdInList = action.payload.music[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList, 'music')
             if (currentTrackIdInList) {
               nextSong = action.payload.music[0][currentTrackIdInList + 1]
               if (nextSong !== undefined) {
-                console.log(nextSong)
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
@@ -234,11 +343,9 @@ const musicSlice = createSlice({
             const currentTrackIdInList = state.currentPlaylist[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList, 'music')
             if (currentTrackIdInList) {
               nextSong = state.currentPlaylist[0][currentTrackIdInList + 1]
               if (nextSong !== undefined) {
-                console.log(nextSong)
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
@@ -253,13 +360,9 @@ const musicSlice = createSlice({
             const currentTrackIdInList = action.payload.FavSongs.findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList)
-            console.log(action.payload.FavSongs)
-            console.log([[action.payload.FavSongs[currentTrackIdInList + 1]]])
             if (currentTrackIdInList !== undefined) {
               nextSong = action.payload.FavSongs[currentTrackIdInList + 1]
               if (nextSong !== undefined) {
-                console.log(nextSong)
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
@@ -270,13 +373,9 @@ const musicSlice = createSlice({
             const currentTrackIdInList = state.currentPlaylist[0].findIndex(
               (track) => track.id == state.selectSong[0][0].id
             )
-            console.log(currentTrackIdInList)
-            console.log(action.payload.FavSongs)
-            console.log([[action.payload.FavSongs[currentTrackIdInList + 1]]])
             if (currentTrackIdInList !== undefined) {
               nextSong = state.currentPlaylist[0][currentTrackIdInList + 1]
               if (nextSong !== undefined) {
-                console.log(nextSong)
                 state.selectNextSong.pop()
                 state.selectNextSong.push(nextSong)
                 state.selectSong.pop()
@@ -330,16 +429,17 @@ const musicSlice = createSlice({
           }
         } else {
           currentIndex = action.payload.selectSong[0][0].id
-          if (state.currentPage === 'Main') {
+          if (
+            state.currentPage === 'Main' ||
+            state.currentPage === 'Category'
+          ) {
             if (state.currentPlaylist === state.music) {
               const currentTrackIdInList = action.payload.music[0].findIndex(
                 (track) => track.id == state.selectSong[0][0].id
               )
-              console.log(currentTrackIdInList, 'music')
               if (currentTrackIdInList) {
                 prevSong = action.payload.music[0][currentTrackIdInList - 1]
                 if (prevSong !== undefined) {
-                  console.log(prevSong)
                   state.selectNextSong.pop()
                   state.selectNextSong.push(prevSong)
                   state.selectSong.pop()
@@ -350,11 +450,9 @@ const musicSlice = createSlice({
               const currentTrackIdInList = state.currentPlaylist[0].findIndex(
                 (track) => track.id == state.selectSong[0][0].id
               )
-              console.log(currentTrackIdInList, 'music')
               if (currentTrackIdInList) {
                 prevSong = state.currentPlaylist[0][currentTrackIdInList - 1]
                 if (prevSong !== undefined) {
-                  console.log(prevSong)
                   state.selectNextSong.pop()
                   state.selectNextSong.push(prevSong)
                   state.selectSong.pop()
@@ -367,9 +465,6 @@ const musicSlice = createSlice({
               const currentTrackIdInList = action.payload.FavSongs.findIndex(
                 (track) => track.id == state.selectSong[0][0].id
               )
-              console.log(currentTrackIdInList)
-              console.log(action.payload.FavSongs)
-              console.log([[action.payload.FavSongs[currentTrackIdInList - 1]]])
               if (currentTrackIdInList) {
                 prevSong = action.payload.FavSongs[currentTrackIdInList - 1]
                 if (prevSong !== undefined) {
@@ -383,9 +478,6 @@ const musicSlice = createSlice({
               const currentTrackIdInList = state.currentPlaylist[0].findIndex(
                 (track) => track.id == state.selectSong[0][0].id
               )
-              console.log(currentTrackIdInList)
-              console.log(action.payload.FavSongs)
-              console.log([[action.payload.FavSongs[currentTrackIdInList - 1]]])
               if (currentTrackIdInList) {
                 prevSong = state.currentPlaylist[0][currentTrackIdInList - 1]
                 if (prevSong !== undefined) {
@@ -418,7 +510,17 @@ const musicSlice = createSlice({
 })
 
 export const {
-  setPropMusic,
+  setNumberTrack,
+  setUpdateMusic,
+  setMusicSearch,
+  setNameFiltered,
+  setOpenedFilter,
+  unickedFiltredDate,
+  FilterBase,
+  filterToggle,
+  searchBase,
+  searchToggle,
+  setBaseMusic,
   addMyTracks,
   addCurrentTrack,
   prevTakeStartCount,

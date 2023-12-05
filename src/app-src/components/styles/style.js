@@ -725,7 +725,24 @@ export const FilterAuthorList = styled.a`
     color: #6b3ebe;
     text-decoration: underline;
   }
+  &::active {
+    color: red;
+    text-decoration: underline;
+  }
 `
+export const FilterAuthorListActive = styled.a`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+  text-align: left;
+  &:active {
+    color: red;
+    text-decoration: underline;
+  }
+`
+
 export const WindowFiltered = styled.div`
   background-color: 313131;
   position: fixed;

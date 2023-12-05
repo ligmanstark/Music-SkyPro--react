@@ -22,7 +22,7 @@ const MiddleContentMyPlaylist = (props) => {
 
   return (
     <S.MainCenterblock className="main__centerblock ">
-      <Search searchTrack={searchTrack} />
+      <Search music={music} />
       <S.CenterblockH2 className="centerblock__h2">
         Мой плейлист
       </S.CenterblockH2>
@@ -32,7 +32,11 @@ const MiddleContentMyPlaylist = (props) => {
         lengthFilter={lengthFilter}
       />
       {isOpenFilter && (
-        <ListFilter filteredMusic={filteredMusic} nameFilter={nameFilter} />
+        <ListFilter
+          filteredMusic={filteredMusic}
+          nameFilter={nameFilter}
+          music={music}
+        />
       )}
       {isLoading ? (
         <PreloaderMiddleContent />

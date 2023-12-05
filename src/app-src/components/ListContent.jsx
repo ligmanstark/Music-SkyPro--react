@@ -1,14 +1,20 @@
 import { ItemContent } from './ItemContent'
 import * as S from './styles/style'
 import watch from '../../img/icon/watch.svg'
-
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 const ListContent = (props) => {
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const searchBase = useSelector((state) => state.musicReducer.search)
+
   const {
     handleSelectSong = Function.prototype,
     music = [],
     toggleLike = Function.prototype,
   } = props
-
+  console.log(music)
   return (
     <S.CenterblockContent className="centerblock__content">
       <S.ContentTittle className="content__title playlist-title">
@@ -30,7 +36,7 @@ const ListContent = (props) => {
         </S.PlaylistTittleFour>
       </S.ContentTittle>
       <S.ContentPlaylist className="content__playlist playlist">
-        {music.length
+        {!isFilter && music.length > 0
           ? music.map((el) => (
               <ItemContent
                 el={el}
@@ -40,7 +46,28 @@ const ListContent = (props) => {
                 toggleLike={toggleLike}
               />
             ))
-          : 'упс'}
+          : filterBase.length && isFilter && !isSearch
+          ? filterBase.map((el) => (
+              <ItemContent
+                el={el}
+                key={el.id}
+                {...el}
+                handleSelectSong={handleSelectSong}
+                toggleLike={toggleLike}
+              />
+            ))
+          : isSearch
+          ? music.map((el) => (
+              <ItemContent
+                el={el}
+                key={el.id}
+                {...el}
+                handleSelectSong={handleSelectSong}
+                toggleLike={toggleLike}
+              />
+            ))
+          : music[0] === 'Ничего не получилось найти' &&
+            'Ничего не получилось найти'}
       </S.ContentPlaylist>
     </S.CenterblockContent>
   )

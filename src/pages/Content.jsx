@@ -7,16 +7,49 @@ import { PreloaderSideBar } from '../app-src/components/PreloaderSideBar'
 import * as S from '../app-src/components/styles/style'
 import { AppContext } from '../context'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentPage } from '../store/slice/musicSlice'
+import {
+  setCurrentPage,
+  setterMusic,
+  filterToggle,
+  setBaseMusic,
+  setOpenedFilter,
+  setNameFiltered,
+  setMusicSearch,
+  FilterBase,
+  setUpdateMusic,
+} from '../store/slice/musicSlice'
 
-import { useGetAllTracksQuery } from '../store/service/serviceMusicApi'
+import {
+  useGetAllTracksQuery,
+  useGetTrackByIdMutation,
+  useSetLikeMutation,
+  useSetUnlikeMutation,
+} from '../store/service/serviceMusicApi'
 
 const Content = (props) => {
+  const isSearch = useSelector((state) => state.musicReducer.isSearch)
+  const searchBase = useSelector((state) => state.musicReducer.search)
+  const isFilter = useSelector((state) => state.musicReducer.isFilter)
+  const filterBase = useSelector((state) => state.musicReducer.filterDate)
+  const idNumber = useSelector((state) => state.musicReducer.idTrack)
+  const filteredByGenge = useSelector(
+    (state) => state.musicReducer.filteredByGenge
+  )
+  const filteredByYear = useSelector(
+    (state) => state.musicReducer.filteredByYear
+  )
+  const filteredByName = useSelector(
+    (state) => state.musicReducer.filteredByName
+  )
+  const filteredName = useSelector((state) => state.musicReducer.filteredName)
+  const searchData = useSelector((state) => state.musicReducer.search)
   const {
     toggleLike = Function.prototype,
     handleSelectSong = Function.prototype,
   } = props
   const { data = [], isLoading } = useGetAllTracksQuery()
+  const [setLike, {}] = useSetLikeMutation()
+  const [setUnlike, {}] = useSetUnlikeMutation()
 
   const { user, isPlay } = useContext(AppContext)
   const [music, setMusic] = useState([])
@@ -28,35 +61,91 @@ const Content = (props) => {
 
   const dispatch = useDispatch()
   const setCurrent = () => {
-    dispatch(setCurrentPage('Main'))
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
   }
 
   useEffect(() => {
-    setCurrent()
-    setMusic(data)
+    if (navigation.currentEntry.url.length === 52) {
+      dispatch(setCurrentPage('Category'))
+    } else if (navigation.currentEntry.url.length === 41) {
+      dispatch(setCurrentPage('Main'))
+    } else if (navigation.currentEntry.url.length === 51) {
+      dispatch(setCurrentPage('Favorites'))
+    }
   })
+  console.log(data)
+  useEffect(() => {
+    setCurrent()
+    if (!isSearch && !isFilter) {
+      setMusic(data)
+      dispatch(setMusicSearch(data))
+      console.log(filterBase)
+    } else if (isSearch) {
+      setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
+    }
+    if (!!isFilter && !isSearch) {
+      setMusic(filterBase)
+      dispatch(setMusicSearch(filterBase))
+    } else if (filterBase.length < 1 && isSearch) {
+      setMusic([searchBase])
+      dispatch(setMusicSearch([searchBase]))
+    }
+
+    dispatch(setBaseMusic(data))
+  }, [isFilter, isSearch, setLike, setUnlike, data])
 
   const handleOpenFilter = (event) => {
     setOpenFilter(true)
+    dispatch(setOpenedFilter(true))
     const value = event.target.innerHTML
     if (value === 'исполнителю') {
-      setFilteredMusic([...new Set(music.map((e) => e.author))])
-      setLengthFilter([...new Set(music.map((e) => e.author))].length)
+      dispatch(setNameFiltered('исполнителю'))
+      if (!isSearch) {
+        setFilteredMusic([...new Set(data.map((e) => e.author))])
+      } else {
+        setFilteredMusic([searchData.author])
+      }
+
       setNameFilter('исполнителю')
     } else if (value === 'году выпуска') {
-      const arr = [...new Set(music.map((e) => e.release_date))]
-        .filter((word) => word !== null)
-        .map((e) => e.slice(0, 4))
-      setFilteredMusic(arr)
-      setLengthFilter(arr.length)
+      dispatch(setNameFiltered('году выпуска'))
+      if (!isSearch) {
+        const arr = [...new Set(data.map((e) => e.release_date))]
+          .filter((word) => word !== null)
+          .map((e) => e.slice(0, 4))
+        let newArr = [...new Set(arr)]
+        setFilteredMusic(newArr)
+        setLengthFilter(newArr.length)
+      } else {
+        const arr = [searchData.release_date]
+          .filter((word) => word !== null)
+          .map((e) => e.slice(0, 4))
+        let newArr = [arr]
+        setFilteredMusic(newArr)
+        setLengthFilter(newArr.length)
+      }
+
       setNameFilter('году выпуска')
     } else if (value === 'жанру') {
-      setFilteredMusic([...new Set(music.map((e) => e.genre))])
-      setLengthFilter([...new Set(music.map((e) => e.genre))].length)
+      dispatch(setNameFiltered('жанру'))
+      if (!isSearch) {
+        setFilteredMusic([...new Set(data.map((e) => e.genre))])
+      } else {
+        setFilteredMusic([searchData.genre])
+      }
       setNameFilter('жанру')
     }
     if (nameFilter === value) {
       setOpenFilter(false)
+      dispatch(setOpenedFilter(false))
+
       setLengthFilter(null)
       setNameFilter('')
     }
@@ -65,29 +154,43 @@ const Content = (props) => {
   useEffect(() => {
     setFilteredMusic([...new Set(music.map((e) => e.author))])
   }, [])
-
-  ////СЛОМАНО
-  const searchTrack = (id) => {
-    getTrackById(id).then((data) => {
-      const flat = data.data
-      console.log(flat)
-      setMusic(flat)
-    })
-  }
-  /////////////////////////////////////
+  useEffect(() => {
+    setLengthFilter(filterBase.length)
+  })
 
   const handleChangeMenu = () => {
     setOpen((prev) => !prev)
   }
 
+  useEffect(() => {
+    dispatch(setOpenedFilter(false))
+    dispatch(filterToggle(false))
+    dispatch(setNameFiltered(''))
+  }, [navigation.currentEntry.url])
+
+  useEffect(() => {
+    if (filterBase[0] || searchBase.id) {
+      if (idNumber !== NaN) {
+        let newDat = [data.find((el) => el.id == idNumber)]
+        let newAr = filterBase.filter((el) => el.id !== Number(idNumber))
+        let newSearch = [searchBase].filter((el) => el.id !== Number(idNumber))
+
+        let newFilterDate = [...newAr, ...newDat]
+        let newSearchDate = [...newSearch, ...newDat]
+
+        dispatch(FilterBase(newFilterDate))
+        dispatch(setMusicSearch(newSearchDate))
+        setMusic(newSearchDate)
+      }
+    }
+  }, [data])
   return (
     <S.Wrapper className="wrapper">
       <S.Container className="container">
         <S.Main className="main">
           <Navigation handleChangeMenu={handleChangeMenu} isOpen={isOpen} />
           <MiddleContent
-            music={data}
-            searchTrack={searchTrack}
+            music={music}
             handleOpenFilter={handleOpenFilter}
             isOpenFilter={isOpenFilter}
             filteredMusic={filteredMusic}

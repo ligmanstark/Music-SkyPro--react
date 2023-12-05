@@ -18,7 +18,7 @@ export const serviceMusicApi = createApi({
 
   endpoints: (builder) => ({
     getAllTracks: builder.query({
-      query: () => 'catalog/track/all/',
+      query: (id = 'all') => `catalog/track/${id}/`,
       providesTags: (result) =>
         result
           ? [
@@ -28,21 +28,24 @@ export const serviceMusicApi = createApi({
           : [{ type: 'Tracks', id: 'LIST' }],
     }),
     getTrackById: builder.mutation({
-      query: (track) => ({
-        url: `catalog/track/${track.id}/`,
+      query: (id) => ({
+        url: `catalog/track/${id}/`,
         method: 'GET',
       }),
-      invalidatesTags: [{ type: 'Track', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'Track', id: 'LIST' },
+        { type: 'Tracks', id: 'LIST' },
+      ],
     }),
     getSectionTracks: builder.query({
       query: (id = '') => `catalog/selection/${id}`,
       providesTags: (result) =>
         result
           ? [
-              ...result.items.map(({ id }) => ({ type: 'Selections', id })),
-              { type: 'Selections', id: 'LIST' },
+              ...result.items.map(({ id }) => ({ type: 'Tracks', id })),
+              { type: 'Tracks', id: 'LIST' },
             ]
-          : [{ type: 'Selections', id: 'LIST' }],
+          : [{ type: 'Tracks', id: 'LIST' }],
     }),
     setSectionTracks: builder.mutation({
       query: (track) => ({

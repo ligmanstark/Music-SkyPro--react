@@ -1,4 +1,11 @@
+import { useSelector } from 'react-redux'
+
 const QuantitySongsInFilter = (props) => {
+  const isOpenedFilter = useSelector(
+    (state) => state.musicReducer.isOpenedFilter
+  )
+
+  // const filterDate = useSelector((state) => state.musicReducer.filterDate)
   const { lengthFilter, nameFilter } = props
   return (
     <div
@@ -45,7 +52,7 @@ const QuantitySongsInFilter = (props) => {
           : { left: '' }
       }
     >
-      {lengthFilter}
+      {isOpenedFilter ? lengthFilter : ''}
     </div>
   )
 }

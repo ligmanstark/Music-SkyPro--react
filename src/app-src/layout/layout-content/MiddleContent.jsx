@@ -11,7 +11,6 @@ const MiddleContent = (props) => {
     toggleLike = Function.prototype,
     music = [],
     isOpenFilter,
-    searchTrack = Function.prototype,
     handleOpenFilter = Function.prototype,
     filteredMusic = [],
     nameFilter,
@@ -21,7 +20,7 @@ const MiddleContent = (props) => {
 
   return (
     <S.MainCenterblock className="main__centerblock ">
-      <Search searchTrack={searchTrack} />
+      <Search music={music} />
       <S.CenterblockH2 className="centerblock__h2">Треки</S.CenterblockH2>
       <Filter
         handleOpenFilter={handleOpenFilter}
@@ -29,7 +28,11 @@ const MiddleContent = (props) => {
         lengthFilter={lengthFilter}
       />
       {isOpenFilter && (
-        <ListFilter filteredMusic={filteredMusic} nameFilter={nameFilter} />
+        <ListFilter
+          filteredMusic={filteredMusic}
+          nameFilter={nameFilter}
+          music={music}
+        />
       )}
       {isLoading ? (
         <PreloaderMiddleContent />

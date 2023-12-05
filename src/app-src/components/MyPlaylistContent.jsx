@@ -7,7 +7,6 @@ const MyPlaylistContent = (props) => {
   const navigate = useNavigate()
   const { data = [], isLoading, isError } = useGetFavTracksQuery()
   const { handleSelectSong = Function.prototype, music = [] } = props
-  console.log(music)
   if (isError) {
     console.log(isError, '401')
 
